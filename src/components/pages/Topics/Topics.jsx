@@ -8,8 +8,8 @@ import H3 from '../../partials/H3/H3Tag.jsx';
 import H2 from '../../partials/H2/H2Tag.jsx';
 import Figure from '../../partials/Figure/Figure.jsx';
 import Answer from '../../partials/Answer/Answer.jsx';
-import classesIA from  "../../../assets/data/IAChatGPT.js";
-import classesPython from  "../../../assets/data/Python.js";
+// import classesIA from  "../../../assets/data/IAChatGPT.js";
+// import classesPython from  "../../../assets/data/Python.js";
 import NavButtons from '../../partials/Navbuttons/NavButtons.jsx';
 import Links from '../../partials/Links/Links.jsx';
 import Youtube from '../../partials/Youtube/Youtube.jsx';
@@ -25,19 +25,38 @@ function Topics(params) {
   const course = params.match.path.split("/")[2];
   const classID  = parseInt(params.match.params.classId);
   const topicID = parseInt(params.match.params.topicId);
-  
-  let classes = [];
-
-  if (course.toUpperCase() == "IA") {
-    classes = classesIA;
-  } 
-
-  if (course.toUpperCase() == "PYTHON") {
-    classes = classesPython;
-  }
 
   useEffect(() => {
-    let newData = classes.filter(item => item.class === classID);
+    let fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:6006/api/${course}/class/`);
+        const data = await response.json();
+        let classes = (data.data);
+        let newData = classes.filter(item => item.class === classID);
+        (newData.length === 0) ? 
+                              setClassData([]) :
+                              setClassData(newData[0].classData);
+
+        let pageData = {
+          class: classID, 
+          topic: topicID,
+          course: course,
+          topics: newData[0].topics,
+          classes: classes.length,
+          lastClassLastTopic: classID > 1 ? classes.filter(item => item.class === classID-1)[0].topics : 0,
+        };
+
+        setPage(pageData);
+        newData.length > 0 ? setTitle(newData[0].title.info) : null;
+      }
+      catch (error) {
+        console.log(error);
+        setClassData([]);
+      }
+    }
+
+    fetchData();
+    /* let newData = classes.filter(item => item.class === classID);
     (newData.length === 0) ?
       setClassData([]) :
       setClassData(newData[0].classData);
@@ -53,7 +72,7 @@ function Topics(params) {
 
       setPage(pageData);
 
-      newData.length > 0 ? setTitle(newData[0].title.info) : null;
+      newData.length > 0 ? setTitle(newData[0].title.info) : null; */
   
   }, [classID, topicID ]);
 
