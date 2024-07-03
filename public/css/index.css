@@ -54,7 +54,7 @@ main{
 article {
 	scroll-behavior: smooth;
 	background: #ebebeb;
-	/* padding: 0 1rem 1rem .5rem; */
+	padding:  1rem;
 	height: max-content;
 	overflow: visible;
 }
