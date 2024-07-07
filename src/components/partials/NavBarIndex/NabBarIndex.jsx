@@ -10,15 +10,14 @@ function NabBarIndex({data}) {
     classIDParams ? setClassID(classIDParams) : null;
   }, [classIDParams]);
 
-
   return (
           <li>
-            <details open={data.classId === classID}>
+            <details open={data.classID === classID}>
               <summary>{data.summary}</summary>
               <ol>
                 {
                   data.links.map((linkData,index) => 
-                    <NavIndex key={index} linkData={linkData} classID={data.classId} />) 
+                    <NavIndex key={index} linkData={linkData} classID={data.classID} />) 
                 }
               </ol>
             </details>

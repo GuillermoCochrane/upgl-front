@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+
 function NavIndex({linkData, classID}) {
     const [topicID, setTopicID] = useState(0);
     const [active, setActive] = useState(false);
@@ -13,9 +14,9 @@ function NavIndex({linkData, classID}) {
     }, [topicIDParams]);
 
     useEffect(() => {  
-        linkData.topicId === topicID && classID === classIDParams
+        linkData.topicID === topicID && classID === classIDParams
         ? setActive(true) : setActive(false);
-    }, [linkData.topicId, topicID, classID, classIDParams]);
+    }, [linkData.topicID, topicID, classID, classIDParams]);
 
     return (
         <li className={active ? 'current' : ''}>

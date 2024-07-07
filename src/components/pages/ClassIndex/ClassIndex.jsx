@@ -15,7 +15,6 @@ function ClassIndex(params) {
     
     useEffect(() => {
         const endpoint = `http://localhost:6006/api/${course}`;
-        console.log(endpoint);
         const fetchData = async () => {
             if(course){
                 try {
