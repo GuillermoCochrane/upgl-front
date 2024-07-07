@@ -5,6 +5,7 @@ import Error404 from "../Error404/Error404.jsx";
 import ClassIndex from "../ClassIndex/ClassIndex.jsx"; //modiicarlo para que cargue de acuerdo a la url
 import Topics from '../Topics/Topics';
 import NavBarIndex from "../../partials/NavBarIndex/NabBarIndex.jsx";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function Courses({ match }) {
   const { courseId } = match.params;
@@ -16,7 +17,7 @@ function Courses({ match }) {
   const [index, setIndex] = useState([]);
 
   useEffect(() => {
-    const endpoint = `http://localhost:6006/api/${courseId}`;
+    const endpoint = `${apiUrl}api/${courseId}`;
     const fetchData = async () => {
       try {
         const response = await fetch(endpoint);
