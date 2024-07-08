@@ -41,7 +41,7 @@ main{
 .sumario {
 	display: none;
 	flex-direction: column;
-	padding-left: 1.5rem;
+	/* padding-left: 1.5rem; */
 	color: #fff;
 	transition: 2.5s;
 	overflow-x: hidden;
@@ -153,10 +153,6 @@ article ol{
 
 article ul li::before{
 	content: "";
-}
-
-ul ul li{
-	/* padding-inline: .5em; */
 }
 
 figure{
