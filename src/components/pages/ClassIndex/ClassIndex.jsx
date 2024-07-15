@@ -6,13 +6,8 @@ import HomeData from '../../partials/HomeData/HomeData';
 function ClassIndex(params) {
     const  id  = parseInt(params.match.params.classId);
     const [data, setData] = useState([]);
-    const [classId, setClassId] = useState("");
     const course = params.match.path.split("/")[2];
 
-    useEffect(() => {
-        setClassId(id);
-    }, [id]);
-    
     useEffect(() => {
         const endpoint = `http://localhost:6006/api/${course}`;
         const fetchData = async () => {
@@ -20,9 +15,9 @@ function ClassIndex(params) {
                 try {
                     const response = await fetch(endpoint);
                     const data = await response.json();
-                    let classIndex = data.data
-                    if (classId){
-                        let newData = classIndex.filter(item => item.classId == classId);
+                    let classIndex = data.data;
+                    if (id){
+                        let newData = classIndex.filter(item => item.classID == id);
                         (newData.length === 0) ?
                             setData([]) :
                             setData(newData);
@@ -37,16 +32,16 @@ function ClassIndex(params) {
         }
         fetchData();
         
-    }, [classId, course]);
+    }, [id, course]);
 
     return (
         <article>
             {
-                !classId ? <HomeData  course={course}/> : null
+                !id ? <HomeData  course={course}/> : null
             }
             {
-                classId  ?
-                <h2 className='index-title'>Temas de la clase {classId}</h2> : 
+                id  ?
+                <h2 className='index-title'>Temas de la clase {id}</h2> : 
                 <h2 className='index-title'>Índice de clases</h2>
             }
             
