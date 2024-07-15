@@ -48,8 +48,8 @@ function Courses({ match }) {
               ))
             }
           </ol>
-          <Link to="/">
-            <button>Volver al inicio</button>
+          <Link to={`/courses/${courseId}`}>	
+            <button>Volver al índice</button>
           </Link> 
         </nav>
         <Switch>
