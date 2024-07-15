@@ -9,21 +9,15 @@ function ClassIndex(params) {
     const course = params.match.path.split("/")[2];
 
     useEffect(() => {
-        const endpoint = `http://localhost:6006/api/${course}`;
+        let endpoint = `http://localhost:6006/api/${course}/`;
+        id ? endpoint = `http://localhost:6006/api/${course}/${id}` : null;
         const fetchData = async () => {
             if(course){
                 try {
                     const response = await fetch(endpoint);
                     const data = await response.json();
                     let classIndex = data.data;
-                    if (id){
-                        let newData = classIndex.filter(item => item.classID == id);
-                        (newData.length === 0) ?
-                            setData([]) :
-                            setData(newData);
-                        } else {
-                            setData(classIndex);
-                        }
+                    setData(classIndex);
                 }
                 catch (error) {
                     console.log(error);
@@ -31,7 +25,7 @@ function ClassIndex(params) {
             }
         }
         fetchData();
-        
+        console.log(endpoint);
     }, [id, course]);
 
     return (
@@ -49,7 +43,7 @@ function ClassIndex(params) {
                 data && data.length == 0 ? <NotFound  /> :
                 data.map((item, index) => (
                     <section key={index}>
-                        <h2>{item.summary}</h2>
+                        <h2 className='index-subtitle'>{item.summary}</h2>
                         <ol className='topics-index'>
                             {
                                 item.links.map((item, index) => (
