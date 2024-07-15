@@ -265,6 +265,10 @@ h2.index-title{
 	margin-block: 1em;
 }
 
+h2.index-subtitle{
+	text-align: left;
+}
+
 ol.topics-index{
 	max-width: fit-content;
 }
