@@ -32,6 +32,7 @@ function Topics(params) {
         const response = await fetch(`http://localhost:6006/api/${course}/class/`);
         const data = await response.json();
         let classes = (data.data);
+        console.log(data);
         let newData = classes.filter(item => item.class === classID);
         (newData.length === 0) ? 
                               setClassData([]) :
@@ -42,7 +43,7 @@ function Topics(params) {
           topic: topicID,
           course: course,
           topics: newData[0].topics,
-          classes: classes.length,
+          classes: classes[classes.length-1].class, //sacar de data.meta.classes, despues de corregirlo en el backend
           lastClassLastTopic: classID > 1 ? classes.filter(item => item.class === classID-1)[0].topics : 0,
         };
 
@@ -56,24 +57,7 @@ function Topics(params) {
     }
 
     fetchData();
-    /* let newData = classes.filter(item => item.class === classID);
-    (newData.length === 0) ?
-      setClassData([]) :
-      setClassData(newData[0].classData);
 
-      let pageData = {
-        class: classID, 
-        topic: topicID,
-        course: course,
-        topics: newData[0].topics,
-        classes: classes.length,
-        lastClassLastTopic: classID > 1 ? classes.filter(item => item.class === classID-1)[0].topics : 0,
-      };
-
-      setPage(pageData);
-
-      newData.length > 0 ? setTitle(newData[0].title.info) : null; */
-  
   }, [classID, topicID ]);
 
   useEffect(() => {
