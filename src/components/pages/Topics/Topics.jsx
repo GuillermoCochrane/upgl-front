@@ -32,7 +32,6 @@ function Topics(params) {
         const response = await fetch(`http://localhost:6006/api/${course}/class/`);
         const data = await response.json();
         let classes = (data.data);
-        console.log(data);
         let newData = classes.filter(item => item.class === classID);
         (newData.length === 0) ? 
                               setClassData([]) :

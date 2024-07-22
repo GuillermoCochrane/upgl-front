@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 function Youtube({Data}) {
-    console.log(Data[0].height);
     return (
             <iframe 
                 width={Data[0].width}
