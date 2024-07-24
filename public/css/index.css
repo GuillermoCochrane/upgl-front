@@ -203,7 +203,7 @@ figure img.info{
 	overflow-y: scroll;
 	margin-inline: 0;
 	cursor: zoom-out;
-	scale: 3;
+	scale: 5;
 	transform-origin: top left;
 }
 
