@@ -118,7 +118,7 @@ nav {
 }
 
 ol {
-	counter-reset: numerar;
+	counter-reset: class-counter;
 	list-style-type: none;
 	line-height: 1.5;
 }
@@ -128,9 +128,9 @@ ol ol {
 	font-size: .9rem;
 }
 
-li::before {
-	content: counters(numerar, '.') "";
-	counter-increment: numerar;
+li > details::before {
+	content: counters(class-counter, '.') "";
+	counter-increment: class-counter;
 	position: absolute;
 	left: -2.5rem;
 	width: 2rem;
