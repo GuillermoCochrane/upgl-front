@@ -2,6 +2,7 @@ import  { useRef } from 'react';
 import { Route, Switch, Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Sections from '../Sections/Sections';
+import NewClass from '../NewClass/NewClass';
 import Error404 from "../Error404/Error404.jsx";
 
 function ControlPanel({ match }) {
@@ -32,8 +33,8 @@ function ControlPanel({ match }) {
                     </ol>
                 </nav>
                 <Switch>
-                    <Route path={`${match.url}`}  component={Sections} />
-                    <Route path={`${match.url}/newClass`}  component={Sections} />
+                    <Route path={`${match.url}`} exact component={Sections} />
+                    <Route path={`${match.url}/newClass`}  component={NewClass} />
                     <Route path={`${match.url}/newTopic`}  component={Sections} />
                     <Route path={`${match.url}/newSection`}  component={Sections} />
                     <Route component={Error404} />
