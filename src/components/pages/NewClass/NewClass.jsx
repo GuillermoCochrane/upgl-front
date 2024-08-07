@@ -1,14 +1,26 @@
 import  { useState, useRef } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
+import validator from 'validator';
+
 
 function NewClass() {
-
-  let form = useRef(null);
-
+  
   let [validations, setValidations] = useState({});
   let [oldData, setOldData] = useState( { title: "", summary: "", option: ""});
+  let form = useRef(null);
+  
+  const requiredValidation = (input) => {
+    let inputField = form.current.elements[input].value;
+    let newValidations = { ...validations };
+    if(validator.isEmpty(inputField)){
+      newValidations[input] = {msg: `${input} es obligatorio`};
+    } else {
+      delete newValidations[input];
+    }
+    setValidations(newValidations);
+  }
 
-  let createClass = async (e) => {  
+  const createClass = async (e) => {  
     e.preventDefault();
     let courseSelect = form.current.elements.courseSelect.value;
     let title = form.current.elements.title.value;
@@ -46,12 +58,11 @@ function NewClass() {
     }
   }
 
-  let updateForm = (input, value) => {
-    input == 'title' ? setOldData({...oldData, title: value}) : null;
-    input == 'summary' ? setOldData({...oldData, summary: value}) : null;
+  const updateForm = (input, value) => {
+    let newData = {...oldData};
+    newData[input] = value;
+    setOldData(newData);
   }
-
-  console.log(validations);
 
   return (
     <article>
@@ -60,11 +71,16 @@ function NewClass() {
 
         <section className='section-flex'>
           <label htmlFor="courseSelect">Seleccione un Curso</label>
-          <select name="courseSelect" id="courseSelect">
+          <select 
+                name="courseSelect" 
+                id="courseSelect"
+                value={oldData.option}
+                onChange={(e) => updateForm('option', e.target.value)}
+          >
             <option value="">---</option>
-            <option value="python" selected = {oldData.option == 'python'}> Python </option>
-            <option value="test" selected = {oldData.option == 'test' }> Test </option>
-            <option value="ia"  selected = {oldData.option == 'ia' }> IA </option>
+            <option value="python" > Python </option>
+            <option value="test" > Test </option>
+            <option value="ia">   IA </option>
           </select>
           {
             validations.course && 
@@ -82,6 +98,8 @@ function NewClass() {
                 id="className" 
                 value={oldData.title} 
                 onChange={(e) => updateForm('title', e.target.value)}
+                onBlur  = {() => requiredValidation('title')}
+                onInput={() => requiredValidation('title')}
           />
           {
             validations.title && 
@@ -99,6 +117,8 @@ function NewClass() {
                 id="index-title" 
                 value={oldData.summary} 
                 onChange={(e) => updateForm('summary', e.target.value)}
+                onBlur  = {() => requiredValidation('summary')}
+                onInput={() => requiredValidation('summary')}
           />
           {
             validations.summary && 
