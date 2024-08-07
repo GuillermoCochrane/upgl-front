@@ -407,6 +407,19 @@ form strong{
 	margin: auto;
 }
 
+.success{
+	color: green;
+}
+
+.error{
+	color: red;
+}
+
+section.section-flex{
+	display: flex;
+	flex-direction: column;
+}
+
 
 @media (min-width: 870px){
 	body{
