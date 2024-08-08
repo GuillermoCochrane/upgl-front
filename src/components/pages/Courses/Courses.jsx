@@ -18,7 +18,6 @@ function Courses({ match }) {
 
   useEffect(() => {
     const endpoint = `${apiUrl}api/course/${courseId}`;
-    console.log(endpoint);
     const fetchData = async () => {
       try {
         const response = await fetch(endpoint);

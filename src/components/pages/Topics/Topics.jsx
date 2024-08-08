@@ -28,7 +28,7 @@ function Topics(params) {
   useEffect(() => {
     let fetchData = async () => {
       try {
-        const response = await fetch(`${apiUrl}api/${course}/class/`);
+        const response = await fetch(`${apiUrl}api/course/${course}/class/`);
         const data = await response.json();
         let classes = (data.data);
         let newData = classes.filter(item => item.class === classID);
