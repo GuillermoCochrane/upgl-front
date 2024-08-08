@@ -8,28 +8,27 @@ import H3 from '../../partials/H3/H3Tag.jsx';
 import H2 from '../../partials/H2/H2Tag.jsx';
 import Figure from '../../partials/Figure/Figure.jsx';
 import Answer from '../../partials/Answer/Answer.jsx';
-// import classesIA from  "../../../assets/data/IAChatGPT.js";
-// import classesPython from  "../../../assets/data/Python.js";
 import NavButtons from '../../partials/Navbuttons/NavButtons.jsx';
 import Links from '../../partials/Links/Links.jsx';
 import Youtube from '../../partials/Youtube/Youtube.jsx';
 import Table from '../../partials/Table/Table.jsx';
 import Trivia from '../../partials/Trivia/Trivia.jsx';
 import NotFound from '../../partials/NotFound/NotFound.jsx';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function Topics(params) {
   const [classData, setClassData] = useState([]);
   const [data, setData] = useState([]);
   const [page, setPage] = useState({});
   const [title, setTitle] = useState([]);
-  const course = params.match.path.split("/")[2];
+  const course = params.match.path.split("/")[2].toLowerCase();
   const classID  = parseInt(params.match.params.classId);
   const topicID = parseInt(params.match.params.topicId);
 
   useEffect(() => {
     let fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:6006/api/${course}/class/`);
+        const response = await fetch(`${apiUrl}api/${course}/class/`);
         const data = await response.json();
         let classes = (data.data);
         let newData = classes.filter(item => item.class === classID);
