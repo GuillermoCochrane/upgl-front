@@ -8,7 +8,7 @@ import NavBarIndex from "../../partials/NavBarIndex/NabBarIndex.jsx";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function Courses({ match }) {
-  const { courseId } = match.params;
+  const  courseId  = match.params.courseId.toLowerCase();
   const navBar = useRef(null);
   const handleClick = () => {
     navBar.current.classList.toggle("hidden");
@@ -17,7 +17,8 @@ function Courses({ match }) {
   const [index, setIndex] = useState([]);
 
   useEffect(() => {
-    const endpoint = `${apiUrl}api/${courseId}`;
+    const endpoint = `${apiUrl}api/course/${courseId}`;
+    console.log(endpoint);
     const fetchData = async () => {
       try {
         const response = await fetch(endpoint);
