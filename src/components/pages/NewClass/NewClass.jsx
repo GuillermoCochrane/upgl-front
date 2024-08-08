@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import  { useState, useRef } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import validator from 'validator';
@@ -8,12 +9,31 @@ function NewClass() {
   let [validations, setValidations] = useState({});
   let [oldData, setOldData] = useState( { title: "", summary: "", option: ""});
   let form = useRef(null);
+
+  const updateForm = (input, value) => {
+    let newData = {...oldData};
+    newData[input] = value;
+    setOldData(newData);
+  }
   
   const requiredValidation = (input) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...validations };
     if(validator.isEmpty(inputField)){
       newValidations[input] = {msg: `${input} es obligatorio`};
+    } else {
+      delete newValidations[input];
+    }
+    setValidations(newValidations);
+  } 
+
+  const lenghtValidation = (input, min , max) => {
+    let inputField = form.current.elements[input].value;
+    let newValidations = { ...validations };
+    if(!validator.isLength(inputField, { min, max })){
+      let msg = `El tamaño mínimo del la entrada es ${min}`;
+      max ? msg += ` y el máximo es ${max}` : null;
+      newValidations[input] = {msg: msg};
     } else {
       delete newValidations[input];
     }
@@ -58,12 +78,6 @@ function NewClass() {
     }
   }
 
-  const updateForm = (input, value) => {
-    let newData = {...oldData};
-    newData[input] = value;
-    setOldData(newData);
-  }
-
   return (
     <article>
 
@@ -98,8 +112,8 @@ function NewClass() {
                 id="className" 
                 value={oldData.title} 
                 onChange={(e) => updateForm('title', e.target.value)}
-                onBlur  = {() => requiredValidation('title')}
-                onInput={() => requiredValidation('title')}
+                onBlur  = {() => lenghtValidation('title', 3)}
+                onInput={() => lenghtValidation('title', 3)}
           />
           {
             validations.title && 
@@ -117,8 +131,8 @@ function NewClass() {
                 id="index-title" 
                 value={oldData.summary} 
                 onChange={(e) => updateForm('summary', e.target.value)}
-                onBlur  = {() => requiredValidation('summary')}
-                onInput={() => requiredValidation('summary')}
+                onBlur  = {() => lenghtValidation('summary', 3, 35)}
+                onInput={() => lenghtValidation('summary', 3, 35)}
           />
           {
             validations.summary && 
