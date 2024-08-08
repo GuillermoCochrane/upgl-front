@@ -6,7 +6,7 @@ function HomeDataAI({course}) {
     let courseID = course;
     const [homeData, setHomeData] = useState([]);
     useEffect(() => {
-        const endpoint = `${apiUrl}api/${courseID}/class/home`;
+        const endpoint = `${apiUrl}api/course/${courseID}/class/home`;
         const fetchData = async () => {
             try {
                 const response = await fetch(endpoint);
