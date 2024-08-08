@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import NotFound from '../../partials/NotFound/NotFound';
 import HomeData from '../../partials/HomeData/HomeData';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function ClassIndex(params) {
     const  id  = parseInt(params.match.params.classId);
     const [data, setData] = useState([]);
-    const course = params.match.path.split("/")[2];
+    const course = params.match.path.split("/")[2].toLowerCase();
 
     useEffect(() => {
-        let endpoint = `http://localhost:6006/api/${course}/`;
-        id ? endpoint = `http://localhost:6006/api/${course}/${id}` : null;
+        let endpoint = `${apiUrl}api/course/${course}/`;
+        id ? endpoint = `${apiUrl}api/course/${course}/${id}` : null;
         const fetchData = async () => {
             if(course){
                 try {
@@ -25,7 +26,7 @@ function ClassIndex(params) {
             }
         }
         fetchData();
-        console.log(endpoint);
+        
     }, [id, course]);
 
     return (
