@@ -7,11 +7,12 @@ import validator from 'validator';
 function NewClass() {
   
   let [validations, setValidations] = useState({});
-  let [oldData, setOldData] = useState( { title: "", summary: "", option: ""});
+  let [oldData, setOldData] = useState( { title: "", summary: "", courseSelect: ""});
   const form = useRef(null);
 
-  const titleError = "El título de la clase"
-  const summaryError = "El nombre del índice"
+  const titleError = "El título de la clase";
+  const summaryError = "El nombre del índice";
+  const optionError = "Seleccionar un curso";
 
   const updateForm = (input, value) => {
     let newData = {...oldData};
@@ -20,7 +21,9 @@ function NewClass() {
   }
   
   const requiredValidation = (input, error) => {
+    console.log(form.current.elements.courseSelect.value);
     let inputField = form.current.elements[input].value;
+    console.log(inputField);
     let newValidations = { ...validations };
     if(validator.isEmpty(inputField)){
       newValidations[input] = {msg: `${error} es obligatorio`};
@@ -32,6 +35,7 @@ function NewClass() {
 
   const lenghtValidation = (input, error, min , max ) => {
     let inputField = form.current.elements[input].value;
+    console.log(inputField);
     let newValidations = { ...validations };
     let msg = `${error} debe tener`;
     if(!validator.isLength(inputField, { min, max })){
@@ -52,6 +56,10 @@ function NewClass() {
   const validateSummary = () => {
     requiredValidation('summary', summaryError);
     form.current.elements['summary'].value ? lenghtValidation('summary',summaryError, 3, 35) : null;
+  }
+
+  const validateOption = () => {
+    requiredValidation('courseSelect', optionError);
   }
 
   const createClass = async (e) => {  
@@ -79,9 +87,9 @@ function NewClass() {
       const data = await response.json();
       if (data.meta.created) {
         setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
-        setOldData({title: "", summary: "", option: ""});
+        setOldData({title: "", summary: "", courseSelect: ""});
       } else {
-        data.oldData.option = courseSelect
+        data.oldData.courseSelect = courseSelect
         setValidations(data.errors);
         setOldData(data.oldData);
       }
@@ -91,7 +99,7 @@ function NewClass() {
       console.log(error);
     }
   }
-
+  
   return (
     <article>
 
@@ -102,8 +110,9 @@ function NewClass() {
           <select 
                 name="courseSelect" 
                 id="courseSelect"
-                value={oldData.option}
-                onChange={(e) => updateForm('option', e.target.value)}
+                value={oldData.courseSelect}
+                onChange={(e) => updateForm('courseSelect', e.target.value)}
+                onBlur={validateOption}
           >
             <option value="">---</option>
             <option value="python" > Python </option>
@@ -111,9 +120,9 @@ function NewClass() {
             <option value="ia">   IA </option>
           </select>
           {
-            validations.course && 
+            validations.courseSelect && 
             <span className='error'>
-              {validations.course.msg}
+              {validations.courseSelect.msg}
             </span>
           }
         </section>
