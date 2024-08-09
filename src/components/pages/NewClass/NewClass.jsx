@@ -10,8 +10,8 @@ function NewClass() {
   let [oldData, setOldData] = useState( { title: "", summary: "", courseSelect: ""});
   const form = useRef(null);
 
-  const titleError = "El título de la clase";
-  const summaryError = "El nombre del índice";
+  const titleError = "El nombre de la clase";
+  const summaryError = "El título del índice";
   const optionError = "Seleccionar un curso";
 
   const updateForm = (input, value) => {
@@ -147,7 +147,7 @@ function NewClass() {
         </section>
 
         <section className='section-flex'>
-          <label htmlFor="index-title">Titulo para el Indice</label>
+          <label htmlFor="index-title">Título para el Índice</label>
           <input 
                 type="text" 
                 name="summary" 
