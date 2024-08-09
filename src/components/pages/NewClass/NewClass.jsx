@@ -8,7 +8,10 @@ function NewClass() {
   
   let [validations, setValidations] = useState({});
   let [oldData, setOldData] = useState( { title: "", summary: "", option: ""});
-  let form = useRef(null);
+  const form = useRef(null);
+
+  const titleError = "El título de la clase"
+  const summaryError = "El nombre del índice"
 
   const updateForm = (input, value) => {
     let newData = {...oldData};
@@ -16,23 +19,21 @@ function NewClass() {
     setOldData(newData);
   }
   
-  const requiredValidation = (input) => {
+  const requiredValidation = (input, error) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...validations };
     if(validator.isEmpty(inputField)){
-      newValidations[input] = {msg: `${input} es obligatorio`};
+      newValidations[input] = {msg: `${error} es obligatorio`};
     } else {
       delete newValidations[input];
     }
     setValidations(newValidations);
-  } 
+  }
 
-  const lenghtValidation = (input, min , max) => {
+  const lenghtValidation = (input, error, min , max ) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...validations };
-    let msg = "";
-    input == "title" ? msg = `El título de la clase debe tener` : null;
-    input == "summary" ? msg = `El nombre del índice debe tener` : null;
+    let msg = `${error} debe tener`;
     if(!validator.isLength(inputField, { min, max })){
       msg += `al menos ${min} caracteres`;
       max ? msg += ` y como máximo ${max} caracteres` : null;
@@ -41,6 +42,11 @@ function NewClass() {
       delete newValidations[input];
     }
     setValidations(newValidations);
+  }
+
+  const validateTitle = () => {
+    requiredValidation('title', titleError);
+    form.current.elements['title'].value ? lenghtValidation('title',titleError, 3) : null;
   }
 
   const createClass = async (e) => {  
@@ -110,13 +116,13 @@ function NewClass() {
         <section className='section-flex'>
           <label htmlFor="className">Nombre de la Clase</label>
           <input 
-                type="text" 
-                name="title" 
-                id="className" 
-                value={oldData.title} 
-                onChange={(e) => updateForm('title', e.target.value)}
-                onBlur  = {() => lenghtValidation('title', 3)}
-                onInput={() => lenghtValidation('title', 3)}
+                type = "text" 
+                name = "title" 
+                id = "className" 
+                value = {oldData.title} 
+                onChange = {(e) => updateForm('title', e.target.value)}
+                onBlur  = {validateTitle}
+                onInput = {validateTitle}
           />
           {
             validations.title && 
@@ -134,8 +140,8 @@ function NewClass() {
                 id="index-title" 
                 value={oldData.summary} 
                 onChange={(e) => updateForm('summary', e.target.value)}
-                onBlur  = {() => lenghtValidation('summary', 3, 35)}
-                onInput={() => lenghtValidation('summary', 3, 35)}
+                onBlur  = {() => lenghtValidation('summary', summaryError, 3, 35)}
+                onInput={() => lenghtValidation('summary', summaryError, 3, 35)}
           />
           {
             validations.summary && 
