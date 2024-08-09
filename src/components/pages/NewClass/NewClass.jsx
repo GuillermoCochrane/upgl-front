@@ -30,9 +30,12 @@ function NewClass() {
   const lenghtValidation = (input, min , max) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...validations };
+    let msg = "";
+    input == "title" ? msg = `El título de la clase debe tener` : null;
+    input == "summary" ? msg = `El nombre del índice debe tener` : null;
     if(!validator.isLength(inputField, { min, max })){
-      let msg = `El tamaño mínimo del la entrada es ${min}`;
-      max ? msg += ` y el máximo es ${max}` : null;
+      msg += `al menos ${min} caracteres`;
+      max ? msg += ` y como máximo ${max} caracteres` : null;
       newValidations[input] = {msg: msg};
     } else {
       delete newValidations[input];
@@ -45,7 +48,7 @@ function NewClass() {
     let courseSelect = form.current.elements.courseSelect.value;
     let title = form.current.elements.title.value;
     let summary = form.current.elements.summary.value;
-    let endpoint = `${apiUrl}api/${courseSelect}/newClass`;
+    let endpoint = `${apiUrl}api/course/${courseSelect}/newClass`;
     let data = {
       course: courseSelect,
       title: title,
