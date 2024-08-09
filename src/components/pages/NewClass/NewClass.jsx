@@ -49,6 +49,11 @@ function NewClass() {
     form.current.elements['title'].value ? lenghtValidation('title',titleError, 3) : null;
   }
 
+  const validateSummary = () => {
+    requiredValidation('summary', summaryError);
+    form.current.elements['summary'].value ? lenghtValidation('summary',summaryError, 3, 35) : null;
+  }
+
   const createClass = async (e) => {  
     e.preventDefault();
     let courseSelect = form.current.elements.courseSelect.value;
@@ -140,8 +145,8 @@ function NewClass() {
                 id="index-title" 
                 value={oldData.summary} 
                 onChange={(e) => updateForm('summary', e.target.value)}
-                onBlur  = {() => lenghtValidation('summary', summaryError, 3, 35)}
-                onInput={() => lenghtValidation('summary', summaryError, 3, 35)}
+                onBlur  = {validateSummary}
+                onInput = {validateSummary}
           />
           {
             validations.summary && 
