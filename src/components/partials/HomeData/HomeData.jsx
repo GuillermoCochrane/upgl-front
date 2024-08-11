@@ -3,15 +3,15 @@ import { useState, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function HomeDataAI({course}) {
-    let courseID = course;
     const [homeData, setHomeData] = useState([]);
     useEffect(() => {
-        const endpoint = `${apiUrl}api/course/${courseID}/class/home`;
+        const endpoint = `${apiUrl}api/course/index`;
         const fetchData = async () => {
             try {
                 const response = await fetch(endpoint);
                 const data = await response.json();
-                setHomeData(data.data);
+                let info = data.data.filter(courseData => courseData.id.toUpperCase() === course.toUpperCase());
+                setHomeData(info[0]);
             }
             catch (error) {
                 console.log(error);
@@ -19,17 +19,17 @@ function HomeDataAI({course}) {
             }
         }
         fetchData()
-    },[courseID]);
+    },[course]);
 
     return (
         <>
         <h2>{homeData.title}</h2>
         <p>
-            {homeData.p1}
+            {homeData.intro}
         </p>
         <br/>
         <p>
-            {homeData.p2}
+            {homeData.paragraph}
         </p>
         <hr/>
         </>
