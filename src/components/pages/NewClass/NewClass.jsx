@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import  { useState, useRef } from 'react';
+import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import validator from 'validator';
 
@@ -8,6 +8,7 @@ function NewClass() {
   
   let [validations, setValidations] = useState({});
   let [oldData, setOldData] = useState( { title: "", summary: "", courseSelect: ""});
+  let [selectorsOptions, setSelectorsOptions] = useState([]);
   const form = useRef(null);
 
   const titleError = "El nombre de la clase";
@@ -62,6 +63,22 @@ function NewClass() {
     requiredValidation('courseSelect', optionError);
   }
 
+  useEffect(() => {
+    const endpoint = `${apiUrl}api/course/index`;
+    const fetchInfo= async () => {
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        setSelectorsOptions(data.data);
+      }
+      catch (error) {
+        console.log(error);
+        setSelectorsOptions([]);
+      }
+    }
+    fetchInfo();
+  }, []);
+
   const createClass = async (e) => {  
     e.preventDefault();
     let courseSelect = form.current.elements.courseSelect.value;
@@ -115,9 +132,16 @@ function NewClass() {
                 onBlur={validateOption}
           >
             <option value="">---</option>
-            <option value="python" > Python </option>
-            <option value="test" > Test </option>
-            <option value="ia">   IA </option>
+            {selectorsOptions.map((selector, key) => 
+
+              <option
+                  value={selector.id} 
+                  key={key}
+              >
+                {selector.name} 
+              </option>
+              )
+            }
           </select>
           {
             validations.courseSelect && 
