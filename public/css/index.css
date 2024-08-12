@@ -30,7 +30,7 @@ header {
 	gap: 15px;
 	z-index: 5;
 	width: 100%;
-	box-shadow: 0px 2px 10px 1px rgba(130, 130, 130);
+	box-shadow: 0px 0px 10px 0px rgba(130, 130, 130);
 }
 
 main{
@@ -444,6 +444,13 @@ section.section-flex{
 		max-height: 90vh;
 		padding: 0.5em 1.5em;
 		max-width: 333px;
+	}
+
+	.panel-index{
+		max-width: 200px;
+		text-align: center;
+		margin: auto;
+		font-size: 17px;
 	}
 
 	article{
