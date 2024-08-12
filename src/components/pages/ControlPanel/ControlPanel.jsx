@@ -19,7 +19,7 @@ function ControlPanel({ match }) {
                 <h1>  {`Panel de Control ${title} `}</h1>
             </header>
             <main>
-                <nav className='sumario' ref={navBar}>
+                <nav className='sumario panel-index' ref={navBar}>
                     <ol>
                         <li>
                             <Link to="/controlPanel/newClass">Nueva Clase</Link>
