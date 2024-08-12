@@ -21,23 +21,20 @@ function NewClass() {
     setOldData(newData);
   }
   
-  const requiredValidation = (input, error) => {
-    console.log(form.current.elements.courseSelect.value);
+  const requiredValidation = (input, error, oldValidations) => {
     let inputField = form.current.elements[input].value;
-    console.log(inputField);
-    let newValidations = { ...validations };
+    let newValidations = { ...oldValidations };
     if(validator.isEmpty(inputField)){
       newValidations[input] = {msg: `${error} es obligatorio`};
     } else {
       delete newValidations[input];
     }
-    setValidations(newValidations);
+    return newValidations;
   }
 
-  const lenghtValidation = (input, error, min , max ) => {
+  const lenghtValidation = (input, error, min , max, oldValidations) => {
     let inputField = form.current.elements[input].value;
-    console.log(inputField);
-    let newValidations = { ...validations };
+    let newValidations = { ...oldValidations };
     let msg = `${error} debe tener`;
     if(!validator.isLength(inputField, { min, max })){
       msg += `al menos ${min} caracteres`;
@@ -46,21 +43,21 @@ function NewClass() {
     } else {
       delete newValidations[input];
     }
-    setValidations(newValidations);
+    return newValidations;
   }
 
   const validateTitle = () => {
-    requiredValidation('title', titleError);
-    form.current.elements['title'].value ? lenghtValidation('title',titleError, 3) : null;
+    setValidations(prevValidations => requiredValidation('title', titleError, prevValidations));
+    form.current.elements['title'].value ? setValidations(prevValidations => lenghtValidation('title',titleError, 3, null, prevValidations)) : null; 
   }
 
   const validateSummary = () => {
-    requiredValidation('summary', summaryError);
-    form.current.elements['summary'].value ? lenghtValidation('summary',summaryError, 3, 35) : null;
+    setValidations(prevValidations => requiredValidation('summary', summaryError, prevValidations));
+    form.current.elements['summary'].value ? setValidations(prevValidations => lenghtValidation('summary',summaryError, 3, 35, prevValidations)) : null;
   }
 
   const validateOption = () => {
-    requiredValidation('courseSelect', optionError);
+    setValidations(prevValidations => requiredValidation('courseSelect', optionError, prevValidations));
   }
 
   useEffect(() => {
@@ -115,8 +112,8 @@ function NewClass() {
       setValidations(error.message);
       console.log(error);
     }
+
   }
-  
   return (
     <article>
 
