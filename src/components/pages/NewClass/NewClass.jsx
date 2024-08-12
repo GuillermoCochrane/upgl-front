@@ -24,6 +24,7 @@ function NewClass() {
   const requiredValidation = (input, error, oldValidations) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...oldValidations };
+    delete newValidations.success;
     if(validator.isEmpty(inputField)){
       newValidations[input] = {msg: `${error} es obligatorio`};
     } else {
@@ -35,6 +36,7 @@ function NewClass() {
   const lenghtValidation = (input, error, oldValidations, min , max ) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...oldValidations };
+    delete newValidations.success;
     let msg = `${error} debe tener`;
     if(!validator.isLength(inputField, { min, max })){
       msg += `al menos ${min} caracteres`;
