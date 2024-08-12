@@ -32,7 +32,7 @@ function NewClass() {
     return newValidations;
   }
 
-  const lenghtValidation = (input, error, min , max, oldValidations) => {
+  const lenghtValidation = (input, error, oldValidations, min , max ) => {
     let inputField = form.current.elements[input].value;
     let newValidations = { ...oldValidations };
     let msg = `${error} debe tener`;
@@ -48,12 +48,12 @@ function NewClass() {
 
   const validateTitle = () => {
     setValidations(prevValidations => requiredValidation('title', titleError, prevValidations));
-    form.current.elements['title'].value ? setValidations(prevValidations => lenghtValidation('title',titleError, 3, null, prevValidations)) : null; 
+    form.current.elements['title'].value ? setValidations(prevValidations => lenghtValidation('title',titleError, prevValidations, 3, undefined)) : null; 
   }
 
   const validateSummary = () => {
     setValidations(prevValidations => requiredValidation('summary', summaryError, prevValidations));
-    form.current.elements['summary'].value ? setValidations(prevValidations => lenghtValidation('summary',summaryError, 3, 35, prevValidations)) : null;
+    form.current.elements['summary'].value ? setValidations(prevValidations => lenghtValidation('summary',summaryError, prevValidations, 3, 35)) : null;
   }
 
   const validateOption = () => {
@@ -78,42 +78,50 @@ function NewClass() {
 
   const createClass = async (e) => {  
     e.preventDefault();
-    let courseSelect = form.current.elements.courseSelect.value;
-    let title = form.current.elements.title.value;
-    let summary = form.current.elements.summary.value;
-    let endpoint = `${apiUrl}api/course/${courseSelect}/newClass`;
-    let data = {
-      course: courseSelect,
-      title: title,
-      summary: summary,
-    };
 
-    let formData = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
+    validateSummary();
+    validateTitle();
+    validateOption();
 
-    try {
-      const response = await fetch(endpoint, formData);
-      const data = await response.json();
-      if (data.meta.created) {
-        setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
-        setOldData({title: "", summary: "", courseSelect: ""});
-      } else {
-        data.oldData.courseSelect = courseSelect
-        setValidations(data.errors);
-        setOldData(data.oldData);
+    if(!validations.courseSelect && !validations.title  && !validations.summary ){
+
+      let courseSelect = form.current.elements.courseSelect.value;
+      let title = form.current.elements.title.value;
+      let summary = form.current.elements.summary.value;
+      let endpoint = `${apiUrl}api/course/${courseSelect}/newClass`;
+      let data = {
+        course: courseSelect,
+        title: title,
+        summary: summary,
+      };
+
+      let formData = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+
+      try {
+        const response = await fetch(endpoint, formData);
+        const data = await response.json();
+        if (data.meta.created) {
+          setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
+          setOldData({title: "", summary: "", courseSelect: ""});
+        } else {
+          data.oldData.courseSelect = courseSelect
+          setValidations(data.errors);
+          setOldData(data.oldData);
+        }
+      }
+      catch (error) {
+        setValidations(error.message);
+        console.log(error);
       }
     }
-    catch (error) {
-      setValidations(error.message);
-      console.log(error);
-    }
-
   }
+
   return (
     <article>
 
