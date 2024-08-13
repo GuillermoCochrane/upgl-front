@@ -418,8 +418,50 @@ form strong{
 section.section-flex{
 	display: flex;
 	flex-direction: column;
+	margin: auto;
 }
 
+.panel-form{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 50%;
+	background-color: #999;
+	border-radius: 15px;
+	margin: auto;
+	padding-inline: 2em;
+	box-shadow: 0 0 5px 0 #666;
+	gap: 25px;
+}
+
+.panel-form section{
+	width: 45%;
+}
+
+.panel-form label{
+	font-weight: 500;
+}
+
+.panel-form input{
+		width: 100%;
+		border-radius: 5px;
+		padding: .25em;
+	}
+
+.panel-form section.selector{
+	width: 100%;
+	flex-grow: 1;
+}
+
+.panel-form select{
+	width: 100%;
+	border-radius: 5px;
+	padding: .25em;
+}
+
+.panel-form span{
+	font-size: .5em;
+}
 
 @media (min-width: 870px){
 	body{
