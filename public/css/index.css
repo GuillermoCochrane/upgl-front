@@ -461,6 +461,7 @@ section.section-flex{
 
 .panel-form span{
 	font-size: .7em;
+	display: inline-block;
 }
 
 @media (min-width: 870px){
