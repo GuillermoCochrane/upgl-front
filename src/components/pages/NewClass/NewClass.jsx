@@ -127,9 +127,9 @@ function NewClass() {
   return (
     <article>
 
-      <form ref={form} onSubmit={createClass}>
+      <form ref={form} onSubmit={createClass} className='panel-form'>
 
-        <section className='section-flex'>
+        <section className='section-flex selector'>
           <label htmlFor="courseSelect">Seleccione un Curso</label>
           <select 
                 name="courseSelect" 
