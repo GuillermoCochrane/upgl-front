@@ -28,6 +28,19 @@ const formValidations = {
         }
         return newValidations;
     },
+
+    min: (input, error, form, oldValidations, min ) => {
+        let inputField = form.current.elements[input].value;
+        let newValidations = { ...oldValidations };
+        delete newValidations.success;
+        let msg = `${error} debe ser mayor que ${min}`;
+        if(!validator.isLength(inputField, { min })){
+            newValidations[input] = {msg: msg};
+        } else {
+            delete newValidations[input];
+        }
+        return newValidations;
+    },
 }
 
 export default formValidations;
