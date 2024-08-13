@@ -11,8 +11,8 @@ function NewClass() {
   let [selectorsOptions, setSelectorsOptions] = useState([]);
   const form = useRef(null);
 
-  const titleError = "El nombre de la clase";
-  const summaryError = "El título del índice";
+  const titleError = "El nombre ";
+  const summaryError = "El índice";
   const optionError = "Seleccionar un curso";
 
   const updateForm = (input, value) => {
@@ -62,6 +62,16 @@ function NewClass() {
     setValidations(prevValidations => requiredValidation('courseSelect', optionError, prevValidations));
   }
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = requiredValidation('title', titleError, newValidations);
+    newValidations = requiredValidation('summary', summaryError, newValidations);
+    newValidations = requiredValidation('courseSelect', optionError, newValidations);
+
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; // Return true if no errors
+  }
+
   useEffect(() => {
     const endpoint = `${apiUrl}api/course/index`;
     const fetchInfo= async () => {
@@ -81,47 +91,45 @@ function NewClass() {
   const createClass = async (e) => {  
     e.preventDefault();
 
-    validateSummary();
-    validateTitle();
-    validateOption();
+    if (!validateAllFields()) {
+      return; 
+    }
 
-    if(!validations.courseSelect && !validations.title  && !validations.summary ){
+    let courseSelect = form.current.elements.courseSelect.value;
+    let title = form.current.elements.title.value;
+    let summary = form.current.elements.summary.value;
+    let endpoint = `${apiUrl}api/course/${courseSelect}/newClass`;
+    let data = {
+      course: courseSelect,
+      title: title,
+      summary: summary,
+    };
 
-      let courseSelect = form.current.elements.courseSelect.value;
-      let title = form.current.elements.title.value;
-      let summary = form.current.elements.summary.value;
-      let endpoint = `${apiUrl}api/course/${courseSelect}/newClass`;
-      let data = {
-        course: courseSelect,
-        title: title,
-        summary: summary,
-      };
+    let formData = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    };
 
-      let formData = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      };
-
-      try {
-        const response = await fetch(endpoint, formData);
-        const data = await response.json();
-        if (data.meta.created) {
-          setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
-          setOldData({title: "", summary: "", courseSelect: ""});
-        } else {
-          data.oldData.courseSelect = courseSelect
-          setValidations(data.errors);
-          setOldData(data.oldData);
-        }
-      }
-      catch (error) {
-        setValidations(error.message);
-        console.log(error);
+    try {
+      const response = await fetch(endpoint, formData);
+      const data = await response.json();
+      if (data.meta.created) {
+        setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
+        setOldData({title: "", summary: "", courseSelect: ""});
+      } else {
+        data.oldData.courseSelect = courseSelect
+        setValidations(data.errors);
+        setOldData(data.oldData);
       }
     }
+    catch (error) {
+      setValidations(error.message);
+      console.log(error);
+    }
+
   }
 
   return (
@@ -151,10 +159,11 @@ function NewClass() {
             }
           </select>
           {
-            validations.courseSelect && 
+            validations.courseSelect ? 
             <span className='error'>
               {validations.courseSelect.msg}
-            </span>
+            </span> :
+            <span> {"\u00A0"} </span>
           }
         </section>
 
@@ -170,10 +179,11 @@ function NewClass() {
                 onInput = {validateTitle}
           />
           {
-            validations.title && 
+            validations.title ? 
             <span className='error'>
               {validations.title.msg}
-            </span>
+            </span> :
+            <span> {"\u00A0"} </span>
           }
         </section>
 
@@ -189,10 +199,11 @@ function NewClass() {
                 onInput = {validateSummary}
           />
           {
-            validations.summary && 
+            validations.summary ? 
             <span className='error'>
               {validations.summary.msg}
-            </span>
+            </span> :
+            <span> {"\u00A0"} </span>
           }
         </section>
 
