@@ -3,7 +3,6 @@ import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../utilities/formValidations';
 
-
 function NewClass() {
   
   let [validations, setValidations] = useState({});
@@ -23,12 +22,13 @@ function NewClass() {
 
   const validateTitle = () => {
     setValidations(prevValidations => formValidations.required('title', titleError, form, prevValidations));
-    form.current.elements['title'].value ? setValidations(prevValidations => formValidations.length('title',titleError, form, prevValidations, 3)) : null;
+    form.current.elements['title'].value ? setValidations(prevValidations => formValidations.min('title', titleError, form, prevValidations, 3)) : null;
   }
 
   const validateSummary = () => {
     setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
-    form.current.elements['summary'].value ? setValidations(prevValidations => formValidations.length('summary', summaryError, form, prevValidations, 3, 35)) : null;
+    form.current.elements['summary'].value ? setValidations(prevValidations => formValidations.min('summary', summaryError, form, prevValidations, 3)) : null;
+    form.current.elements['summary'].value ? setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35)) : null;
   }
 
   const validateOption = () => {
