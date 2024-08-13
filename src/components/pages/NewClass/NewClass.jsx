@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
-import validator from 'validator';
+import formValidations from '../../../utilities/formValidations';
 
 
 function NewClass() {
@@ -20,56 +20,29 @@ function NewClass() {
     newData[input] = value;
     setOldData(newData);
   }
-  
-  const requiredValidation = (input, error, oldValidations) => {
-    let inputField = form.current.elements[input].value;
-    let newValidations = { ...oldValidations };
-    delete newValidations.success;
-    if(validator.isEmpty(inputField)){
-      newValidations[input] = {msg: `${error} es obligatorio`};
-    } else {
-      delete newValidations[input];
-    }
-    return newValidations;
-  }
-
-  const lenghtValidation = (input, error, oldValidations, min , max ) => {
-    let inputField = form.current.elements[input].value;
-    let newValidations = { ...oldValidations };
-    delete newValidations.success;
-    let msg = `${error} debe tener`;
-    if(!validator.isLength(inputField, { min, max })){
-      msg += `al menos ${min} caracteres`;
-      max ? msg += ` y como máximo ${max} caracteres` : null;
-      newValidations[input] = {msg: msg};
-    } else {
-      delete newValidations[input];
-    }
-    return newValidations;
-  }
 
   const validateTitle = () => {
-    setValidations(prevValidations => requiredValidation('title', titleError, prevValidations));
-    form.current.elements['title'].value ? setValidations(prevValidations => lenghtValidation('title',titleError, prevValidations, 3, undefined)) : null; 
+    setValidations(prevValidations => formValidations.required('title', titleError, form, prevValidations));
+    form.current.elements['title'].value ? setValidations(prevValidations => formValidations.length('title',titleError, form, prevValidations, 3)) : null;
   }
 
   const validateSummary = () => {
-    setValidations(prevValidations => requiredValidation('summary', summaryError, prevValidations));
-    form.current.elements['summary'].value ? setValidations(prevValidations => lenghtValidation('summary',summaryError, prevValidations, 3, 35)) : null;
+    setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
+    form.current.elements['summary'].value ? setValidations(prevValidations => formValidations.length('summary', summaryError, form, prevValidations, 3, 35)) : null;
   }
 
   const validateOption = () => {
-    setValidations(prevValidations => requiredValidation('courseSelect', optionError, prevValidations));
+    setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
   }
 
   const validateAllFields = () => {
     let newValidations = {};
-    newValidations = requiredValidation('title', titleError, newValidations);
-    newValidations = requiredValidation('summary', summaryError, newValidations);
-    newValidations = requiredValidation('courseSelect', optionError, newValidations);
+    newValidations = formValidations.required('title', titleError, form, newValidations);
+    newValidations = formValidations.required('summary', summaryError, form, newValidations);
+    newValidations = formValidations.required('courseSelect', optionError, form, newValidations);
 
     setValidations(newValidations);
-    return Object.keys(newValidations).length === 0; // Return true if no errors
+    return Object.keys(newValidations).length === 0; 
   }
 
   useEffect(() => {
