@@ -476,6 +476,13 @@ input.success{
 	border: 2px solid green;
 }
 
+span.success{
+	display: block;
+	flex-grow: 1;
+	width: 100%;
+	text-align: center;
+}
+
 @media (min-width: 870px){
 	body{
 		overflow: hidden;
