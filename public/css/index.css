@@ -466,10 +466,12 @@ section.section-flex{
 	display: inline-block;
 }
 
+select.error,
 input.error{
 	border: 2px solid red;
 }
 
+select.success,
 input.success{
 	border: 2px solid green;
 }
