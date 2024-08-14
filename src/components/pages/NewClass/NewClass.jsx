@@ -39,9 +39,17 @@ function NewClass() {
       formValidations.validationsAlerts('summary', validations, form);
   };
 
-  const validateOption = () => {
-    setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
-    formValidations.validationsAlerts('courseSelect', validations, form);
+  // const validateOption = () => {
+  //   setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
+  //   formValidations.validationsAlerts('courseSelect', validations, form);
+  // }
+  const validateOption = (value) => {
+    const newValidations = formValidations.required('courseSelect', optionError, form, validations);
+    if (value) {
+      delete newValidations.courseSelect; // Elimina la validación de error si hay un valor
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('courseSelect', newValidations, form);
   }
 
   const validateAllFields = () => {
@@ -136,8 +144,12 @@ function NewClass() {
                 name="courseSelect" 
                 id="courseSelect"
                 value={oldData.courseSelect}
-                onChange={(e) => updateForm('courseSelect', e.target.value)}
-                onBlur={validateOption}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  updateForm('courseSelect', value);
+                  validateOption(value);
+                }}
+                onBlur={() => validateOption(oldData.courseSelect)}
           >
             <option value="">---</option>
             {selectorsOptions.map((selector, key) => 
