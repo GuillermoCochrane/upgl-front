@@ -20,20 +20,20 @@ function NewClass() {
     setOldData(newData);
   }
 
-  const validationsAlerts = (input) => {
-    if (validations[input]) {
-      form.current.elements[input].classList.remove('success');
-      form.current.elements[input].classList.add('error');
-    } else {
-      form.current.elements[input].classList.remove('error');
-      form.current.elements[input].classList.add('success');
-    }
-  }
+  // const validationsAlerts = (input) => {
+  //   if (validations[input]) {
+  //     form.current.elements[input].classList.remove('success');
+  //     form.current.elements[input].classList.add('error');
+  //   } else {
+  //     form.current.elements[input].classList.remove('error');
+  //     form.current.elements[input].classList.add('success');
+  //   }
+  // }
 
   const validateTitle = () => {
     setValidations(prevValidations => formValidations.required('title', titleError, form, prevValidations));
     form.current.elements['title'].value ? setValidations(prevValidations => formValidations.min('title', titleError, form, prevValidations, 3)) : null;
-    validationsAlerts('title');
+    formValidations.validationsAlerts('title', validations, form);
   }
 
     const validateSummary = () => {
@@ -46,13 +46,13 @@ function NewClass() {
           setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35));
       }
   
-      validationsAlerts('summary');
+      formValidations.validationsAlerts('summary', validations, form);
   };
 
   const validateOption = () => {
-    
+
     setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
-    validationsAlerts('courseSelect');
+    formValidations.validationsAlerts('courseSelect', validations, form);
   }
 
   const validateAllFields = () => {
@@ -127,7 +127,7 @@ function NewClass() {
 
   useEffect(() => {
     Object.keys(validations).forEach(input => {
-      validationsAlerts(input);
+      formValidations.validationsAlerts(input, validations, form);
     });
   }, [validations]);
   
