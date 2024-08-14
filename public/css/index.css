@@ -389,6 +389,7 @@ form{
 	margin-block: 2em;
 	padding: 1em;
 }
+
 form section{
 	display: flex;
 	justify-content: flex-start;
@@ -402,6 +403,7 @@ form button{
 	max-width: fit-content;
 	margin-inline: auto;
 }
+
 form strong{
 	display: block;
 	margin: auto;
@@ -460,8 +462,16 @@ section.section-flex{
 }
 
 .panel-form span{
-	font-size: .7em;
+	font-size: .9em;
 	display: inline-block;
+}
+
+input.error{
+	border: 2px solid red;
+}
+
+input.success{
+	border: 2px solid green;
 }
 
 @media (min-width: 870px){
