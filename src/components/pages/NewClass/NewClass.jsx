@@ -20,19 +20,39 @@ function NewClass() {
     setOldData(newData);
   }
 
+  const validationsAlerts = (input) => {
+    if (validations[input]) {
+      form.current.elements[input].classList.remove('success');
+      form.current.elements[input].classList.add('error');
+    } else {
+      form.current.elements[input].classList.remove('error');
+      form.current.elements[input].classList.add('success');
+    }
+  }
+
   const validateTitle = () => {
     setValidations(prevValidations => formValidations.required('title', titleError, form, prevValidations));
     form.current.elements['title'].value ? setValidations(prevValidations => formValidations.min('title', titleError, form, prevValidations, 3)) : null;
+    validationsAlerts('title');
   }
 
-  const validateSummary = () => {
-    setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
-    form.current.elements['summary'].value ? setValidations(prevValidations => formValidations.min('summary', summaryError, form, prevValidations, 3)) : null;
-    form.current.elements['summary'].value ? setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35)) : null;
-  }
+    const validateSummary = () => {
+      setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
+      
+      const minLengthValidations = formValidations.min('summary', summaryError, form, validations, 3);
+      setValidations(minLengthValidations);
+  
+      if (!minLengthValidations.summary) {
+          setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35));
+      }
+  
+      validationsAlerts('summary');
+  };
 
   const validateOption = () => {
+    
     setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
+    validationsAlerts('courseSelect');
   }
 
   const validateAllFields = () => {
@@ -44,22 +64,6 @@ function NewClass() {
     setValidations(newValidations);
     return Object.keys(newValidations).length === 0; 
   }
-
-  useEffect(() => {
-    const endpoint = `${apiUrl}api/course/index`;
-    const fetchInfo= async () => {
-      try {
-        const response = await fetch(endpoint);
-        const data = await response.json();
-        setSelectorsOptions(data.data);
-      }
-      catch (error) {
-        console.log(error);
-        setSelectorsOptions([]);
-      }
-    }
-    fetchInfo();
-  }, []);
 
   const createClass = async (e) => {  
     e.preventDefault();
@@ -105,8 +109,33 @@ function NewClass() {
 
   }
 
+  useEffect(() => {
+    const endpoint = `${apiUrl}api/course/index`;
+    const fetchInfo= async () => {
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        setSelectorsOptions(data.data);
+      }
+      catch (error) {
+        console.log(error);
+        setSelectorsOptions([]);
+      }
+    }
+    fetchInfo();
+  }, []);
+
+  useEffect(() => {
+    Object.keys(validations).forEach(input => {
+      validationsAlerts(input);
+    });
+  }, [validations]);
+  
+
   return (
     <article>
+
+      <h2>Nueva Clase</h2>
 
       <form ref={form} onSubmit={createClass} className='panel-form'>
 
