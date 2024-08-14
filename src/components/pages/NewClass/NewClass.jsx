@@ -10,8 +10,8 @@ function NewClass() {
   let [selectorsOptions, setSelectorsOptions] = useState([]);
   const form = useRef(null);
 
-  const titleError = "El nombre ";
-  const summaryError = "El índice";
+  const titleError = "Nombre ";
+  const summaryError = "Índice";
   const optionError = "Seleccionar un curso";
 
   const updateForm = (input, value) => {
@@ -19,16 +19,6 @@ function NewClass() {
     newData[input] = value;
     setOldData(newData);
   }
-
-  // const validationsAlerts = (input) => {
-  //   if (validations[input]) {
-  //     form.current.elements[input].classList.remove('success');
-  //     form.current.elements[input].classList.add('error');
-  //   } else {
-  //     form.current.elements[input].classList.remove('error');
-  //     form.current.elements[input].classList.add('success');
-  //   }
-  // }
 
   const validateTitle = () => {
     setValidations(prevValidations => formValidations.required('title', titleError, form, prevValidations));
@@ -41,16 +31,15 @@ function NewClass() {
       
       const minLengthValidations = formValidations.min('summary', summaryError, form, validations, 3);
       setValidations(minLengthValidations);
-  
+
       if (!minLengthValidations.summary) {
           setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35));
       }
-  
+
       formValidations.validationsAlerts('summary', validations, form);
   };
 
   const validateOption = () => {
-
     setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
     formValidations.validationsAlerts('courseSelect', validations, form);
   }
@@ -127,7 +116,9 @@ function NewClass() {
 
   useEffect(() => {
     Object.keys(validations).forEach(input => {
-      formValidations.validationsAlerts(input, validations, form);
+      if(input !== 'success'){
+        formValidations.validationsAlerts(input, validations, form);
+      }
     });
   }, [validations]);
   
