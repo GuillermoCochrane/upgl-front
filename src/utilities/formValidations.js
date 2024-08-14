@@ -1,6 +1,17 @@
 import validator from 'validator';
 
 const formValidations = {
+
+    validationsAlerts (input, validations, form) {
+        if (validations[input]) {
+            form.current.elements[input].classList.remove('success');
+            form.current.elements[input].classList.add('error');
+        } else {
+            form.current.elements[input].classList.remove('error');
+            form.current.elements[input].classList.add('success');
+        }
+    },
+    
     required: (input, error, form, oldValidations ) => {
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
