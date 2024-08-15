@@ -39,10 +39,6 @@ function NewClass() {
       formValidations.validationsAlerts('summary', validations, form);
   };
 
-  // const validateOption = () => {
-  //   setValidations(prevValidations => formValidations.required('courseSelect', optionError, form, prevValidations));
-  //   formValidations.validationsAlerts('courseSelect', validations, form);
-  // }
   const validateOption = (value) => {
     const newValidations = formValidations.required('courseSelect', optionError, form, validations);
     if (value) {
