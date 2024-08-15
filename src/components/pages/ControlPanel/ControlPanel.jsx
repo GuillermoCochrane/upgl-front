@@ -1,17 +1,31 @@
-import  { useRef } from 'react';
-import { Route, Switch, Link } from "react-router-dom";
+import  { useRef, useState, useEffect } from 'react';
+import { Route, Switch } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import Sections from '../Sections/Sections';
 import NewClass from '../NewClass/NewClass';
 import Error404 from "../Error404/Error404.jsx";
+import ControlPanelIndex from "../../partials/NavBarIndex/ControlPanelIndex.jsx";
 
 function ControlPanel({ match }) {
+    const [links, setLinks] = useState([]);
     const navBar = useRef(null);
     let title = "";
+
     const handleClick = () => {
-    navBar.current.classList.toggle("hidden");
-    
+        navBar.current.classList.toggle("hidden");
     }
+
+    useEffect(() => {
+        const fetchLinks = async () => {
+            const response = await fetch(`${apiUrl}api/controlPanel/links`);
+            const data = await response.json();
+            setLinks(data.data);
+        }
+        fetchLinks();
+    },
+    []);
+
     return (
         <>
             <header>
@@ -19,19 +33,15 @@ function ControlPanel({ match }) {
                 <h1>  {`Panel de Control ${title} `}</h1>
             </header>
             <main>
-                <nav className='sumario panel-index' ref={navBar}>
-                    <ol>
-                        <li>
-                            <Link to="/controlPanel/newClass">Nueva Clase</Link>
-                        </li>
-                        <li>
-                            <Link to="/controlPanel/newTopic">Nuevo Tema</Link>
-                        </li>
-                        <li>
-                            <Link to="/controlPanel/newSection">Nueva Sección</Link>
-                        </li>
-                    </ol>
-                </nav>
+            <nav className='sumario panel-index' ref={navBar}>
+                <ol>
+                {
+                    links.map((item, idx) => 
+                        <ControlPanelIndex linkData={item} key={idx} />
+                    )
+                }
+                </ol>
+            </nav>
                 <Switch>
                     <Route path={`${match.url}`} exact component={Sections} />
                     <Route path={`${match.url}/newClass`}  component={NewClass} />
