@@ -9,8 +9,11 @@ import ControlPanelIndex from "../../partials/NavBarIndex/ControlPanelIndex.jsx"
 
 function ControlPanel({ match }) {
     const [links, setLinks] = useState([]);
+    const [title, setTitle] = useState("");
     const navBar = useRef(null);
-    let title = "";
+    const urlArray = location.pathname.split("/");
+    let sectionParams = urlArray[2];
+
 
     const handleClick = () => {
         navBar.current.classList.toggle("hidden");
@@ -25,6 +28,15 @@ function ControlPanel({ match }) {
         fetchLinks();
     },
     []);
+
+    useEffect(() => {
+        
+        for (const link of links) {
+            if (link && link.topicID == sectionParams) {
+                setTitle(` - ${link.title}`);
+            }
+        }
+    }, [sectionParams, links]);    
 
     return (
         <>
