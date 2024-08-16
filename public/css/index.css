@@ -485,6 +485,7 @@ span.success{
 
 i.fa-solid{
 	margin-right: 0.5em;
+	width: 22px;
 }
 
 @media (min-width: 870px){
