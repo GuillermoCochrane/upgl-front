@@ -483,6 +483,10 @@ span.success{
 	text-align: center;
 }
 
+i.fa-solid{
+	margin-right: 0.5em;
+}
+
 @media (min-width: 870px){
 	body{
 		overflow: hidden;
@@ -510,7 +514,7 @@ span.success{
 
 	.panel-index{
 		max-width: 200px;
-		text-align: center;
+		/* text-align: center; */
 		margin: auto;
 		font-size: 17px;
 	}
