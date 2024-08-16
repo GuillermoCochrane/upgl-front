@@ -14,7 +14,7 @@ function NavIndex({linkData}) {
 
     return (
         <li className={active ? 'current' : ''}>
-            <i className="fa-solid fa-paperclip"></i>
+            <i className={`fa-solid ${linkData.icon}`}></i>
             <Link to={linkData.link } className={active ? 'current' : ''}>
                 {linkData.title}
             </Link>
