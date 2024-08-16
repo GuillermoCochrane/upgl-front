@@ -208,13 +208,17 @@ function NewClass() {
           }
         </section>
 
-        <button type="submit">Crear</button>
+        
         {
-          validations.success && 
+          validations.success ? 
           <span className='success'>
             {validations.success}
+          </span> : 
+          <span className='success'>
+            {"\u00A0 "} 
           </span>
         }
+        <button type="submit">Crear</button>
       </form>
 
     </article>

@@ -433,7 +433,7 @@ section.section-flex{
 	margin: auto;
 	padding-inline: 2em;
 	box-shadow: 0 0 5px 0 #666;
-	gap: 25px;
+	gap: 10px;
 }
 
 .panel-form section{
