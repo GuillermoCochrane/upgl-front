@@ -1,0 +1,2 @@
+- Icono de la uni en el header para ir a home
+- home nuevo diseño responsive (logo al lado del menu)
