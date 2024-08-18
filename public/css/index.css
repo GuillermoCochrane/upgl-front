@@ -486,6 +486,7 @@ span.success{
 i.fa-solid{
 	margin-right: 0.5em;
 	width: 22px;
+	text-align: center;
 }
 
 @media (min-width: 870px){
@@ -515,9 +516,10 @@ i.fa-solid{
 
 	.panel-index{
 		max-width: 200px;
-		/* text-align: center; */
 		margin: auto;
 		font-size: 17px;
+		padding-block: 15px;
+		padding-inline: 10px;
 	}
 
 	article{
