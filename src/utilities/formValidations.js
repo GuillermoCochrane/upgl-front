@@ -2,6 +2,12 @@ import validator from 'validator';
 
 const formValidations = {
 
+    updateInput: (input, value, oldData) => {
+        let newData = {...oldData};
+        newData[input] = value;
+        return newData;
+    },
+
     validationsAlerts (input, validations, form) {
         if (validations[input]) {
             form.current.elements[input].classList.remove('success');

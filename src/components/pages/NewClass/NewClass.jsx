@@ -14,10 +14,8 @@ function NewClass() {
   const summaryError = "Índice";
   const optionError = "Seleccionar un curso";
 
-  const updateForm = (input, value) => {
-    let newData = {...oldData};
-    newData[input] = value;
-    setOldData(newData);
+  const updateForm = (input, value, oldData) => {
+    setOldData(formValidations.updateInput(input, value, oldData));
   }
 
   const validateTitle = () => {
