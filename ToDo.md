@@ -2,3 +2,4 @@
 - home nuevo diseño responsive (logo al lado del menu)
 - para las secciones, enviar curso, clase, tema y tipo de elemento (id, order, avialable en el server)
 - estilos responsive para el Panel de control
+- cantidad de sections en cada clase
