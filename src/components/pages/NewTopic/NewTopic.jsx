@@ -143,7 +143,12 @@ function NewTopic() {
                             }}
                             /* onBlur={() => validateOption(oldData.courseSelect)} */
                     >
+                      {
+                        classSelectors.length == 0 ? 
+                        <option value="">Seleccione un Curso para ver las Clases disponibles</option> :
                         <option value="">---</option>
+                      }
+
                         {classSelectors.map((selector, key) => 
 
                             <option
