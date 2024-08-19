@@ -58,7 +58,6 @@ function NewTopic() {
         let title = form.current.elements.title.value;
         let endpoint = `${apiUrl}api/course/${courseSelect}/newTopic/${classSelect}`;
         let data = {
-          course: courseSelect,
           title: title,
         };
     
@@ -170,7 +169,7 @@ function NewTopic() {
                 </section>
                 
                 <section className='section-flex selector'>
-                <label htmlFor="className">Nombre de la Clase</label>
+                <label htmlFor="className">Nombre del Tema</label>
                 <input 
                         type = "text" 
                         name = "title" 
@@ -188,6 +187,8 @@ function NewTopic() {
                     <span> {"\u00A0"} </span>
                 }
                 </section>
+
+                <button type="submit">Crear</button>
             </form>
         </article>
     );
