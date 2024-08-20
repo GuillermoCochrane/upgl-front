@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
 import Sections from '../Sections/Sections';
+import NewCourse from '../NewCourse/NewCourse';
 import NewClass from '../NewClass/NewClass';
 import NewTopic from '../NewTopic/NewTopic';
 import Error404 from "../Error404/Error404.jsx";
@@ -44,7 +45,7 @@ function ControlPanel({ match }) {
             </nav>
                 <Switch>
                     <Route path={`${match.url}`} exact component={Sections} />
-                    <Route path={`${match.url}/newCourse`}  component={Sections} />
+                    <Route path={`${match.url}/newCourse`}  component={NewCourse} />
                     <Route path={`${match.url}/newClass`}  component={NewClass} />
                     <Route path={`${match.url}/newTopic`}  component={NewTopic} />
                     <Route path={`${match.url}/newSection`}  component={Sections} />
