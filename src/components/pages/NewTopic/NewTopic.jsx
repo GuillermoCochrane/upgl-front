@@ -21,7 +21,7 @@ function NewTopic() {
       }
       setValidations(newValidations);
       formValidations.validationsAlerts('courseSelect', newValidations, form);
-    }
+    };
 
     const validateClass = (value) => {
       const newValidations = formValidations.required('classSelect', classError, form, validations);
@@ -30,7 +30,7 @@ function NewTopic() {
       }
       setValidations(newValidations);
       formValidations.validationsAlerts('classSelect', newValidations, form);
-    }
+    };
 
     const validateTitle = () => {
       let newValidations = formValidations.required('title', titleError, form, validations);
@@ -43,12 +43,62 @@ function NewTopic() {
 
       setValidations(newValidations);
       formValidations.validationsAlerts('title', newValidations, form); 
-  };
-  
+    };
+
+    const validateAllFields = () => {
+      let newValidations = {};
+      newValidations = formValidations.required('title', titleError, form, newValidations);
+      newValidations = formValidations.required('classSelect', classError, form, newValidations);
+      newValidations = formValidations.required('courseSelect', courseError, form, newValidations);
+
+      setValidations(newValidations);
+      return Object.keys(newValidations).length === 0; 
+    };
 
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
-    }
+    };
+
+    const createTopic = async (e) => {  
+      e.preventDefault();
+
+      if (!validateAllFields()) {
+        return; 
+      }
+
+      let courseSelect = form.current.elements.courseSelect.value;
+      let classSelect = form.current.elements.classSelect.value;
+      let title = form.current.elements.title.value;
+      let endpoint = `${apiUrl}api/course/${courseSelect}/newTopic/${classSelect}`;
+      let data = {
+        title: title,
+      };
+  
+      let formData = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+  
+      try {
+        const response = await fetch(endpoint, formData);
+        const data = await response.json();
+        if (data.meta.created) {
+          setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
+          setOldData({title: "", courseSelect: "", classSelect: ""});
+        } else {
+          data.oldData.courseSelect = courseSelect
+          setValidations(data.errors);
+          setOldData(data.oldData);
+        }
+      }
+      catch (error) {
+        setValidations(error.message);
+        console.log(error);
+      }
+    };
 
     useEffect(() => {
       const endpoint = `${apiUrl}api/course/index`;
@@ -84,45 +134,7 @@ function NewTopic() {
         fetchClasses();
       }
     }, [oldData.courseSelect]);
-    
-    const createTopic = async (e) => {  
-        e.preventDefault();
 
-        let courseSelect = form.current.elements.courseSelect.value;
-        let classSelect = form.current.elements.classSelect.value;
-        let title = form.current.elements.title.value;
-        let endpoint = `${apiUrl}api/course/${courseSelect}/newTopic/${classSelect}`;
-        let data = {
-          title: title,
-        };
-    
-        let formData = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        };
-    
-        try {
-          const response = await fetch(endpoint, formData);
-          const data = await response.json();
-          if (data.meta.created) {
-            setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
-            setOldData({title: "", courseSelect: "", classSelect: ""});
-          } else {
-            data.oldData.courseSelect = courseSelect
-            setValidations(data.errors);
-            setOldData(data.oldData);
-          }
-        }
-        catch (error) {
-          setValidations(error.message);
-          console.log(error);
-        }
-    
-      }
-      
     return (
         <article>
             <h2>Nuevo Tema</h2>
