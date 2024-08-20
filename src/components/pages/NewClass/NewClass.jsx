@@ -24,17 +24,17 @@ function NewClass() {
     formValidations.validationsAlerts('title', validations, form);
   }
 
-    const validateSummary = () => {
-      setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
-      
-      const minLengthValidations = formValidations.min('summary', summaryError, form, validations, 3);
-      setValidations(minLengthValidations);
+  const validateSummary = () => {
+    setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
+    
+    const minLengthValidations = formValidations.min('summary', summaryError, form, validations, 3);
+    setValidations(minLengthValidations);
 
-      if (!minLengthValidations.summary) {
-          setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35));
-      }
+    if (!minLengthValidations.summary) {
+        setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35));
+    }
 
-      formValidations.validationsAlerts('summary', validations, form);
+    formValidations.validationsAlerts('summary', validations, form);
   };
 
   const validateOption = (value) => {

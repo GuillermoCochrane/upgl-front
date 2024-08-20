@@ -8,13 +8,23 @@ function NewTopic() {
     let [oldData, setOldData] = useState( { title: "", classSelect: "", courseSelect: ""});
     let [courseSelectors, setCourseSelectors] = useState([]);
     let [classSelectors, setClassSelectors] = useState([]);
-
     const form = useRef(null);
+
+    const courseError = "Seleccione un curso";
 
     const updateForm = (field, value) => {
         setOldData(formValidations.updateInput(field, value, oldData));
     }
 
+    const validateCourse = (value) => {
+      const newValidations = formValidations.required('courseSelect', courseError, form, validations);
+      if (value) {
+        delete newValidations.courseSelect; 
+      }
+      setValidations(newValidations);
+      formValidations.validationsAlerts('courseSelect', newValidations, form);
+    }
+    
     useEffect(() => {
       const endpoint = `${apiUrl}api/course/index`;
       const fetchCourses = async () => {
@@ -103,9 +113,9 @@ function NewTopic() {
                             onChange={(e) => {
                                 const value = e.target.value;
                                 updateForm('courseSelect', value);
-                                /* validateOption(value); */
+                                validateCourse(value);
                             }}
-                            /* onBlur={() => validateOption(oldData.courseSelect)} */
+                            onBlur={() => validateCourse(oldData.courseSelect)}
                     >
 
                         <option value="">---</option>
@@ -160,9 +170,9 @@ function NewTopic() {
                         }
                     </select>
                     {
-                        validations.courseSelect ? 
+                        validations.classSelect ? 
                         <span className='error'>
-                        {validations.courseSelect.msg}
+                        {validations.classSelect.msg} 
                         </span> :
                         <span> {"\u00A0"} </span>
                     }
