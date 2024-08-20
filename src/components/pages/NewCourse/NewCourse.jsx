@@ -12,11 +12,43 @@ function NewCourse() {
       setOldData(formValidations.updateInput(field, value, oldData));
     };
 
-    const createTopic = async (e) => {
+    const createCourse = async (e) => {
+      e.preventDefault();
+
+      let name = form.current.elements.name.value;
+      let intro = form.current.elements.intro.value;
+      let paragraph = form.current.elements.paragraph.value;
+      let endpoint = `${apiUrl}api/course/newCourse`;
+      let data = { name, intro, paragraph };
+
+      let formData = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+
+      try {
+        const response = await fetch(endpoint, formData);
+        const data = await response.json();
+        if (data.meta.created) {
+          setValidations({success: `Se creo el curso ${name}`});
+          setOldData({name: "", intro: "", paragraph: ""});
+        } else {
+          setValidations(data.errors);
+          setOldData(data.oldData);
+        }
+      }
+      catch (error) {
+        setValidations(error.message);
+        console.log(error);
+      }
     };
+
   return (
     <article>
-      <form ref={form} onSubmit={createTopic} className='panel-form'>
+      <form ref={form} onSubmit={createCourse} className='panel-form'>
         <section className='section-flex selector'>
             <label htmlFor="name">Nombre del Curso</label> 
             {/* max 15 caracteres */}
@@ -67,6 +99,18 @@ function NewCourse() {
             <span> {"\u00A0"} </span>
           }
         </section>
+
+        {
+          validations.success ? 
+          <span className='success'>
+            {validations.success}
+          </span> : 
+          <span className='success'>
+            {"\u00A0 "} 
+          </span>
+        }
+
+        <button type="submit">Crear</button>
       </form>
     </article>
   );
