@@ -10,11 +10,8 @@ function NewTopic() {
     let [classSelectors, setClassSelectors] = useState([]);
     const form = useRef(null);
 
-    const courseError = "Seleccione un curso";
-
-    const updateForm = (field, value) => {
-        setOldData(formValidations.updateInput(field, value, oldData));
-    }
+    const courseError = "Seleccionar un curso";
+    const classError = "Seleccionar una clase";
 
     const validateCourse = (value) => {
       const newValidations = formValidations.required('courseSelect', courseError, form, validations);
@@ -24,7 +21,20 @@ function NewTopic() {
       setValidations(newValidations);
       formValidations.validationsAlerts('courseSelect', newValidations, form);
     }
-    
+
+    const validateClass = (value) => {
+      const newValidations = formValidations.required('classSelect', classError, form, validations);
+      if (value) {
+        delete newValidations.classSelect; 
+      }
+      setValidations(newValidations);
+      formValidations.validationsAlerts('classSelect', newValidations, form);
+    }
+
+    const updateForm = (field, value) => {
+      setOldData(formValidations.updateInput(field, value, oldData));
+    }
+
     useEffect(() => {
       const endpoint = `${apiUrl}api/course/index`;
       const fetchCourses = async () => {
@@ -110,12 +120,12 @@ function NewTopic() {
                             name="courseSelect" 
                             id="courseSelect"
                             value={oldData.courseSelect}
+                            onBlur={() => validateCourse(oldData.courseSelect)}
                             onChange={(e) => {
                                 const value = e.target.value;
                                 updateForm('courseSelect', value);
                                 validateCourse(value);
                             }}
-                            onBlur={() => validateCourse(oldData.courseSelect)}
                     >
 
                         <option value="">---</option>
@@ -145,12 +155,13 @@ function NewTopic() {
                             name="classSelect" 
                             id="classSelect"
                             value={oldData.classSelect}
+                            onBlur={() => validateClass(oldData.classSelect)}
                             onChange={(e) => {
                                 const value = e.target.value;
                                 updateForm('classSelect', value);
-                                /* validateOption(value); */
+                                validateClass(value);
                             }}
-                            /* onBlur={() => validateOption(oldData.courseSelect)} */
+                            className="error"
                     >
                       {
                         classSelectors.length == 0 ? 
