@@ -409,14 +409,6 @@ form strong{
 	margin: auto;
 }
 
-.success{
-	color: green;
-}
-
-.error{
-	color: red;
-}
-
 section.section-flex{
 	display: flex;
 	flex-direction: column;
@@ -470,6 +462,14 @@ input,
 select{
 	border: 2px solid #225;
 	color: #225;
+}
+
+.success{
+	color: green;
+}
+
+.error{
+	color: red;
 }
 
 select.error,
