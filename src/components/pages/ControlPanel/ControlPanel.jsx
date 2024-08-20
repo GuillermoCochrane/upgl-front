@@ -44,6 +44,7 @@ function ControlPanel({ match }) {
             </nav>
                 <Switch>
                     <Route path={`${match.url}`} exact component={Sections} />
+                    <Route path={`${match.url}/newCourse`}  component={Sections} />
                     <Route path={`${match.url}/newClass`}  component={NewClass} />
                     <Route path={`${match.url}/newTopic`}  component={NewTopic} />
                     <Route path={`${match.url}/newSection`}  component={Sections} />

@@ -1,7 +1,7 @@
 function Sections() {
     return (
         <article>
-            <h2>Sections</h2>
+            <h2>En desarrollo...</h2>
         </article>
     )
 }
