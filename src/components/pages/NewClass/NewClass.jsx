@@ -206,7 +206,6 @@ function NewClass() {
           }
         </section>
 
-        
         {
           validations.success ? 
           <span className='success'>

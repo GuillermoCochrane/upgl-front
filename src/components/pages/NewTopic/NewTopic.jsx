@@ -86,7 +86,7 @@ function NewTopic() {
         const response = await fetch(endpoint, formData);
         const data = await response.json();
         if (data.meta.created) {
-          setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
+          setValidations({success: `Se creo un nuevo tema en la clase ${classSelect} del curso ${courseSelect}`});
           setOldData({title: "", courseSelect: "", classSelect: ""});
         } else {
           data.oldData.courseSelect = courseSelect
@@ -119,7 +119,6 @@ function NewTopic() {
     useEffect(() => {
       if (oldData.courseSelect) {
         const endpoint = `${apiUrl}api/course/${oldData.courseSelect.toLowerCase()}`;
-        console.log(endpoint);
         const fetchClasses = async () => {
           try {
             const response = await fetch(endpoint);
@@ -235,6 +234,16 @@ function NewTopic() {
                       <span> {"\u00A0"} </span>
                   }
                 </section>
+
+                {
+                  validations.success ? 
+                  <span className='success'>
+                    {validations.success}
+                  </span> : 
+                  <span className='success'>
+                    {"\u00A0 "} 
+                  </span>
+                }
 
                 <button type="submit">Crear</button>
             </form>
