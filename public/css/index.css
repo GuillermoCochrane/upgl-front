@@ -466,6 +466,12 @@ section.section-flex{
 	display: inline-block;
 }
 
+input,
+select{
+	border: 2px solid #225;
+	color: #225;
+}
+
 select.error,
 input.error{
 	border: 2px solid red;
