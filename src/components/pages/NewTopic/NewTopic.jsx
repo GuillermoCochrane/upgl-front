@@ -12,6 +12,7 @@ function NewTopic() {
 
     const courseError = "Seleccionar un curso";
     const classError = "Seleccionar una clase";
+    const titleError = "Nombre del tema";
 
     const validateCourse = (value) => {
       const newValidations = formValidations.required('courseSelect', courseError, form, validations);
@@ -30,6 +31,20 @@ function NewTopic() {
       setValidations(newValidations);
       formValidations.validationsAlerts('classSelect', newValidations, form);
     }
+
+    const validateTitle = () => {
+      let newValidations = formValidations.required('title', titleError, form, validations);
+      if (form.current.elements['title'].value) {
+          newValidations = formValidations.min('title', titleError, form, newValidations, 3); 
+          if (!newValidations.title) {
+              newValidations = formValidations.max('title', titleError, form, newValidations, 35);
+          }
+      }
+
+      setValidations(newValidations);
+      formValidations.validationsAlerts('title', newValidations, form); 
+  };
+  
 
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
@@ -190,23 +205,23 @@ function NewTopic() {
                 </section>
                 
                 <section className='section-flex selector'>
-                <label htmlFor="className">Nombre del Tema</label>
-                <input 
-                        type = "text" 
-                        name = "title" 
-                        id = "className" 
-                        value = {oldData.title} 
-                        onChange = {(e) => updateForm('title', e.target.value)}
-                        /* onBlur  = {validateTitle}
-                        onInput = {validateTitle} */
-                />
-                {
-                    validations.title ? 
-                    <span className='error'>
-                    {validations.title.msg}
-                    </span> :
-                    <span> {"\u00A0"} </span>
-                }
+                  <label htmlFor="className">Nombre del Tema</label>
+                  <input 
+                          type = "text" 
+                          name = "title" 
+                          id = "className" 
+                          value = {oldData.title} 
+                          onChange = {(e) => updateForm('title', e.target.value)}
+                          onBlur  = {validateTitle}
+                          onInput = {validateTitle}
+                  />
+                  {
+                      validations.title ? 
+                      <span className='error'>
+                      {validations.title.msg}
+                      </span> :
+                      <span> {"\u00A0"} </span>
+                  }
                 </section>
 
                 <button type="submit">Crear</button>
