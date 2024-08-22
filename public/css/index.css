@@ -436,6 +436,7 @@ section.section-flex{
 	font-weight: 500;
 }
 
+.panel-form textarea,
 .panel-form input{
 		width: 100%;
 		border-radius: 5px;
@@ -458,6 +459,7 @@ section.section-flex{
 	display: inline-block;
 }
 
+textarea,
 input,
 select{
 	border: 2px solid #225;
@@ -472,11 +474,13 @@ select{
 	color: red;
 }
 
+textarea.error,
 select.error,
 input.error{
 	border: 2px solid red;
 }
 
+textarea.success,
 select.success,
 input.success{
 	border: 2px solid green;
