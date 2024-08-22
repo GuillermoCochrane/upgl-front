@@ -1,4 +1,5 @@
 import validator from 'validator';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const formValidations = {
 
@@ -65,6 +66,21 @@ const formValidations = {
         delete newValidations.success;
         let msg = `${error} debe ser menor que ${max}`;
         if(!validator.isLength(inputField, { min:0, max: max })){
+            newValidations[input] = {msg: msg};
+        } else {
+            delete newValidations[input];
+        }
+        return newValidations;
+    },
+
+    checkDBName: async (input, form, oldValidations  ) => {
+        let inputField = form.current.elements[input].value;
+        let newValidations = { ...oldValidations };
+        delete newValidations.success;
+        let msg = `${inputField} no se encuentra disponible`;
+        let response = await fetch(`${apiUrl}api/course/check/${inputField}`);
+        let data = await response.json();
+        if(data.inUse == true){
             newValidations[input] = {msg: msg};
         } else {
             delete newValidations[input];
