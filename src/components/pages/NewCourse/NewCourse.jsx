@@ -46,12 +46,25 @@ function NewCourse() {
       formValidations.validationsAlerts('paragraph', validations, form);
     }
 
+    const validateAllFields = () => {
+      let newValidations = {};
+      newValidations = formValidations.required('name', nameError, form, newValidations);
+      newValidations = formValidations.required('intro', introError, form, newValidations);
+
+      setValidations(newValidations);
+      return Object.keys(newValidations).length === 0; 
+    }
+
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
     };
 
     const createCourse = async (e) => {
       e.preventDefault();
+
+      if (!validateAllFields()) {
+        return; 
+      }
 
       let name = form.current.elements.name.value;
       let intro = form.current.elements.intro.value;
