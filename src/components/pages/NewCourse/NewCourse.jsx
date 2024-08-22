@@ -16,7 +16,7 @@ function NewCourse() {
       setValidations(prevValidations => formValidations.required('name', nameError, form, prevValidations));
 
       if(form.current.elements['name'].value){
-        let lengthValidations = formValidations.min('name', nameError, form, validations, 3);
+        let lengthValidations = formValidations.min('name', nameError, form, validations, 2);
 
         if(!lengthValidations.name){
           lengthValidations = formValidations.max('name', nameError, form, validations, 15);
@@ -24,6 +24,20 @@ function NewCourse() {
         setValidations(lengthValidations);
       }  
       formValidations.validationsAlerts('name', validations, form);
+    }
+
+    const validateIntro = () => {
+      setValidations(prevValidations => formValidations.required('intro', introError, form, prevValidations));
+
+      if(form.current.elements['intro'].value){
+        let lengthValidations = formValidations.min('intro', introError, form, validations, 2);
+
+        if(!lengthValidations.intro){
+          lengthValidations = formValidations.max('intro', introError, form, validations, 150);
+        }
+        setValidations(lengthValidations);
+      }  
+      formValidations.validationsAlerts('intro', validations, form);
     }
 
     const updateForm = (field, value) => {
@@ -102,6 +116,8 @@ function NewCourse() {
                     id="intro" 
                     value={oldData.intro} 
                     onChange={(e) => updateForm('intro', e.target.value)}
+                    onBlur  = {validateIntro}
+                    onInput = {validateIntro}
           />
           {
             validations.intro ? 
