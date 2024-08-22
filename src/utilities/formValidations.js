@@ -77,7 +77,7 @@ const formValidations = {
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
-        let msg = `${inputField} no se encuentra disponible`;
+        let msg = `${inputField} no es válido`;
         let response = await fetch(`${apiUrl}api/course/check/${inputField}`);
         let data = await response.json();
         if(data.inUse == true){
