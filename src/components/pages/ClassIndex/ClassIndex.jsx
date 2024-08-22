@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import NotFound from '../../partials/NotFound/NotFound';
-import HomeData from '../../partials/HomeData/HomeData';
+import NotFound from '../../partials/Courses/NotFound/NotFound';
+import HomeData from '../../partials/Courses/HomeData/HomeData';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function ClassIndex(params) {

@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import OL from '../../partials/OL/OLTag.jsx';
-import UL from '../../partials/UL/ULTag.jsx';
-import PTag from '../../partials/P/PTag.jsx';
-import H4 from '../../partials/H4/H4Tag.jsx';
-import H3 from '../../partials/H3/H3Tag.jsx';
-import H2 from '../../partials/H2/H2Tag.jsx';
-import Figure from '../../partials/Figure/Figure.jsx';
-import Answer from '../../partials/Answer/Answer.jsx';
-import NavButtons from '../../partials/Navbuttons/NavButtons.jsx';
-import Links from '../../partials/Links/Links.jsx';
-import Youtube from '../../partials/Youtube/Youtube.jsx';
-import Table from '../../partials/Table/Table.jsx';
-import Trivia from '../../partials/Trivia/Trivia.jsx';
-import NotFound from '../../partials/NotFound/NotFound.jsx';
+import OL from '../../partials/Courses/OL/OLTag.jsx';
+import UL from '../../partials/Courses/UL/ULTag.jsx';
+import PTag from '../../partials/Courses/P/PTag.jsx';
+import H4 from '../../partials/Courses/H4/H4Tag.jsx';
+import H3 from '../../partials/Courses/H3/H3Tag.jsx';
+import H2 from '../../partials/Courses/H2/H2Tag.jsx';
+import Figure from '../../partials/Courses/Figure/Figure.jsx';
+import Answer from '../../partials/Courses/Answer/Answer.jsx';
+import NavButtons from '../../partials/Courses/Navbuttons/NavButtons.jsx';
+import Links from '../../partials/Courses/Links/Links.jsx';
+import Youtube from '../../partials/Courses/Youtube/Youtube.jsx';
+import Table from '../../partials/Courses/Table/Table.jsx';
+import Trivia from '../../partials/Courses/Trivia/Trivia.jsx';
+import NotFound from '../../partials/Courses/NotFound/NotFound.jsx';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function Topics(params) {
