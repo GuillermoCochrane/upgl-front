@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import {Fragment} from 'react';
-import Bold from '../Bold/Bold'
+import Bold from '../Styles/Bold/Bold'
 import OL from "../OL/OLTag";
 import UL from "../UL/ULTag";
 import H4 from "../H4/H4Tag";
 import P from "../P/PTag";
 import Figure from "../Figure/Figure";
+
 function LITag({Data}) {
     return (
         <li>

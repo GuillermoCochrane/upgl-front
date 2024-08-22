@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import Bold from '../Bold/Bold'
+import Bold from '../Styles/Bold/Bold.jsx';
 import { Fragment } from 'react';
-function H4Tag({Data}) {
+
+function PTag({Data}) {
     return (
-        <h4>
+        <p>
             {
                 Data.map((item, index) => (
                     <Fragment key = {index}>
@@ -16,12 +17,12 @@ function H4Tag({Data}) {
                     </Fragment>
                 ))
             }
-        </h4>
+        </p>
     );
 }
 
-H4Tag.propTypes = {
+PTag.propTypes = {
     Data: PropTypes.array.isRequired
 };
 
-export default H4Tag;
+export default PTag;

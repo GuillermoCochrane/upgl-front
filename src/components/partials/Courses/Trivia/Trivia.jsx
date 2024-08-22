@@ -1,5 +1,6 @@
 import ProptTypes from 'prop-types';
 import { useRef, useState } from 'react';
+
 function Trivia({Data, Answer}) {
     let [answer, setAnswer] = useState('')
     let form = useRef(null);

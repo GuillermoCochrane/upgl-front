@@ -1,27 +1,27 @@
 import PropTypes from 'prop-types';
-import Bold from '../Bold/Bold'
-import { Fragment } from 'react';
-function H2Tag({Data}) {
+import Bold from '../Styles/Bold/Bold.jsx';
+function Links({Data}) {
     return (
-        <h2>
+            <>
             {
                 Data.map((item, index) => (
-                    <Fragment key = {index}>
+                    <a href={item.link} target="_blank" rel="noopener noreferrer" role='button' key={index}>
                         {
                             item.content == "plain" && item.text
                         }
                         {
                             item.content == "bold" && <Bold key = {index} Data = {item.text} />
                         }
-                    </Fragment>
+                    </a>
                 ))
             }
-        </h2>
+            </>
+        
     );
 }
 
-H2Tag.propTypes = {
+Links.propTypes = {
     Data: PropTypes.array.isRequired
 };
 
-export default H2Tag;
+export default Links;
