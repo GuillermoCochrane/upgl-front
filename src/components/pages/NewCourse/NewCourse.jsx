@@ -64,6 +64,14 @@ function NewCourse() {
       }
     };
 
+    useEffect(() => {
+      Object.keys(validations).forEach(input => {
+        if(input !== 'success'){
+          formValidations.validationsAlerts(input, validations, form);
+        }
+      });
+    }, [validations]);
+
   return (
     <article>
       <form ref={form} onSubmit={createCourse} className='panel-form'>
