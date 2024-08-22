@@ -137,6 +137,7 @@ function NewCourse() {
                     onChange={(e) => updateForm('intro', e.target.value)}
                     onBlur  = {validateIntro}
                     onInput = {validateIntro}
+                    rows={6}
           />
           {
             validations.intro ? 
@@ -156,6 +157,7 @@ function NewCourse() {
                     onChange={(e) => updateForm('paragraph', e.target.value)}
                     onBlur  = {validateParagraph}
                     onInput = {validateParagraph}
+                    rows={6}
           />
           {
             validations.paragraph ? 

@@ -428,12 +428,18 @@ section.section-flex{
 	gap: 10px;
 }
 
+
 .panel-form section{
 	width: 45%;
 }
 
 .panel-form label{
 	font-weight: 500;
+}
+
+.panel-form textarea{
+	resize: none;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 .panel-form textarea,
