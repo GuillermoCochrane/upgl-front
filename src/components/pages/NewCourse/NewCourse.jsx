@@ -2,11 +2,29 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../utilities/formValidations';
-// ["id","name","link","title","intro","paragraph"]
+
 function NewCourse() {
     let [validations, setValidations] = useState({});
     let [oldData, setOldData] = useState( { name: ""});
     const form = useRef(null);
+
+    const nameError = "Nombre del Curso";
+    const introError = "Introducción";
+    const paragraphError = "Descripción";
+
+    const validateName = () => {
+      setValidations(prevValidations => formValidations.required('name', nameError, form, prevValidations));
+
+      if(form.current.elements['name'].value){
+        let lengthValidations = formValidations.min('name', nameError, form, validations, 3);
+
+        if(!lengthValidations.name){
+          lengthValidations = formValidations.max('name', nameError, form, validations, 15);
+        }
+        setValidations(lengthValidations);
+      }  
+      formValidations.validationsAlerts('name', validations, form);
+    }
 
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
@@ -51,13 +69,14 @@ function NewCourse() {
       <form ref={form} onSubmit={createCourse} className='panel-form'>
         <section className='section-flex selector'>
             <label htmlFor="name">Nombre del Curso</label> 
-            {/* max 15 caracteres */}
             <input 
                   type="text" 
                   name="name" 
                   id="name" 
                   value={oldData.name} 
                   onChange={(e) => updateForm('name', e.target.value)}
+                  onBlur  = {validateName}
+                  onInput = {validateName}
             />
             {
               validations.name ? 
@@ -67,6 +86,7 @@ function NewCourse() {
               <span> {"\u00A0"} </span>
             }
         </section>
+
         <section className='section-flex selector'>
           <label htmlFor="intro">Introduccion a la descripción del curso</label>
           <textarea 
@@ -83,6 +103,7 @@ function NewCourse() {
             <span> {"\u00A0"} </span>
           }
         </section>
+
         <section className='section-flex selector'>
           <label htmlFor="paragraph">Descripción del curso</label>
           <textarea 
