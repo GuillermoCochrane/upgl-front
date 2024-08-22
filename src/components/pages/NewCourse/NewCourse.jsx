@@ -12,7 +12,7 @@ function NewCourse() {
     const introError = "Introducción";
     const paragraphError = "Descripción";
 
-    const validateName = () => {
+    const validateName = async () => {
       setValidations(prevValidations => formValidations.required('name', nameError, form, prevValidations));
 
       if(form.current.elements['name'].value){
@@ -22,7 +22,13 @@ function NewCourse() {
           lengthValidations = formValidations.max('name', nameError, form, validations, 15);
         }
         setValidations(lengthValidations);
-      }  
+      }
+
+      if(!validations.name){
+        let usedValidations = await formValidations.checkDBName('name', form, validations);
+        setValidations(usedValidations);
+      }
+
       formValidations.validationsAlerts('name', validations, form);
     }
 
