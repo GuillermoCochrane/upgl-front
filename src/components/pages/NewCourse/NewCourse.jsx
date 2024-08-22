@@ -40,6 +40,12 @@ function NewCourse() {
       formValidations.validationsAlerts('intro', validations, form);
     }
 
+    const validateParagraph = () => {
+      let lengthValidations = formValidations.max('paragraph', paragraphError, form, validations, 200);
+      setValidations(lengthValidations);
+      formValidations.validationsAlerts('paragraph', validations, form);
+    }
+
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
     };
@@ -135,6 +141,8 @@ function NewCourse() {
                     id="paragraph" 
                     value={oldData.paragraph} 
                     onChange={(e) => updateForm('paragraph', e.target.value)}
+                    onBlur  = {validateParagraph}
+                    onInput = {validateParagraph}
           />
           {
             validations.paragraph ? 
