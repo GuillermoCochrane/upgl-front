@@ -5,6 +5,7 @@ import Error404 from "../Error404/Error404.jsx";
 import ClassIndex from "../ClassIndex/ClassIndex.jsx"; //modiicarlo para que cargue de acuerdo a la url
 import Topics from '../Topics/Topics';
 import NavBarIndex from "../../partials/NavBarIndex/NabBarIndex.jsx";
+import Logo from "../../../assets/images/logoUPGL.png";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function Courses({ match }) {
@@ -36,8 +37,13 @@ function Courses({ match }) {
     <>
       <header>
           <button onClick={handleClick} id="index">Índice</button>
+
           {courseId.toUpperCase() == "IA" && <h1>Curso de ChatGPT e Inteligencia Artificial</h1>}
           {courseId.toUpperCase() == "PYTHON" && <h1>Curso de Python</h1>}
+
+          <Link to="/" className="logo-link">
+            <img src={Logo} alt="Logo de UPGL" className="logo-icon" />
+          </Link>
       </header>
       <main>
         <nav className='sumario' ref={navBar}>
