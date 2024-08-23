@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-function    Bold({Data}) {
+
+function Bold({Data}) {
     return (
         <strong>
             {Data}
@@ -10,4 +11,5 @@ function    Bold({Data}) {
 Bold.propTypes = {
     Data: PropTypes.string.isRequired
 };
+
 export default Bold;
