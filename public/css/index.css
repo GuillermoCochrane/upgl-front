@@ -30,6 +30,7 @@ header {
 	gap: 15px;
 	z-index: 5;
 	width: 100%;
+	justify-content: space-between;
 	box-shadow: 0px 0px 10px 0px rgba(130, 130, 130);
 }
 
@@ -306,6 +307,16 @@ article.home{
 	display: block;
 	margin: auto;
 	max-width: 300px;
+}
+
+.logo-link{
+	margin-inline: 0;
+}
+
+.logo-icon{
+	width: 50px;
+	display: block;
+	margin: auto;
 }
 
 .UPGL{
