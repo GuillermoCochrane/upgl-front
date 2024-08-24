@@ -3,6 +3,7 @@ import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../utilities/formValidations';
 import Input from '../../partials/ControlPanel/InputSection/InputSection';
+import Select from '../../partials/ControlPanel/SelectSection/SelectSection';
 
 function NewClass() {
   
@@ -41,7 +42,7 @@ function NewClass() {
   const validateOption = (value) => {
     const newValidations = formValidations.required('courseSelect', optionError, form, validations);
     if (value) {
-      delete newValidations.courseSelect; // Elimina la validación de error si hay un valor
+      delete newValidations.courseSelect;
     }
     setValidations(newValidations);
     formValidations.validationsAlerts('courseSelect', newValidations, form);
@@ -133,39 +134,17 @@ function NewClass() {
 
       <form ref={form} onSubmit={createClass} className='panel-form'>
 
-        <section className='section-flex selector'>
-          <label htmlFor="courseSelect">Seleccione un Curso</label>
-          <select 
-                name="courseSelect" 
-                id="courseSelect"
-                value={oldData.courseSelect}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  updateForm('courseSelect', value);
-                  validateOption(value);
-                }}
-                onBlur={() => validateOption(oldData.courseSelect)}
-          >
-            <option value="">---</option>
-            {selectorsOptions.map((selector, key) => 
-
-              <option
-                  value={selector.id} 
-                  key={key}
-              >
-                {selector.name} 
-              </option>
-              )
-            }
-          </select>
-          {
-            validations.courseSelect ? 
-            <span className='error'>
-              {validations.courseSelect.msg}
-            </span> :
-            <span> {"\u00A0"} </span>
-          }
-        </section>
+        <Select
+          name="courseSelect"
+          id="courseSelect"
+          label="Seleccione un Curso"
+          value={oldData.courseSelect}
+          onChange={updateForm}
+          onBlur={validateOption}
+          options={selectorsOptions}
+          validations={validations}
+          styles={'section-flex selector'}
+        />
 
         <Input
           type="text"
