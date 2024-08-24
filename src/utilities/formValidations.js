@@ -78,12 +78,17 @@ const formValidations = {
         let newValidations = { ...oldValidations };
         delete newValidations.success;
         let msg = `${inputField} no es válido`;
-        let response = await fetch(`${apiUrl}api/course/check/${inputField}`);
-        let data = await response.json();
-        if(data.inUse == true){
-            newValidations[input] = {msg: msg};
-        } else {
-            delete newValidations[input];
+        try {
+            let response = await fetch(`${apiUrl}api/course/check/${inputField}`);
+            let data = await response.json();
+            if(data.inUse) {
+                newValidations[input] = { msg: msg };
+            } else {
+                delete newValidations[input];
+            }
+        } catch (error) {
+            console.error("Error checking DB name:", error);
+            newValidations[input] = { msg: "Error al verificar el nombre. Intenta de nuevo." };
         }
         return newValidations;
     },
