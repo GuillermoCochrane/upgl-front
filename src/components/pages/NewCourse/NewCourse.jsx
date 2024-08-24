@@ -2,6 +2,7 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../utilities/formValidations';
+import Input from "../../partials/ControlPanel/InputSection/InputSection";
 
 function NewCourse() {
     let [validations, setValidations] = useState({});
@@ -13,24 +14,19 @@ function NewCourse() {
     const paragraphError = "Descripción";
 
     const validateName = async () => {
-      setValidations(prevValidations => formValidations.required('name', nameError, form, prevValidations));
-
-      if(form.current.elements['name'].value){
-        let lengthValidations = formValidations.min('name', nameError, form, validations, 2);
-
-        if(!lengthValidations.name){
-          lengthValidations = formValidations.max('name', nameError, form, validations, 15);
-        }
-        setValidations(lengthValidations);
+      let newValidations = formValidations.required('name', nameError, form, validations);  
+      if (form.current.elements['name'].value) {
+          newValidations = formValidations.min('name', nameError, form, newValidations, 2);
+          if (!newValidations.name) {
+              newValidations = formValidations.max('name', nameError, form, newValidations, 15);
+          }
       }
-
-      if(!validations.name){
-        let usedValidations = await formValidations.checkDBName('name', form, validations);
-        setValidations(usedValidations);
+      if (!(newValidations.name && newValidations.name.msg)) {
+          newValidations = await formValidations.checkDBName('name', form, newValidations);
       }
-
-      formValidations.validationsAlerts('name', validations, form);
-    }
+      setValidations(newValidations);
+      formValidations.validationsAlerts('name', newValidations, form);
+  };
 
     const validateIntro = () => {
       setValidations(prevValidations => formValidations.required('intro', introError, form, prevValidations));
@@ -114,6 +110,7 @@ function NewCourse() {
   return (
     <article>
       <form ref={form} onSubmit={createCourse} className='panel-form'>
+
         <section className='section-flex selector'>
             <label htmlFor="name">Nombre del Curso</label> 
             <input 
@@ -135,7 +132,7 @@ function NewCourse() {
         </section>
 
         <section className='section-flex selector'>
-          <label htmlFor="intro">Introduccion a la descripción del curso</label>
+          <label htmlFor="intro">Introduccion del Curso</label>
           <textarea 
                     name="intro" 
                     id="intro" 
