@@ -180,35 +180,24 @@ function NewClass() {
           validations={validations}
         />
 
-        <section className='section-flex'>
-          <label htmlFor="index-title">Título para el Índice</label>
-          <input 
-                type="text" 
-                name="summary" 
-                id="index-title" 
-                value={oldData.summary} 
-                onChange={(e) => updateForm('summary', e.target.value)}
-                onBlur  = {validateSummary}
-                onInput = {validateSummary}
-          />
-          {
-            validations.summary ? 
-            <span className='error'>
-              {validations.summary.msg}
-            </span> :
-            <span> {"\u00A0"} </span>
-          }
-        </section>
 
-        {
-          validations.success ? 
-          <span className='success'>
-            {validations.success}
-          </span> : 
-          <span className='success'>
-            {"\u00A0 "} 
-          </span>
-        }
+        <Input
+          type="text"
+          name="summary"
+          id="index-title"
+          label="Título para el Índice"
+          value={oldData.summary}
+          styles="section-flex"
+          onChange={updateForm}
+          onBlur={validateSummary}
+          onInput={validateSummary}
+          validations={validations}
+        />
+
+        <span className='success'>
+          {validations.success ? validations.success : "\u00A0 "}
+        </span>
+        
         <button type="submit">Crear</button>
       </form>
 
