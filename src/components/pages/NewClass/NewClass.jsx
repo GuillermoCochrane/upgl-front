@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import  { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
-import formValidations from '../../../utilities/formValidations';
-import Input from '../../partials/ControlPanel/InputSection/InputSection';
-import Select from '../../partials/ControlPanel/SelectSection/SelectSection';
+import formValidations from "../../../utilities/formValidations";
+import Input from "../../partials/ControlPanel/InputSection/InputSection";
+import Select from "../../partials/ControlPanel/SelectSection/SelectSection";
 
 function NewClass() {
   
@@ -21,38 +21,38 @@ function NewClass() {
   }
 
   const validateTitle = () => {
-    setValidations(prevValidations => formValidations.required('title', titleError, form, prevValidations));
-    form.current.elements['title'].value ? setValidations(prevValidations => formValidations.min('title', titleError, form, prevValidations, 3)) : null;
-    formValidations.validationsAlerts('title', validations, form);
+    setValidations(prevValidations => formValidations.required("title", titleError, form, prevValidations));
+    form.current.elements["title"].value ? setValidations(prevValidations => formValidations.min("title", titleError, form, prevValidations, 3)) : null;
+    formValidations.validationsAlerts("title", validations, form);
   }
 
   const validateSummary = () => {
-    setValidations(prevValidations => formValidations.required('summary', summaryError, form, prevValidations));
+    setValidations(prevValidations => formValidations.required("summary", summaryError, form, prevValidations));
     
-    const minLengthValidations = formValidations.min('summary', summaryError, form, validations, 3);
+    const minLengthValidations = formValidations.min("summary", summaryError, form, validations, 3);
     setValidations(minLengthValidations);
 
     if (!minLengthValidations.summary) {
-        setValidations(prevValidations => formValidations.max('summary', summaryError, form, prevValidations, 35));
+        setValidations(prevValidations => formValidations.max("summary", summaryError, form, prevValidations, 35));
     }
 
-    formValidations.validationsAlerts('summary', validations, form);
+    formValidations.validationsAlerts("summary", validations, form);
   };
 
   const validateOption = (value) => {
-    const newValidations = formValidations.required('courseSelect', optionError, form, validations);
+    const newValidations = formValidations.required("courseSelect", optionError, form, validations);
     if (value) {
       delete newValidations.courseSelect;
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('courseSelect', newValidations, form);
+    formValidations.validationsAlerts("courseSelect", newValidations, form);
   }
 
   const validateAllFields = () => {
     let newValidations = {};
-    newValidations = formValidations.required('title', titleError, form, newValidations);
-    newValidations = formValidations.required('summary', summaryError, form, newValidations);
-    newValidations = formValidations.required('courseSelect', optionError, form, newValidations);
+    newValidations = formValidations.required("title", titleError, form, newValidations);
+    newValidations = formValidations.required("summary", summaryError, form, newValidations);
+    newValidations = formValidations.required("courseSelect", optionError, form, newValidations);
 
     setValidations(newValidations);
     return Object.keys(newValidations).length === 0; 
@@ -76,9 +76,9 @@ function NewClass() {
     };
 
     let formData = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     };
@@ -120,7 +120,7 @@ function NewClass() {
 
   useEffect(() => {
     Object.keys(validations).forEach(input => {
-      if(input !== 'success'){
+      if(input !== "success"){
         formValidations.validationsAlerts(input, validations, form);
       }
     });
@@ -132,7 +132,7 @@ function NewClass() {
 
       <h2>Nueva Clase</h2>
 
-      <form ref={form} onSubmit={createClass} className='panel-form'>
+      <form ref={form} onSubmit={createClass} className="panel-form">
 
         <Select
           name="courseSelect"
@@ -143,7 +143,7 @@ function NewClass() {
           onBlur={validateOption}
           options={selectorsOptions}
           validations={validations}
-          styles={'section-flex selector'}
+          styles={"section-flex"}
         />
 
         <Input
@@ -173,7 +173,7 @@ function NewClass() {
           validations={validations}
         />
 
-        <span className='success'>
+        <span className="success">
           {validations.success ? validations.success : "\u00A0 "}
         </span>
         
