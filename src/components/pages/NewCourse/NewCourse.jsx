@@ -3,6 +3,7 @@ import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../utilities/formValidations';
 import Input from "../../partials/ControlPanel/InputSection/InputSection";
+import TextArea from "../../partials/ControlPanel/TextAreaSection/TextAreaSection";
 
 function NewCourse() {
     let [validations, setValidations] = useState({});
@@ -124,25 +125,18 @@ function NewCourse() {
           validations={validations}
         />
 
-        <section className='section-flex selector'>
-          <label htmlFor="intro">Introduccion del Curso</label>
-          <textarea 
-                    name="intro" 
-                    id="intro" 
-                    value={oldData.intro} 
-                    onChange={(e) => updateForm('intro', e.target.value)}
-                    onBlur  = {validateIntro}
-                    onInput = {validateIntro}
-                    rows={5}
-          />
-          {
-            validations.intro ? 
-            <span className='error'>
-              {validations.intro.msg}
-            </span> :
-            <span> {"\u00A0"} </span>
-          }
-        </section>
+        <TextArea 
+          styles="section-flex"
+          name="intro"
+          id="intro"
+          label="Introducción del Curso"
+          value={oldData.intro}
+          onChange={updateForm}
+          onBlur={validateIntro}
+          onInput={validateIntro}
+          rows={5}
+          validations={validations}
+        />
 
         <section className='section-flex selector'>
           <label htmlFor="paragraph">Descripción del curso</label>
