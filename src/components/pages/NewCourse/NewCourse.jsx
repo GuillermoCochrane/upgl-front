@@ -111,25 +111,18 @@ function NewCourse() {
     <article>
       <form ref={form} onSubmit={createCourse} className='panel-form'>
 
-        <section className='section-flex selector'>
-            <label htmlFor="name">Nombre del Curso</label> 
-            <input 
-                  type="text" 
-                  name="name" 
-                  id="name" 
-                  value={oldData.name} 
-                  onChange={(e) => updateForm('name', e.target.value)}
-                  onBlur  = {validateName}
-                  onInput = {validateName}
-            />
-            {
-              validations.name ? 
-              <span className='error'>
-                {validations.name.msg}
-              </span> :
-              <span> {"\u00A0"} </span>
-            }
-        </section>
+        <Input
+          type="text"
+          name="name"
+          id="name"
+          label="Nombre del Curso"
+          value={oldData.name}
+          styles="section-flex"
+          onChange={updateForm}
+          onBlur={validateName}
+          onInput={validateName}
+          validations={validations}
+        />
 
         <section className='section-flex selector'>
           <label htmlFor="intro">Introduccion del Curso</label>
