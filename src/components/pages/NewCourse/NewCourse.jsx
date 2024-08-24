@@ -138,25 +138,18 @@ function NewCourse() {
           validations={validations}
         />
 
-        <section className='section-flex selector'>
-          <label htmlFor="paragraph">Descripción del curso</label>
-          <textarea 
-                    name="paragraph" 
-                    id="paragraph" 
-                    value={oldData.paragraph} 
-                    onChange={(e) => updateForm('paragraph', e.target.value)}
-                    onBlur  = {validateParagraph}
-                    onInput = {validateParagraph}
-                    rows={5}
-          />
-          {
-            validations.paragraph ? 
-            <span className='error'>
-              {validations.paragraph.msg}
-            </span> :
-            <span> {"\u00A0"} </span>
-          }
-        </section>
+        <TextArea 
+          styles="section-flex"
+          name="paragraph"
+          id="paragraph"
+          label="Descripción del curso"
+          value={oldData.paragraph}
+          onChange={updateForm}
+          onBlur={validateParagraph}
+          onInput={validateParagraph}
+          rows={5}
+          validations={validations}
+        />
 
         {
           validations.success ? 
