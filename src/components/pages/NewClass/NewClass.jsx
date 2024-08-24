@@ -2,6 +2,7 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../utilities/formValidations';
+import Input from '../../partials/ControlPanel/InputSection/InputSection';
 
 function NewClass() {
   
@@ -166,25 +167,18 @@ function NewClass() {
           }
         </section>
 
-        <section className='section-flex'>
-          <label htmlFor="className">Nombre de la Clase</label>
-          <input 
-                type = "text" 
-                name = "title" 
-                id = "className" 
-                value = {oldData.title} 
-                onChange = {(e) => updateForm('title', e.target.value)}
-                onBlur  = {validateTitle}
-                onInput = {validateTitle}
-          />
-          {
-            validations.title ? 
-            <span className='error'>
-              {validations.title.msg}
-            </span> :
-            <span> {"\u00A0"} </span>
-          }
-        </section>
+        <Input
+          type="text"
+          name="title"
+          id="className"
+          label="Nombre de la Clase"
+          value={oldData.title}
+          styles="section-flex"
+          onChange={updateForm}
+          onBlur={validateTitle}
+          onInput={validateTitle}
+          validations={validations}
+        />
 
         <section className='section-flex'>
           <label htmlFor="index-title">Título para el Índice</label>
