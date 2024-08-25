@@ -168,35 +168,23 @@ function NewTopic() {
                         optionMsg={"Seleccione un Curso para ver las Clases disponibles"}
                 />
 
-                <section className='section-flex selector'>
-                  <label htmlFor="className">Nombre del Tema</label>
-                  <input 
-                          type = "text" 
-                          name = "title" 
-                          id = "className" 
-                          value = {oldData.title} 
-                          onChange = {(e) => updateForm('title', e.target.value)}
-                          onBlur  = {validateTitle}
-                          onInput = {validateTitle}
-                  />
-                  {
-                      validations.title ? 
-                      <span className='error'>
-                      {validations.title.msg}
-                      </span> :
-                      <span> {"\u00A0"} </span>
-                  }
-                </section>
+                <Input 
+                        styles={"section-flex"}
+                        label="Nombre del Tema"
+                        type="text"
+                        name="title" 
+                        id="className" 
+                        value={oldData.title} 
+                        onChange={updateForm}
+                        onBlur={validateTitle}
+                        onInput={validateTitle}
+                        validations={validations}
+                />
 
-                {
-                  validations.success ? 
-                  <span className='success'>
-                    {validations.success}
-                  </span> : 
-                  <span className='success'>
-                    {"\u00A0 "} 
-                  </span>
-                }
+                
+                <span className='success'>
+                  {validations.success ? validations.success : "\u00A0 "}
+                </span> 
 
                 <button type="submit">Crear</button>
             </form>
