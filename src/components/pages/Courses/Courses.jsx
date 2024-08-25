@@ -2,8 +2,8 @@ import  { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Link } from "react-router-dom";
 import Error404 from "../Error404/Error404.jsx";
-import ClassIndex from "../ClassIndex/ClassIndex.jsx"; //modiicarlo para que cargue de acuerdo a la url
-import Topics from '../Topics/Topics';
+import ClassIndex from "./ClassIndex/ClassIndex.jsx"; //modiicarlo para que cargue de acuerdo a la url
+import Topics from './Topics/Topics.jsx';
 import NavBarIndex from "../../partials/NavBarIndex/NabBarIndex.jsx";
 import Logo from "../../../assets/images/logoUPGL.png";
 const apiUrl = import.meta.env.VITE_API_URL;
