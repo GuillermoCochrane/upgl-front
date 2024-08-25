@@ -1,11 +1,12 @@
 import  { useRef, useState, useEffect } from 'react';
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 import PropTypes from 'prop-types';
-import Sections from '../Sections/Sections';
-import NewCourse from '../NewCourse/NewCourse';
-import NewClass from '../NewClass/NewClass';
-import NewTopic from '../NewTopic/NewTopic';
+import Logo from "../../../assets/images/logoUPGL.png";
+import Sections from './Sections/Sections.jsx';
+import NewCourse from './NewCourse/NewCourse.jsx';
+import NewClass from './NewClass/NewClass.jsx';
+import NewTopic from './NewTopic/NewTopic.jsx';
 import Error404 from "../Error404/Error404.jsx";
 import ControlPanelIndex from "../../partials/NavBarIndex/ControlPanelIndex.jsx";
 
@@ -32,6 +33,11 @@ function ControlPanel({ match }) {
             <header>
                 <button onClick={handleClick} id="index">Menú</button>
                 <h1>  {`Panel de Control `}</h1>
+                
+            <Link to="/" className="logo-link">
+                <img src={Logo} alt="Logo de UPGL" className="logo-icon" />
+            </Link>
+
             </header>
             <main>
             <nav className='sumario panel-index' ref={navBar}>
