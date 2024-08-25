@@ -9,7 +9,9 @@ const SelectSection = ({
   onBlur,
   options,
   validations,
-  styles
+  styles,
+  selectStyles,
+  optionMsg
 }) => {
 
   return (
@@ -26,15 +28,27 @@ const SelectSection = ({
         onBlur ? onBlur(selectValue) : null;
       }}
       onBlur={() => onBlur ? onBlur(value) : null}
+      className={selectStyles}
     >
-      <option value=""> --- </option>
+      {
+        options.length == 0 ? 
+        <option value="">{optionMsg}</option> :
+        <option value="">---</option>
+      }
 
       {options.map((option, index) => (
         <option 
           key={index} 
-          value={option.id}
+          value={
+            option.id ? 
+              option.id : 
+              option.classID
+            }
         >
-          {option.name}
+          {option.name ? 
+            option.name : 
+            option.summary
+          }
         </option>
       ))}
 
@@ -59,5 +73,7 @@ SelectSection.propTypes = {
   options: PropTypes.array.isRequired,
   validations: PropTypes.object,
   styles: PropTypes.string,
+  selectStyles: PropTypes.string,
+  optionMsg: PropTypes.string,
 };
 export default SelectSection;
