@@ -153,47 +153,21 @@ function NewTopic() {
                         options={courseSelectors}
                         validations={validations}
                 />
-
-                <section className='section-flex selector'>
-                    <label htmlFor="classSelect">Seleccione una Clase</label>
-                    <select 
-                            name="classSelect" 
-                            id="classSelect"
-                            value={oldData.classSelect}
-                            onBlur={() => validateClass(oldData.classSelect)}
-                            onChange={(e) => {
-                                const value = e.target.value;
-                                updateForm('classSelect', value);
-                                validateClass(value);
-                            }}
-                            className="error"
-                    >
-                      {
-                        classSelectors.length == 0 ? 
-                        <option value="">Seleccione un Curso para ver las Clases disponibles</option> :
-                        <option value="">---</option>
-                      }
-
-                        {classSelectors.map((selector, key) => 
-
-                            <option
-                                value={selector.classID} 
-                                key={key}
-                            >
-                                {selector.summary}
-                            </option>
-                            )
-                        }
-                    </select>
-                    {
-                        validations.classSelect ? 
-                        <span className='error'>
-                        {validations.classSelect.msg} 
-                        </span> :
-                        <span> {"\u00A0"} </span>
-                    }
-                </section>
                 
+                <Select
+                        styles={"section-flex"}
+                        name="classSelect"
+                        id="classSelect"
+                        value={oldData.classSelect}
+                        label="Seleccione una Clase"
+                        onChange={updateForm}
+                        onBlur={validateClass}
+                        options={classSelectors}
+                        validations={validations}
+                        selectStyles={"error"}
+                        optionMsg={"Seleccione un Curso para ver las Clases disponibles"}
+                />
+
                 <section className='section-flex selector'>
                   <label htmlFor="className">Nombre del Tema</label>
                   <input 
