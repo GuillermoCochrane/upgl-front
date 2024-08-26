@@ -8,7 +8,8 @@ function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
     let [classSelectors, setClassSelectors] = useState([]);
     let [topicSelectors, setTopicSelectors] = useState([]);
-    let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: ""});
+    let [sectionTypes, setSectionTypes] = useState([]);
+    let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: "", sectionType: ""});
     let [validations, setValidations] = useState({});
     const form = useRef(null);
     const errorField = "Debe seleccionar uno";
@@ -48,7 +49,20 @@ function NewSection() {
           setCourseSelectors([]);
         }
       }
+      const sectionTypesEndpoint = `${apiUrl}api/controlpanel/sections`;
+      const fetchSectionTypes = async () => {
+        try {
+          const response = await fetch(sectionTypesEndpoint);
+          const data = await response.json();
+          setSectionTypes(data.data);
+        }
+        catch (error) {
+          console.log(error);
+          setSectionTypes([]);
+        }
+      }
       fetchCourses();
+      fetchSectionTypes();
     }, []);
 
     useEffect(() => {
@@ -92,6 +106,17 @@ function NewSection() {
             <h2>Nueva Sección</h2>
 
             <form  ref={form} className='panel-form'>
+
+                <Select
+                        styles={"section-flex"}
+                        name="sectionType"
+                        id="sectionType"
+                        value={oldData.sectionType}
+                        label="Seleccione un Tipo de Sección"
+                        onChange={updateForm}
+                        options={sectionTypes}
+                        optionReferences={{value: "id", name: "title"}}
+                />
 
                 <Select 
                         styles={"section-flex"}
