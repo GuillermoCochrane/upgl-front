@@ -3,6 +3,7 @@ import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../../utilities/formValidations';
 import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
+import NewMainTitle from "./NewMainTitle/NewMainTitle";
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
@@ -36,6 +37,15 @@ function NewSection() {
       formValidations.validationsAlerts('topicSelect', newValidations, form);
     };
 
+    const validateSectionType = (value) => {
+      const newValidations = formValidations.required('sectionType', errorField, form, validations);
+      if (value) {
+        delete newValidations.sectionType;
+      }
+      setValidations(newValidations);
+      formValidations.validationsAlerts('sectionType', newValidations, form);
+    };
+
     useEffect(() => {
       const endpoint = `${apiUrl}api/course/index`;
       const fetchCourses = async () => {
@@ -49,20 +59,7 @@ function NewSection() {
           setCourseSelectors([]);
         }
       }
-      const sectionTypesEndpoint = `${apiUrl}api/controlpanel/sections`;
-      const fetchSectionTypes = async () => {
-        try {
-          const response = await fetch(sectionTypesEndpoint);
-          const data = await response.json();
-          setSectionTypes(data.data);
-        }
-        catch (error) {
-          console.log(error);
-          setSectionTypes([]);
-        }
-      }
       fetchCourses();
-      fetchSectionTypes();
     }, []);
 
     useEffect(() => {
@@ -101,22 +98,29 @@ function NewSection() {
       }
     }, [oldData.courseSelect, oldData.classSelect]);
 
+    useEffect(() => {
+      const sectionTypesEndpoint = `${apiUrl}api/controlpanel/sections`;
+      const fetchSectionTypes = async () => {
+        try {
+          const response = await fetch(sectionTypesEndpoint);
+          const data = await response.json();
+          setSectionTypes(data.data);
+        }
+        catch (error) {
+          console.log(error);
+          setSectionTypes([]);
+        }
+      }
+      if (oldData.courseSelect && oldData.classSelect && oldData.topicSelect) {
+        fetchSectionTypes();
+      }
+    }, [oldData.courseSelect, oldData.classSelect, oldData.topicSelect]);
+
     return (
         <article>
             <h2>Nueva Sección</h2>
 
             <form  ref={form} className='panel-form'>
-
-                <Select
-                        styles={"section-flex"}
-                        name="sectionType"
-                        id="sectionType"
-                        value={oldData.sectionType}
-                        label="Seleccione un Tipo de Sección"
-                        onChange={updateForm}
-                        options={sectionTypes}
-                        optionReferences={{value: "id", name: "title"}}
-                />
 
                 <Select 
                         styles={"section-flex"}
@@ -157,7 +161,37 @@ function NewSection() {
                         optionReferences={{value: "topicID", name: "title"}}
                 />
 
+                <Select
+                        styles={"section-flex"}
+                        name="sectionType"
+                        id="sectionType"
+                        value={oldData.sectionType}
+                        label="Seleccione un Tipo de Sección"
+                        onChange={updateForm}
+                        onBlur={validateSectionType}
+                        options={sectionTypes}
+                        selectStyles={"error"}
+                        optionMsg={"Seleccione un tema para ver los Tipos de Sección disponibles"}
+                        optionReferences={{value: "id", name: "title"}}
+                />
             </form>
+
+            {
+                oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
+                oldData.sectionType == "h4" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Secundario"} /> : 
+                oldData.sectionType == "p" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Párrafo"} /> :
+                oldData.sectionType == "link" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Enlace"} /> :
+                oldData.sectionType == "download" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Descarga"} /> :
+                oldData.sectionType == "ul" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista"} /> :
+                oldData.sectionType == "ol" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista Numerada"} /> :
+                oldData.sectionType == "table" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Tabla"} /> :
+                oldData.sectionType == "figure" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Imagen"} /> :
+                oldData.sectionType == "answer" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Respuesta de ejercicio"} /> :
+                oldData.sectionType == "trivia" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Trivia"} /> :
+                oldData.sectionType == "youtube" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Video de Youtube"} /> :  
+                null
+            }
+
         </article>
     );
 }
