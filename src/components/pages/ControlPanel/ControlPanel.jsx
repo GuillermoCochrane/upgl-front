@@ -7,6 +7,7 @@ import Sections from './Sections/Sections.jsx';
 import NewCourse from './NewCourse/NewCourse.jsx';
 import NewClass from './NewClass/NewClass.jsx';
 import NewTopic from './NewTopic/NewTopic.jsx';
+import NewSection from './NewSection/NewSection.jsx';
 import Error404 from "../Error404/Error404.jsx";
 import ControlPanelIndex from "../../partials/NavBarIndex/ControlPanelIndex.jsx";
 
@@ -54,7 +55,7 @@ function ControlPanel({ match }) {
                     <Route path={`${match.url}/newCourse`}  component={NewCourse} />
                     <Route path={`${match.url}/newClass`}  component={NewClass} />
                     <Route path={`${match.url}/newTopic`}  component={NewTopic} />
-                    <Route path={`${match.url}/newSection`}  component={Sections} />
+                    <Route path={`${match.url}/newSection`}  component={NewSection} />
                     <Route component={Error404} />
                 </Switch>
             </main>
