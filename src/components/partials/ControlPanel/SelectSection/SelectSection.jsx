@@ -56,7 +56,7 @@ const SelectSection = ({
     
     {
       <span className='error'>
-        {validations[name] ? validations[name].msg : "\u00A0"}
+        {validations && validations[name] ? validations[name].msg : "\u00A0"}
       </span> 
     }
 
