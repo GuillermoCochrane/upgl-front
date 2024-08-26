@@ -152,6 +152,7 @@ function NewTopic() {
                         onBlur={validateCourse}
                         options={courseSelectors}
                         validations={validations}
+                        optionReferences={{value: "id", name: "name"}}
                 />
                 
                 <Select
@@ -166,6 +167,7 @@ function NewTopic() {
                         validations={validations}
                         selectStyles={"error"}
                         optionMsg={"Seleccione un Curso para ver las Clases disponibles"}
+                        optionReferences={{value: "classID", name: "summary"}}
                 />
 
                 <Input 

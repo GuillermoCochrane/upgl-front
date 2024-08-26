@@ -144,6 +144,7 @@ function NewClass() {
           options={selectorsOptions}
           validations={validations}
           styles={"section-flex"}
+          optionReferences={{value: "id", name: "name"}}
         />
 
         <Input
