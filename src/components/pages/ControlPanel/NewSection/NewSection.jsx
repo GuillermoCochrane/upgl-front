@@ -2,17 +2,37 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../../utilities/formValidations';
-import Select from "../../../partials/ControlPanel/SelectSection/SelectSection"
-import Input from "../../../partials/ControlPanel/InputSection/InputSection"
+import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
     let [classSelectors, setClassSelectors] = useState([]);
     let [topicSelectors, setTopicSelectors] = useState([]);
     let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: ""});
+    let [validations, setValidations] = useState({});
+    const form = useRef(null);
+    const errorField = "Debe seleccionar uno";
 
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
+    };
+
+    const validateClass = (value) => {
+      const newValidations = formValidations.required('classSelect', errorField, form, validations);
+      if (value) {
+        delete newValidations.classSelect; 
+      }
+      setValidations(newValidations);
+      formValidations.validationsAlerts('classSelect', newValidations, form);
+    };
+
+    const validateTopic = (value) => {
+      const newValidations = formValidations.required('topicSelect', errorField, form, validations);
+      if (value) {
+        delete newValidations.topicSelect;
+      }
+      setValidations(newValidations);
+      formValidations.validationsAlerts('topicSelect', newValidations, form);
     };
 
     useEffect(() => {
@@ -67,13 +87,11 @@ function NewSection() {
       }
     }, [oldData.courseSelect, oldData.classSelect]);
 
-    console.log(topicSelectors);
-
     return (
         <article>
             <h2>Nueva Sección</h2>
 
-            <form className='panel-form'>
+            <form  ref={form} className='panel-form'>
 
                 <Select 
                         styles={"section-flex"}
@@ -93,6 +111,7 @@ function NewSection() {
                         value={oldData.classSelect}
                         label="Seleccione una Clase"
                         onChange={updateForm}
+                        onBlur={validateClass}
                         options={classSelectors}
                         selectStyles={"error"}
                         optionMsg={"Seleccione un Curso para ver las Clases disponibles"}
@@ -106,6 +125,7 @@ function NewSection() {
                         value={oldData.topicSelect}
                         label="Seleccione un Tema"
                         onChange={updateForm}
+                        onBlur={validateTopic}
                         options={topicSelectors}
                         selectStyles={"error"}
                         optionMsg={"Seleccione una Clase para ver los Temas disponibles"}
