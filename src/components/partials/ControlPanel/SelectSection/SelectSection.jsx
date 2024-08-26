@@ -11,7 +11,8 @@ const SelectSection = ({
   validations,
   styles,
   selectStyles,
-  optionMsg
+  optionMsg,
+  optionReferences
 }) => {
 
   return (
@@ -39,16 +40,10 @@ const SelectSection = ({
       {options.map((option, index) => (
         <option 
           key={index} 
-          value={
-            option.id ? 
-              option.id : 
-              option.classID
-            }
+          value={ option[optionReferences.value] }
+
         >
-          {option.name ? 
-            option.name : 
-            option.summary
-          }
+          { option[optionReferences.name] }
         </option>
       ))}
 
@@ -75,5 +70,6 @@ SelectSection.propTypes = {
   styles: PropTypes.string,
   selectStyles: PropTypes.string,
   optionMsg: PropTypes.string,
+  optionReferences: PropTypes.object,
 };
 export default SelectSection;
