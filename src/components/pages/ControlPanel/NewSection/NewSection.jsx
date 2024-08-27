@@ -7,6 +7,7 @@ import NewMainTitle from "./NewMainTitle/NewMainTitle";
 import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
 import Paragraph from "./NewParagarph/NewParagarph";
 import NewLink from "./NewLink/NewLink";
+import Download from "./NewDownload/NewDownload";
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
@@ -184,7 +185,7 @@ function NewSection() {
                 oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
                 oldData.sectionType == "p" ? <Paragraph courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "link" ? <NewLink courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "download" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Descarga"} /> :
+                oldData.sectionType == "download" ? <Download courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "ul" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista"} /> :
                 oldData.sectionType == "ol" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista Numerada"} /> :
                 oldData.sectionType == "table" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Tabla"} /> :
