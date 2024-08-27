@@ -6,6 +6,7 @@ import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
 import NewMainTitle from "./NewMainTitle/NewMainTitle";
 import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
 import Paragraph from "./NewParagarph/NewParagarph";
+import NewLink from "./NewLink/NewLink";
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
@@ -182,7 +183,7 @@ function NewSection() {
                 oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
                 oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
                 oldData.sectionType == "p" ? <Paragraph courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "link" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Enlace"} /> :
+                oldData.sectionType == "link" ? <NewLink courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "download" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Descarga"} /> :
                 oldData.sectionType == "ul" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista"} /> :
                 oldData.sectionType == "ol" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista Numerada"} /> :
