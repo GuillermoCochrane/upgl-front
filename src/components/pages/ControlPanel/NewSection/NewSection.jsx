@@ -24,6 +24,7 @@ function NewSection() {
     let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: "", sectionType: ""});
     let [validations, setValidations] = useState({});
     const form = useRef(null);
+    const contentDetails = useRef(null);
     const errorField = "Debe seleccionar uno";
 
     const updateForm = (field, value) => {
@@ -42,7 +43,6 @@ function NewSection() {
     const validateClass = (value) => {
       validateInput('classSelect', value);
     };
-
 
     const validateTopic = (value) => {
       validateInput('topicSelect', value);
@@ -122,6 +122,14 @@ function NewSection() {
       }
     }, [oldData.courseSelect, oldData.classSelect, oldData.topicSelect]);
 
+    useEffect(() => {
+      const openSection = () => {
+        contentDetails.current.open = true;
+      }
+      if (oldData.sectionType) {
+        openSection();
+      }
+    }, [oldData.sectionType]);
     return (
         <article>
             <h2>Nueva Sección</h2>
@@ -186,7 +194,7 @@ function NewSection() {
 
             </details>
 
-            <details name='section' >
+            <details name='section' ref={contentDetails}>
               <summary>Contenido</summary>
             {
                 oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
