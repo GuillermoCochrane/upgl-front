@@ -4,6 +4,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../../utilities/formValidations';
 import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
 import NewMainTitle from "./NewMainTitle/NewMainTitle";
+import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
@@ -178,7 +179,7 @@ function NewSection() {
 
             {
                 oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
-                oldData.sectionType == "h4" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Secundario"} /> : 
+                oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
                 oldData.sectionType == "p" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Párrafo"} /> :
                 oldData.sectionType == "link" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Enlace"} /> :
                 oldData.sectionType == "download" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Descarga"} /> :
