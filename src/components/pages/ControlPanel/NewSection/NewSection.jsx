@@ -9,6 +9,8 @@ import Paragraph from "./NewParagarph/NewParagarph";
 import NewLink from "./NewLink/NewLink";
 import Download from "./NewDownload/NewDownload";
 import List from "./NewList/NewList";
+import OrderedList from "./NewOrderedList/NewOrderedList";
+import Image from "./NewImage/NewImage";
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
@@ -188,9 +190,9 @@ function NewSection() {
                 oldData.sectionType == "link" ? <NewLink courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "download" ? <Download courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "ul" ? <List courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect}  /> :
-                oldData.sectionType == "ol" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Lista Numerada"} /> :
+                oldData.sectionType == "ol" ? <OrderedList courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "table" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Tabla"} /> :
-                oldData.sectionType == "figure" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Imagen"} /> :
+                oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "answer" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Respuesta de ejercicio"} /> :
                 oldData.sectionType == "trivia" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Trivia"} /> :
                 oldData.sectionType == "youtube" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Video de Youtube"} /> :  
