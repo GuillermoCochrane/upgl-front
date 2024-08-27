@@ -6,19 +6,19 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../../utilities/formValidations";
 
 
-const NewList = ({ courseID, classID, topicID  }) => {
+const NewOrderedList = ({ courseID, classID, topicID  }) => {
   return (
     <form className="panel-form">
-      <label htmlFor="">Listas</label>
+      <label htmlFor="">Lista Numerada</label> 
       <input type="text" />
     </form>
   )
 }
 
-NewList.propTypes = {
+NewOrderedList.propTypes = {
   courseID: PropTypes.string.isRequired,
   classID: PropTypes.string.isRequired,
   topicID: PropTypes.string.isRequired,
 };
 
-export default NewList;
+export default NewOrderedList;
