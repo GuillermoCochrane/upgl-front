@@ -10,6 +10,7 @@ import NewLink from "./NewLink/NewLink";
 import Download from "./NewDownload/NewDownload";
 import List from "./NewList/NewList";
 import OrderedList from "./NewOrderedList/NewOrderedList";
+import Table from "./NewTable/NewTable";
 import Image from "./NewImage/NewImage";
 import Answer from "./NewAnswer/NewAnswer";
 import Trivia from "./NewTrivia/NewTrivia";
@@ -194,7 +195,7 @@ function NewSection() {
                 oldData.sectionType == "download" ? <Download courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "ul" ? <List courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect}  /> :
                 oldData.sectionType == "ol" ? <OrderedList courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "table" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Tabla"} /> :
+                oldData.sectionType == "table" ? <Table courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
