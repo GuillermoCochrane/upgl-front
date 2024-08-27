@@ -11,6 +11,8 @@ import Download from "./NewDownload/NewDownload";
 import List from "./NewList/NewList";
 import OrderedList from "./NewOrderedList/NewOrderedList";
 import Image from "./NewImage/NewImage";
+import Answer from "./NewAnswer/NewAnswer";
+
 
 function NewSection() {
     let [courseSelectors, setCourseSelectors] = useState([]);
@@ -193,7 +195,7 @@ function NewSection() {
                 oldData.sectionType == "ol" ? <OrderedList courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "table" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Tabla"} /> :
                 oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "answer" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Respuesta de ejercicio"} /> :
+                oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
                 oldData.sectionType == "trivia" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Trivia"} /> :
                 oldData.sectionType == "youtube" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Video de Youtube"} /> :  
                 null
