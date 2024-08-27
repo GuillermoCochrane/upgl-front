@@ -30,31 +30,26 @@ function NewSection() {
       setOldData(formValidations.updateInput(field, value, oldData));
     };
 
-    const validateClass = (value) => {
-      const newValidations = formValidations.required('classSelect', errorField, form, validations);
+    const validateInput = (field, value) => {
+      const newValidations = formValidations.required(field, errorField, form, validations);
       if (value) {
-        delete newValidations.classSelect; 
+        delete newValidations[field];
       }
       setValidations(newValidations);
-      formValidations.validationsAlerts('classSelect', newValidations, form);
+      formValidations.validationsAlerts(field, newValidations, form);
     };
 
+    const validateClass = (value) => {
+      validateInput('classSelect', value);
+    };
+
+
     const validateTopic = (value) => {
-      const newValidations = formValidations.required('topicSelect', errorField, form, validations);
-      if (value) {
-        delete newValidations.topicSelect;
-      }
-      setValidations(newValidations);
-      formValidations.validationsAlerts('topicSelect', newValidations, form);
+      validateInput('topicSelect', value);
     };
 
     const validateSectionType = (value) => {
-      const newValidations = formValidations.required('sectionType', errorField, form, validations);
-      if (value) {
-        delete newValidations.sectionType;
-      }
-      setValidations(newValidations);
-      formValidations.validationsAlerts('sectionType', newValidations, form);
+      validateInput('sectionType', value);
     };
 
     useEffect(() => {
@@ -130,63 +125,69 @@ function NewSection() {
     return (
         <article>
             <h2>Nueva Sección</h2>
+            <details name='section' open>
+              <summary>Selectores</summary>
 
-            <form  ref={form} className='panel-form'>
-
-                <Select 
-                        styles={"section-flex"}
-                        name="courseSelect" 
-                        id="courseSelect"
-                        value={oldData.courseSelect}
-                        label="Seleccione un Curso"
-                        onChange={updateForm}
-                        options={courseSelectors}
-                        optionReferences={{value: "id", name: "name"}}
-                />
+              <form  ref={form} className='panel-form'>
                 
-                <Select
-                        styles={"section-flex"}
-                        name="classSelect"
-                        id="classSelect"
-                        value={oldData.classSelect}
-                        label="Seleccione una Clase"
-                        onChange={updateForm}
-                        onBlur={validateClass}
-                        options={classSelectors}
-                        selectStyles={"error"}
-                        optionMsg={"Seleccione un Curso para ver las Clases disponibles"}
-                        optionReferences={{value: "classID", name: "summary"}}
-                />
+                  <Select 
+                          styles={"section-flex"}
+                          name="courseSelect" 
+                          id="courseSelect"
+                          value={oldData.courseSelect}
+                          label="Seleccione un Curso"
+                          onChange={updateForm}
+                          options={courseSelectors}
+                          optionReferences={{value: "id", name: "name"}}
+                  />
+                  
+                  <Select
+                          styles={"section-flex"}
+                          name="classSelect"
+                          id="classSelect"
+                          value={oldData.classSelect}
+                          label="Seleccione una Clase"
+                          onChange={updateForm}
+                          onBlur={validateClass}
+                          options={classSelectors}
+                          selectStyles={"error"}
+                          optionMsg={"Seleccione un Curso para ver las Clases disponibles"}
+                          optionReferences={{value: "classID", name: "summary"}}
+                  />
 
-                <Select
-                        styles={"section-flex"}
-                        name="topicSelect"
-                        id="topicSelect"
-                        value={oldData.topicSelect}
-                        label="Seleccione un Tema"
-                        onChange={updateForm}
-                        onBlur={validateTopic}
-                        options={topicSelectors}
-                        selectStyles={"error"}
-                        optionMsg={"Seleccione una Clase para ver los Temas disponibles"}
-                        optionReferences={{value: "topicID", name: "title"}}
-                />
+                  <Select
+                          styles={"section-flex"}
+                          name="topicSelect"
+                          id="topicSelect"
+                          value={oldData.topicSelect}
+                          label="Seleccione un Tema"
+                          onChange={updateForm}
+                          onBlur={validateTopic}
+                          options={topicSelectors}
+                          selectStyles={"error"}
+                          optionMsg={"Seleccione una Clase para ver los Temas disponibles"}
+                          optionReferences={{value: "topicID", name: "title"}}
+                  />
 
-                <Select
-                        styles={"section-flex"}
-                        name="sectionType"
-                        id="sectionType"
-                        value={oldData.sectionType}
-                        label="Seleccione un Tipo de Sección"
-                        onChange={updateForm}
-                        onBlur={validateSectionType}
-                        options={sectionTypes}
-                        selectStyles={"error"}
-                        optionMsg={"Seleccione un tema para ver los Tipos de Sección disponibles"}
-                        optionReferences={{value: "id", name: "title"}}
-                />
-            </form>
+                  <Select
+                          styles={"section-flex"}
+                          name="sectionType"
+                          id="sectionType"
+                          value={oldData.sectionType}
+                          label="Seleccione una Sección"
+                          onChange={updateForm}
+                          onBlur={validateSectionType}
+                          options={sectionTypes}
+                          selectStyles={"error"}
+                          optionMsg={"Seleccione un tema para ver los Tipos de Sección disponibles"}
+                          optionReferences={{value: "id", name: "title"}}
+                  />
+              </form>
 
+            </details>
+
+            <details name='section' >
+              <summary>Contenido</summary>
             {
                 oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
                 oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
@@ -202,6 +203,7 @@ function NewSection() {
                 oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
                 null
             }
+            </details>
 
         </article>
     );
