@@ -452,6 +452,7 @@ section.section-flex{
 
 .panel-form textarea{
 	resize: none;
+	field-sizing: content;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
@@ -568,5 +569,10 @@ i.fa-solid{
 	}
 	.hidden{
 		display: none;
+	}
+
+	section.split {
+		max-width: 45%;
+		flex-grow: 0.5;
 	}
 }
