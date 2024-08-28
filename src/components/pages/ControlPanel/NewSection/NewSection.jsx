@@ -23,7 +23,12 @@ function NewSection() {
     let [sectionTypes, setSectionTypes] = useState([]);
     let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: "", sectionType: ""});
     let [validations, setValidations] = useState({});
+
     const form = useRef(null);
+    const configSection = useRef(null);
+    const elementSection = useRef(null);
+    const configButton = useRef(null);
+    const elementButton = useRef(null);
     const errorField = "Debe seleccionar uno";
 
     const updateForm = (field, value) => {
@@ -32,8 +37,23 @@ function NewSection() {
 
     const resetForm = () => {
       setOldData({ classSelect: "", courseSelect: "", topicSelect: "", sectionType: "" });
+      switchSection(false);
       setValidations({success: "Sección creada con éxito"});
-  };
+    };
+
+    const switchSection = (state) => {
+      if (state) {
+        configSection.current.hidden = true;
+        elementSection.current.hidden = false;
+        configButton.current.classList.remove("active");
+        elementButton.current.classList.add("active");
+      } else {
+        configButton.current.classList.add("active");
+        elementButton.current.classList.remove("active");
+        configSection.current.hidden = false;
+        elementSection.current.hidden = true; 
+      }
+    };
 
     const validateInput = (field, value) => {
       const newValidations = formValidations.required(field, errorField, form, validations);
@@ -132,11 +152,33 @@ function NewSection() {
       }
     }, [oldData.courseSelect, oldData.classSelect, oldData.topicSelect]);
 
+    useEffect(() => {
+      if (oldData.sectionType) {
+        switchSection(true);
+      }
+    }, [oldData.sectionType]);
+
     return (
         <article>
             <h2>Nueva Sección</h2>
-            
 
+            <header>
+                <button 
+                  onClick={() => switchSection(false)} 
+                  className='active'
+                  ref={configButton}
+                >
+                  Configuración
+                </button>
+                <button 
+                  onClick={() => switchSection(true)}
+                  ref={elementButton} 
+                > 
+                  Elemento
+                </button>
+            </header>
+
+            <section ref={configSection}>
               <form  ref={form} className='panel-form'>
                 
                   <Select 
@@ -195,10 +237,9 @@ function NewSection() {
                     {validations.success ? validations.success : "\u00A0 "}
                   </span>
               </form>
+            </section>
 
-
-
-            
+            <section ref={elementSection} hidden={true}>
             {
               oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
@@ -212,10 +253,9 @@ function NewSection() {
               oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
-              <span className='error'> Debe seleccionar el tipo de sección a crear </span>
+              <h3 className='error'> Debe seleccionar el tipo de sección a crear </h3>
             }
-            
-
+            </section>
         </article>
     );
 }
