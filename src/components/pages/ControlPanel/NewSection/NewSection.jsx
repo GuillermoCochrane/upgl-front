@@ -24,7 +24,7 @@ function NewSection() {
     let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: "", sectionType: ""});
     let [validations, setValidations] = useState({});
     const form = useRef(null);
-    const contentDetails = useRef(null);
+    // const contentDetails = useRef(null);
     const errorField = "Debe seleccionar uno";
 
     const updateForm = (field, value) => {
@@ -58,7 +58,13 @@ function NewSection() {
         try {
           const response = await fetch(endpoint);
           const data = await response.json();
-          setCourseSelectors(data.data);
+          let seletrodata = [];
+          for (const selector of data.data) {
+            if (selector.id != "ControlPanel") {
+              seletrodata.push(selector);
+            }
+          }
+          setCourseSelectors(seletrodata);
         }
         catch (error) {
           console.log(error);
@@ -122,19 +128,10 @@ function NewSection() {
       }
     }, [oldData.courseSelect, oldData.classSelect, oldData.topicSelect]);
 
-    useEffect(() => {
-      const openSection = () => {
-        contentDetails.current.open = true;
-      }
-      if (oldData.sectionType) {
-        openSection();
-      }
-    }, [oldData.sectionType]);
     return (
         <article>
             <h2>Nueva Sección</h2>
-            <details name='section' open>
-              <summary>Selectores</summary>
+            
 
               <form  ref={form} className='panel-form'>
                 
@@ -148,7 +145,7 @@ function NewSection() {
                           options={courseSelectors}
                           optionReferences={{value: "id", name: "name"}}
                   />
-                  
+
                   <Select
                           styles={"section-flex"}
                           name="classSelect"
@@ -192,10 +189,9 @@ function NewSection() {
                   />
               </form>
 
-            </details>
 
-            <details name='section' ref={contentDetails}>
-              <summary>Contenido</summary>
+
+            
             {
                 oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
                 oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
@@ -211,7 +207,7 @@ function NewSection() {
                 oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
                 null
             }
-            </details>
+            
 
         </article>
     );
