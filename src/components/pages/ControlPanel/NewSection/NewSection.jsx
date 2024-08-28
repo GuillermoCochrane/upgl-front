@@ -24,12 +24,16 @@ function NewSection() {
     let [oldData, setOldData] = useState( { classSelect: "", courseSelect: "", topicSelect: "", sectionType: ""});
     let [validations, setValidations] = useState({});
     const form = useRef(null);
-    // const contentDetails = useRef(null);
     const errorField = "Debe seleccionar uno";
 
     const updateForm = (field, value) => {
       setOldData(formValidations.updateInput(field, value, oldData));
     };
+
+    const resetForm = () => {
+      setOldData({ classSelect: "", courseSelect: "", topicSelect: "", sectionType: "" });
+      setValidations({success: "Sección creada con éxito"});
+  };
 
     const validateInput = (field, value) => {
       const newValidations = formValidations.required(field, errorField, form, validations);
@@ -187,25 +191,28 @@ function NewSection() {
                           optionMsg={"Seleccione un tema para ver los Tipos de Sección disponibles"}
                           optionReferences={{value: "id", name: "title"}}
                   />
+                  <span className="success">
+                    {validations.success ? validations.success : "\u00A0 "}
+                  </span>
               </form>
 
 
 
             
             {
-                oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} labelText={"Título Principal"} /> : 
-                oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
-                oldData.sectionType == "p" ? <Paragraph courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "link" ? <NewLink courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "download" ? <Download courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "ul" ? <List courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect}  /> :
-                oldData.sectionType == "ol" ? <OrderedList courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "table" ? <Table courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-                oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
-                null
+              oldData.sectionType == "h3" ? <NewMainTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
+              oldData.sectionType == "h4" ? <NewSecondaryTitle courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> : 
+              oldData.sectionType == "p" ? <Paragraph courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "link" ? <NewLink courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "download" ? <Download courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "ul" ? <List courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect}  /> :
+              oldData.sectionType == "ol" ? <OrderedList courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "table" ? <Table courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
+              oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
+              <span className='error'> Debe seleccionar el tipo de sección a crear </span>
             }
             
 

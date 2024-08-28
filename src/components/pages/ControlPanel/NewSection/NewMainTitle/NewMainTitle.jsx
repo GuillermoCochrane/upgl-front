@@ -7,7 +7,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../../utilities/formValidations";
 
 
-const NewMainTitle = ({ courseID, classID, topicID  }) => {
+const NewMainTitle = ({ courseID, classID, topicID, reset  }) => {
   let [validations, setValidations] = useState({});
   let [stylesSelectors, setStylesSelectors] = useState([]);
   let [oldData, setOldData] = useState({});
@@ -78,6 +78,7 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
       if (data.meta.created) {
         setValidations({success: `Se creo el Título principal`});
         setOldData({text:"", content:""});
+        reset();
       } else {
         setValidations(data.errors);
         setOldData(data.oldData);
@@ -147,6 +148,7 @@ NewMainTitle.propTypes = {
   courseID: PropTypes.string.isRequired,
   classID: PropTypes.string.isRequired,
   topicID: PropTypes.string.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 export default NewMainTitle;
