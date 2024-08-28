@@ -212,7 +212,7 @@ a[role="button"],
 button{
 	background-color: #225;
 	color: white;
-	border: none;
+	border: solid 2px transparent;
 	padding: 0px 15px;
 	font-size: 15px;
 	cursor: pointer;
@@ -232,6 +232,12 @@ nav button{
 	margin-top: 20px;
 	color: #225;
 	background-color: #999;
+}
+
+button.active{
+	background-color: #999;
+	color: #225;
+	border: #225 solid 2px;
 }
 
 footer{
@@ -436,7 +442,7 @@ section.section-flex{
 	margin: auto;
 	padding-inline: 2em;
 	box-shadow: 0 0 5px 0 #666;
-	gap: 10px;
+	gap: 0;
 	margin-top: 2em;
 }
 
@@ -508,10 +514,18 @@ span.success{
 	text-align: center;
 }
 
+
 i.fa-solid{
 	margin-right: 0.5em;
 	width: 22px;
 	text-align: center;
+}
+
+article header{
+	width: 50%;
+	margin-inline: auto;
+	background-color: #ebebeb;
+	box-shadow: none;
 }
 
 @media (min-width: 870px){
