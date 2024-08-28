@@ -77,7 +77,7 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
       
       if (data.meta.created) {
         setValidations({success: `Se creo el Título principal`});
-        setOldData({text});
+        setOldData({text:"", content:""});
       } else {
         setValidations(data.errors);
         setOldData(data.oldData);
