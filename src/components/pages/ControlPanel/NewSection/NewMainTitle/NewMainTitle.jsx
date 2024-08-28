@@ -41,9 +41,21 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
     formValidations.validationsAlerts('content', newValidations, form);
   }
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('text', textError, form, newValidations);
+    newValidations = formValidations.required('content', contentError, form, newValidations);
+
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
 
   const createH3 = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return;
+    }
 
     let text = form.current.elements.text.value;
     let content = form.current.elements.content.value;
