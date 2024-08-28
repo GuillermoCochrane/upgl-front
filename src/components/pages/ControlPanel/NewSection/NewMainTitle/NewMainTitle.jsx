@@ -8,14 +8,39 @@ import formValidations from "../../../../../utilities/formValidations";
 
 
 const NewMainTitle = ({ courseID, classID, topicID  }) => {
-  const [validations, setValidations] = useState({});
-  const [stylesSelectors, setStylesSelectors] = useState([]);
-  const [oldData, setOldData] = useState({ content: " " });
+  let [validations, setValidations] = useState({});
+  let [stylesSelectors, setStylesSelectors] = useState([]);
+  let [oldData, setOldData] = useState({});
   const form = useRef(null);
+
+  const textError = "El título principal";
+  const contentError = "El estilo del texto";
 
   const updateForm = (field, value) => {
     setOldData(formValidations.updateInput(field, value, oldData));
   };
+
+  const validateText = () => {
+    let newValidations = formValidations.required('text', textError, form, validations);
+    if (form.current.elements['text'].value) {
+        newValidations = formValidations.min('text', textError, form, newValidations, 3); 
+        if (!newValidations.text) {
+            newValidations = formValidations.max('text', textError, form, newValidations, 35);
+        }
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('text', newValidations, form);
+  };
+
+  const validateContent = (value) => {
+    const newValidations = formValidations.required('content', contentError, form, validations);
+    if (value) {
+      delete newValidations.content; 
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('content', newValidations, form);
+  }
+
 
   const createH3 = async (e) => {
     e.preventDefault();
@@ -37,7 +62,6 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
     try {
       const response = await fetch(endpoint, formData);
       const data = await response.json();
-      console.log(data);
       
       if (data.meta.created) {
         setValidations({success: `Se creo el Título principal`});
@@ -53,8 +77,6 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
     }
   };
 
-  console.log(validations);
-  
   useEffect(() => {
     const endpoint = `${apiUrl}api/controlpanel/styles`;
       const fetchCourses = async () => {
@@ -70,7 +92,7 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
       }
       fetchCourses();
   }, []);
-
+  
   return (
     <form className="panel-form" ref={form} onSubmit={createH3}>
 
@@ -80,22 +102,29 @@ const NewMainTitle = ({ courseID, classID, topicID  }) => {
         id = "text"
         value = {oldData.text}
         label = "Título principal"
-        onChange= {updateForm}
-        styles={"section-flex"}
-        validations={validations.text}
+        onChange = {updateForm}
+        onBlur = {validateText}
+        onInput={validateText}
+        styles = {"section-flex"}
+        validations = {validations}
       />
 
       <Select
+        styles = {"section-flex"}
         name = "content"
         id = "content"
-        label = "Estilo del texto"
         value = {oldData.content}
-        onChange= {updateForm}
-        styles={"section-flex"}
-        validations={validations.content}
-        options={stylesSelectors}
-        optionReferences={{value: "id", name: "title"}}
+        label = "Estilo del texto"
+        onChange = {updateForm}
+        onBlur = {validateContent}
+        options = {stylesSelectors}
+        validations = {validations}
+        optionReferences ={{value: "id", name: "title"}}
       />
+
+        <span className="success">
+          {validations.success ? validations.success : "\u00A0 "}
+        </span>
 
       <button type="submit">Crear</button>
     </form>
