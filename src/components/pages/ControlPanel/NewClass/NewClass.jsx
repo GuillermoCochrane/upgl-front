@@ -2,6 +2,7 @@
 import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../utilities/formValidations";
+import utilities from "../../../../utilities/utilities";
 import Input from "../../../partials/ControlPanel/InputSection/InputSection";
 import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
 
@@ -17,13 +18,13 @@ function NewClass() {
   const optionError = "Seleccionar un curso";
 
   const updateForm = (input, value) => {
-    setOldData(formValidations.updateInput(input, value, oldData));
+    setOldData(utilities.updateInput(input, value, oldData));
   }
 
   const validateTitle = () => {
     setValidations(prevValidations => formValidations.required("title", titleError, form, prevValidations));
     form.current.elements["title"].value ? setValidations(prevValidations => formValidations.min("title", titleError, form, prevValidations, 3)) : null;
-    formValidations.validationsAlerts("title", validations, form);
+    utilities.validationsAlerts("title", validations, form);
   }
 
   const validateSummary = () => {
@@ -36,7 +37,7 @@ function NewClass() {
         setValidations(prevValidations => formValidations.max("summary", summaryError, form, prevValidations, 35));
     }
 
-    formValidations.validationsAlerts("summary", validations, form);
+    utilities.validationsAlerts("summary", validations, form);
   };
 
   const validateOption = (value) => {
@@ -45,7 +46,7 @@ function NewClass() {
       delete newValidations.courseSelect;
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts("courseSelect", newValidations, form);
+    utilities.validationsAlerts("courseSelect", newValidations, form);
   }
 
   const validateAllFields = () => {
@@ -68,7 +69,7 @@ function NewClass() {
     let courseSelect = form.current.elements.courseSelect.value;
     let title = form.current.elements.title.value;
     let summary = form.current.elements.summary.value;
-    let endpoint = `${apiUrl}api/course/${courseSelect}/newClass`;
+    let endpoint = `${apiUrl}api/course/newClass/${courseSelect}`;
     let data = {
       course: courseSelect,
       title: title,
@@ -108,7 +109,8 @@ function NewClass() {
       try {
         const response = await fetch(endpoint);
         const data = await response.json();
-        setSelectorsOptions(data.data);
+        let newData = utilities.selectRemover("ControlPanel", data.data);
+        setSelectorsOptions(newData);
       }
       catch (error) {
         console.log(error);
@@ -121,7 +123,7 @@ function NewClass() {
   useEffect(() => {
     Object.keys(validations).forEach(input => {
       if(input !== "success"){
-        formValidations.validationsAlerts(input, validations, form);
+        utilities.validationsAlerts(input, validations, form);
       }
     });
   }, [validations]);
