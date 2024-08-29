@@ -42,6 +42,17 @@ const utilities = {
   resetValidations: (input, form) => {
     form.current.elements[input].classList.remove('success');
     form.current.elements[input].classList.remove('error');
+  },
+  
+  fetchData: (info) => {
+    let data = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(info),
+    };
+    return data;
   }
 }
 
