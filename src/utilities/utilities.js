@@ -24,6 +24,20 @@ const utilities = {
     }
     return newSelectorData;
   },
+
+  sectionHandler: (state ,section1, section2, button1, button2) => {
+    if (state) {
+      section1.current.hidden = true;
+      section2.current.hidden = false;
+      button1.current.classList.remove("active");
+      button2.current.classList.add("active");
+    } else {
+      section1.current.hidden = false;
+      section2.current.hidden = true; 
+      button1.current.classList.add("active");
+      button2.current.classList.remove("active");
+    }
+  }
 }
 
 export default utilities
