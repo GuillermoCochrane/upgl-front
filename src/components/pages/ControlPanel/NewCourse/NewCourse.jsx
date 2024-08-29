@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import  { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
-import formValidations from '../../../../utilities/formValidations';
-import utilities from '../../../../utilities/utilities';
-import Input from "../../../partials/ControlPanel/InputSection/InputSection";
-import TextArea from "../../../partials/ControlPanel/TextAreaSection/TextAreaSection";
+import formValidations from "../../../../utilities/formValidations";
+import utilities from "../../../../utilities/utilities";
+import Input from "../shared/InputSection/InputSection";
+import TextArea from "../shared/TextAreaSection/TextAreaSection"; 
 
 function NewCourse() {
     let [validations, setValidations] = useState({});
@@ -16,44 +16,44 @@ function NewCourse() {
     const paragraphError = "Descripción";
 
     const validateName = async () => {
-      let newValidations = formValidations.required('name', nameError, form, validations);  
-      if (form.current.elements['name'].value) {
-          newValidations = formValidations.min('name', nameError, form, newValidations, 2);
+      let newValidations = formValidations.required("name", nameError, form, validations);  
+      if (form.current.elements["name"].value) {
+          newValidations = formValidations.min("name", nameError, form, newValidations, 2);
           if (!newValidations.name) {
-              newValidations = formValidations.max('name', nameError, form, newValidations, 15);
+              newValidations = formValidations.max("name", nameError, form, newValidations, 15);
           }
       }
       if (!(newValidations.name && newValidations.name.msg)) {
-          newValidations = await formValidations.checkDBName('name', form, newValidations);
+          newValidations = await formValidations.checkDBName("name", form, newValidations);
       }
       setValidations(newValidations);
-      utilities.validationsAlerts('name', newValidations, form);
+      utilities.validationsAlerts("name", newValidations, form);
   };
 
     const validateIntro = () => {
-      setValidations(prevValidations => formValidations.required('intro', introError, form, prevValidations));
+      setValidations(prevValidations => formValidations.required("intro", introError, form, prevValidations));
 
-      if(form.current.elements['intro'].value){
-        let lengthValidations = formValidations.min('intro', introError, form, validations, 2);
+      if(form.current.elements["intro"].value){
+        let lengthValidations = formValidations.min("intro", introError, form, validations, 2);
 
         if(!lengthValidations.intro){
-          lengthValidations = formValidations.max('intro', introError, form, validations, 150);
+          lengthValidations = formValidations.max("intro", introError, form, validations, 150);
         }
         setValidations(lengthValidations);
       }  
-      utilities.validationsAlerts('intro', validations, form);
+      utilities.validationsAlerts("intro", validations, form);
     }
 
     const validateParagraph = () => {
-      let lengthValidations = formValidations.max('paragraph', paragraphError, form, validations, 200);
+      let lengthValidations = formValidations.max("paragraph", paragraphError, form, validations, 200);
       setValidations(lengthValidations);
-      utilities.validationsAlerts('paragraph', validations, form);
+      utilities.validationsAlerts("paragraph", validations, form);
     }
 
     const validateAllFields = () => {
       let newValidations = {};
-      newValidations = formValidations.required('name', nameError, form, newValidations);
-      newValidations = formValidations.required('intro', introError, form, newValidations);
+      newValidations = formValidations.required("name", nameError, form, newValidations);
+      newValidations = formValidations.required("intro", introError, form, newValidations);
 
       setValidations(newValidations);
       return Object.keys(newValidations).length === 0; 
@@ -77,9 +77,9 @@ function NewCourse() {
       let data = { name, intro, paragraph };
 
       let formData = {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       };
@@ -103,7 +103,7 @@ function NewCourse() {
 
     useEffect(() => {
       Object.keys(validations).forEach(input => {
-        if(input !== 'success'){
+        if(input !== "success"){
           utilities.validationsAlerts(input, validations, form);
         }
       });
@@ -111,7 +111,7 @@ function NewCourse() {
 
   return (
     <article>
-      <form ref={form} onSubmit={createCourse} className='panel-form'>
+      <form ref={form} onSubmit={createCourse} className="panel-form">
 
         <Input
           type="text"
@@ -154,10 +154,10 @@ function NewCourse() {
 
         {
           validations.success ? 
-          <span className='success'>
+          <span className="success">
             {validations.success}
           </span> : 
-          <span className='success'>
+          <span className="success">
             {"\u00A0 "} 
           </span>
         }

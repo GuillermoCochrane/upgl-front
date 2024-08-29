@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
-import Input from "../../../../partials/ControlPanel/InputSection/InputSection";
-import Select from "../../../../partials/ControlPanel/SelectSection/SelectSection";
+import Input from "../../shared/InputSection/InputSection";
+import Select from "../../shared/SelectSection/SelectSection";
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../../utilities/formValidations";
 

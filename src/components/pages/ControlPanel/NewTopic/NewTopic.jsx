@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import  { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
-import formValidations from '../../../../utilities/formValidations';
-import utilities from '../../../../utilities/utilities';
-import Select from "../../../partials/ControlPanel/SelectSection/SelectSection"
-import Input from "../../../partials/ControlPanel/InputSection/InputSection"
+import formValidations from "../../../../utilities/formValidations";
+import utilities from "../../../../utilities/utilities";
+import Select from "../shared/SelectSection/SelectSection"  
+import Input from "../shared/InputSection/InputSection"
 
 function NewTopic() {
     let [validations, setValidations] = useState({});
@@ -18,40 +18,40 @@ function NewTopic() {
     const titleError = "Nombre del tema";
 
     const validateCourse = (value) => {
-      const newValidations = formValidations.required('courseSelect', courseError, form, validations);
+      const newValidations = formValidations.required("courseSelect", courseError, form, validations);
       if (value) {
         delete newValidations.courseSelect; 
       }
       setValidations(newValidations);
-      utilities.validationsAlerts('courseSelect', newValidations, form);
+      utilities.validationsAlerts("courseSelect", newValidations, form);
     };
 
     const validateClass = (value) => {
-      const newValidations = formValidations.required('classSelect', classError, form, validations);
+      const newValidations = formValidations.required("classSelect", classError, form, validations);
       if (value) {
         delete newValidations.classSelect; 
       }
       setValidations(newValidations);
-      utilities.validationsAlerts('classSelect', newValidations, form);
+      utilities.validationsAlerts("classSelect", newValidations, form);
     };
 
     const validateTitle = () => {
-      let newValidations = formValidations.required('title', titleError, form, validations);
-      if (form.current.elements['title'].value) {
-          newValidations = formValidations.min('title', titleError, form, newValidations, 3); 
+      let newValidations = formValidations.required("title", titleError, form, validations);
+      if (form.current.elements["title"].value) {
+          newValidations = formValidations.min("title", titleError, form, newValidations, 3); 
           if (!newValidations.title) {
-              newValidations = formValidations.max('title', titleError, form, newValidations, 35);
+              newValidations = formValidations.max("title", titleError, form, newValidations, 35);
           }
       }
       setValidations(newValidations);
-      utilities.validationsAlerts('title', newValidations, form); 
+      utilities.validationsAlerts("title", newValidations, form); 
     };
 
     const validateAllFields = () => {
       let newValidations = {};
-      newValidations = formValidations.required('title', titleError, form, newValidations);
-      newValidations = formValidations.required('classSelect', classError, form, newValidations);
-      newValidations = formValidations.required('courseSelect', courseError, form, newValidations);
+      newValidations = formValidations.required("title", titleError, form, newValidations);
+      newValidations = formValidations.required("classSelect", classError, form, newValidations);
+      newValidations = formValidations.required("courseSelect", courseError, form, newValidations);
 
       setValidations(newValidations);
       return Object.keys(newValidations).length === 0; 
@@ -77,9 +77,9 @@ function NewTopic() {
       };
   
       let formData = {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       };
@@ -141,7 +141,7 @@ function NewTopic() {
         <article>
             <h2>Nuevo Tema</h2>
 
-            <form ref={form} onSubmit={createTopic} className='panel-form'>
+            <form ref={form} onSubmit={createTopic} className="panel-form">
 
                 <Select 
                         styles={"section-flex"}
@@ -185,7 +185,7 @@ function NewTopic() {
                 />
 
                 
-                <span className='success'>
+                <span className="success">
                   {validations.success ? validations.success : "\u00A0 "}
                 </span> 
 

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import  { useState, useRef, useEffect } from 'react';
+import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
-import formValidations from '../../../../utilities/formValidations';
-import utilities from '../../../../utilities/utilities';
-import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
+import formValidations from "../../../../utilities/formValidations";
+import utilities from "../../../../utilities/utilities";
+import Select from "../shared/SelectSection/SelectSection";
 import NewMainTitle from "./NewMainTitle/NewMainTitle";
 import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
 import Paragraph from "./NewParagarph/NewParagarph";
@@ -60,15 +60,15 @@ function NewSection() {
     };
 
     const validateClass = (value) => {
-      validateInput('classSelect', value);
+      validateInput("classSelect", value);
     };
 
     const validateTopic = (value) => {
-      validateInput('topicSelect', value);
+      validateInput("topicSelect", value);
     };
 
     const validateSectionType = (value) => {
-      validateInput('sectionType', value);
+      validateInput("sectionType", value);
     };
 
     useEffect(() => {
@@ -154,7 +154,7 @@ function NewSection() {
             <header>
                 <button 
                   onClick={() => switchSection(false)} 
-                  className='active'
+                  className="active"
                   ref={configButton}
                   >
                   Configuración
@@ -170,7 +170,7 @@ function NewSection() {
             <h2>Nueva Sección</h2>
 
             <section ref={configSection}>
-              <form  ref={form} className='panel-form'>
+              <form  ref={form} className="panel-form">
                 
                   <Select 
                           styles={"section-flex"}
@@ -244,7 +244,7 @@ function NewSection() {
               oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
-              <h3 className='error'> Debe seleccionar el tipo de sección a crear </h3>
+              <h3 className="error"> Debe seleccionar el tipo de sección a crear </h3>
             }
             </section>
         </article>

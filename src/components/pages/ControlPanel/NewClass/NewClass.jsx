@@ -3,8 +3,8 @@ import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../utilities/formValidations";
 import utilities from "../../../../utilities/utilities";
-import Input from "../../../partials/ControlPanel/InputSection/InputSection";
-import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
+import Input from "../shared/InputSection/InputSection";
+import Select from "../shared/SelectSection/SelectSection";
 
 function NewClass() {
   
