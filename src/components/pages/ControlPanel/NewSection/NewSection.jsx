@@ -2,6 +2,7 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../../utilities/formValidations';
+import utilities from '../../../../utilities/utilities';
 import Select from "../../../partials/ControlPanel/SelectSection/SelectSection";
 import NewMainTitle from "./NewMainTitle/NewMainTitle";
 import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
@@ -32,7 +33,7 @@ function NewSection() {
     const errorField = "Debe seleccionar uno";
 
     const updateForm = (field, value) => {
-      setOldData(formValidations.updateInput(field, value, oldData));
+      setOldData(utilities.updateInput(field, value, oldData));
     };
 
     const resetForm = () => {
@@ -61,7 +62,7 @@ function NewSection() {
         delete newValidations[field];
       }
       setValidations(newValidations);
-      formValidations.validationsAlerts(field, newValidations, form);
+      utilities.validationsAlerts(field, newValidations, form);
     };
 
     const validateClass = (value) => {
@@ -82,13 +83,8 @@ function NewSection() {
         try {
           const response = await fetch(endpoint);
           const data = await response.json();
-          let seletrodata = [];
-          for (const selector of data.data) {
-            if (selector.id != "ControlPanel") {
-              seletrodata.push(selector);
-            }
-          }
-          setCourseSelectors(seletrodata);
+          const newData = utilities.selectRemover("ControlPanel", data.data);
+          setCourseSelectors(newData);
         }
         catch (error) {
           console.log(error);
