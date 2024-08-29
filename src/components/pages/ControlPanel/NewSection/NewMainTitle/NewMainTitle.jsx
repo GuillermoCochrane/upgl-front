@@ -3,14 +3,15 @@ import { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
 import Input from "../../shared/InputSection/InputSection";
 import Select from "../../shared/SelectSection/SelectSection";
-const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../../utilities/formValidations";
+import utilities from "../../../../../utilities/utilities";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 const NewMainTitle = ({ courseID, classID, topicID, reset  }) => {
   let [validations, setValidations] = useState({});
   let [stylesSelectors, setStylesSelectors] = useState([]);
-  let [oldData, setOldData] = useState({});
+  let [oldData, setOldData] = useState({ text: "", content: "" });
   const form = useRef(null);
 
   const textError = "El título principal";
@@ -62,14 +63,7 @@ const NewMainTitle = ({ courseID, classID, topicID, reset  }) => {
     let type = "h3"
     let endpoint = `${apiUrl}api/course/newH3/${courseID.toLowerCase()}/${classID}/${topicID}`;
     let data = { text, type, content };
-
-    let formData = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
+    let formData = utilities.fetchData(data);
 
     try {
       const response = await fetch(endpoint, formData);
