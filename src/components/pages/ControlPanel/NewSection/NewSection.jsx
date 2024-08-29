@@ -40,6 +40,10 @@ function NewSection() {
       setOldData({ classSelect: "", courseSelect: "", topicSelect: "", sectionType: "" });
       switchSection(false);
       setValidations({success: "Sección creada con éxito"});
+      utilities.resetValidations("sectionType", form);
+      utilities.resetValidations("topicSelect", form);
+      utilities.resetValidations("classSelect", form);
+      utilities.resetValidations("courseSelect", form);
     };
 
     const switchSection = (state) => {
