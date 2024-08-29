@@ -36,14 +36,11 @@ function NewSection() {
       setOldData(utilities.updateInput(field, value, oldData));
     };
 
-    const resetForm = () => {
+    const resetForm = (e) => {
       setOldData({ classSelect: "", courseSelect: "", topicSelect: "", sectionType: "" });
       switchSection(false);
       setValidations({success: "Sección creada con éxito"});
-      utilities.resetValidations("sectionType", form);
-      utilities.resetValidations("topicSelect", form);
-      utilities.resetValidations("classSelect", form);
-      utilities.resetValidations("courseSelect", form);
+      utilities.resetForm(form, ["sectionType", "topicSelect", "classSelect", "courseSelect"]);
     };
 
     const switchSection = (state) => {
@@ -224,6 +221,7 @@ function NewSection() {
                           optionMsg={"Seleccione un tema para ver los Tipos de Sección disponibles"}
                           optionReferences={{value: "id", name: "title"}}
                   />
+                  <button onClick={resetForm}> Limpiar Formulario</button>
                   <span className="success">
                     {validations.success ? validations.success : "\u00A0 "}
                   </span>
