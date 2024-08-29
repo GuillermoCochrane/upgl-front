@@ -43,6 +43,10 @@ const utilities = {
     form.current.elements[input].classList.remove('success');
     form.current.elements[input].classList.remove('error');
   },
+
+  resetForm: function (form, inputs) {
+    inputs.forEach(input => this.resetValidations(input, form));
+  },
   
   fetchData: (info) => {
     let data = {
