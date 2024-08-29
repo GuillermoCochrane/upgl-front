@@ -2,6 +2,7 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../../utilities/formValidations';
+import utilities from '../../../../utilities/utilities';
 import Select from "../../../partials/ControlPanel/SelectSection/SelectSection"
 import Input from "../../../partials/ControlPanel/InputSection/InputSection"
 
@@ -22,7 +23,7 @@ function NewTopic() {
         delete newValidations.courseSelect; 
       }
       setValidations(newValidations);
-      formValidations.validationsAlerts('courseSelect', newValidations, form);
+      utilities.validationsAlerts('courseSelect', newValidations, form);
     };
 
     const validateClass = (value) => {
@@ -31,7 +32,7 @@ function NewTopic() {
         delete newValidations.classSelect; 
       }
       setValidations(newValidations);
-      formValidations.validationsAlerts('classSelect', newValidations, form);
+      utilities.validationsAlerts('classSelect', newValidations, form);
     };
 
     const validateTitle = () => {
@@ -42,9 +43,8 @@ function NewTopic() {
               newValidations = formValidations.max('title', titleError, form, newValidations, 35);
           }
       }
-
       setValidations(newValidations);
-      formValidations.validationsAlerts('title', newValidations, form); 
+      utilities.validationsAlerts('title', newValidations, form); 
     };
 
     const validateAllFields = () => {
@@ -58,7 +58,7 @@ function NewTopic() {
     };
 
     const updateForm = (field, value) => {
-      setOldData(formValidations.updateInput(field, value, oldData));
+      setOldData(utilities.updateInput(field, value, oldData));
     };
 
     const createTopic = async (e) => {  
@@ -71,7 +71,7 @@ function NewTopic() {
       let courseSelect = form.current.elements.courseSelect.value;
       let classSelect = form.current.elements.classSelect.value;
       let title = form.current.elements.title.value;
-      let endpoint = `${apiUrl}api/course/${courseSelect}/newTopic/${classSelect}`;
+      let endpoint = `${apiUrl}api/course/newTopic/${courseSelect}/${classSelect}`;
       let data = {
         title: title,
       };
@@ -108,7 +108,8 @@ function NewTopic() {
         try {
           const response = await fetch(endpoint);
           const data = await response.json();
-          setCourseSelectors(data.data);
+          const newData = utilities.selectRemover("ControlPanel", data.data);
+          setCourseSelectors(newData);
         }
         catch (error) {
           console.log(error);
