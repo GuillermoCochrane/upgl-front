@@ -37,6 +37,11 @@ const utilities = {
       button1.current.classList.add("active");
       button2.current.classList.remove("active");
     }
+  },
+
+  resetValidations: (input, form) => {
+    form.current.elements[input].classList.remove('success');
+    form.current.elements[input].classList.remove('error');
   }
 }
 
