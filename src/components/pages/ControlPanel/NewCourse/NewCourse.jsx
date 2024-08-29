@@ -2,6 +2,7 @@
 import  { useState, useRef, useEffect } from 'react';
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from '../../../../utilities/formValidations';
+import utilities from '../../../../utilities/utilities';
 import Input from "../../../partials/ControlPanel/InputSection/InputSection";
 import TextArea from "../../../partials/ControlPanel/TextAreaSection/TextAreaSection";
 
@@ -26,7 +27,7 @@ function NewCourse() {
           newValidations = await formValidations.checkDBName('name', form, newValidations);
       }
       setValidations(newValidations);
-      formValidations.validationsAlerts('name', newValidations, form);
+      utilities.validationsAlerts('name', newValidations, form);
   };
 
     const validateIntro = () => {
@@ -40,13 +41,13 @@ function NewCourse() {
         }
         setValidations(lengthValidations);
       }  
-      formValidations.validationsAlerts('intro', validations, form);
+      utilities.validationsAlerts('intro', validations, form);
     }
 
     const validateParagraph = () => {
       let lengthValidations = formValidations.max('paragraph', paragraphError, form, validations, 200);
       setValidations(lengthValidations);
-      formValidations.validationsAlerts('paragraph', validations, form);
+      utilities.validationsAlerts('paragraph', validations, form);
     }
 
     const validateAllFields = () => {
@@ -59,7 +60,7 @@ function NewCourse() {
     }
 
     const updateForm = (field, value) => {
-      setOldData(formValidations.updateInput(field, value, oldData));
+      setOldData(utilities.updateInput(field, value, oldData));
     };
 
     const createCourse = async (e) => {
@@ -103,7 +104,7 @@ function NewCourse() {
     useEffect(() => {
       Object.keys(validations).forEach(input => {
         if(input !== 'success'){
-          formValidations.validationsAlerts(input, validations, form);
+          utilities.validationsAlerts(input, validations, form);
         }
       });
     }, [validations]);
