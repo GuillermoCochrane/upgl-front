@@ -43,17 +43,7 @@ function NewSection() {
     };
 
     const switchSection = (state) => {
-      if (state) {
-        configSection.current.hidden = true;
-        elementSection.current.hidden = false;
-        configButton.current.classList.remove("active");
-        elementButton.current.classList.add("active");
-      } else {
-        configButton.current.classList.add("active");
-        elementButton.current.classList.remove("active");
-        configSection.current.hidden = false;
-        elementSection.current.hidden = true; 
-      }
+      utilities.sectionHandler(state, configSection, elementSection, configButton, elementButton);
     };
 
     const validateInput = (field, value) => {
@@ -156,14 +146,13 @@ function NewSection() {
 
     return (
         <article>
-            <h2>Nueva Sección</h2>
 
             <header>
                 <button 
                   onClick={() => switchSection(false)} 
                   className='active'
                   ref={configButton}
-                >
+                  >
                   Configuración
                 </button>
                 <button 
@@ -173,6 +162,8 @@ function NewSection() {
                   Elemento
                 </button>
             </header>
+
+            <h2>Nueva Sección</h2>
 
             <section ref={configSection}>
               <form  ref={form} className='panel-form'>
