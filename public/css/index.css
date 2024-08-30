@@ -418,6 +418,7 @@ form section{
 
 form button{
 	max-width: fit-content;
+	margin-top: 10px;
 	margin-inline: auto;
 }
 
@@ -477,6 +478,7 @@ section.section-flex{
 
 .panel-form span{
 	font-size: .9em;
+	margin-bottom: 5px;
 	display: inline-block;
 }
 
