@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../utilities/formValidations";
@@ -61,6 +60,10 @@ function NewTopic() {
       setOldData(utilities.updateInput(field, value, oldData));
     };
 
+    const resetForm = () => {
+      utilities.resetForm(form, ["title", "classSelect", "courseSelect"]);
+    };
+
     const createTopic = async (e) => {  
       e.preventDefault();
 
@@ -75,21 +78,15 @@ function NewTopic() {
       let data = {
         title: title,
       };
-  
-      let formData = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
-  
+      let formData = utilities.fetchData(data);
+
       try {
         const response = await fetch(endpoint, formData);
         const data = await response.json();
         if (data.meta.created) {
           setValidations({success: `Se creo un nuevo tema en la clase ${classSelect} del curso ${courseSelect}`});
           setOldData({title: "", courseSelect: "", classSelect: ""});
+          resetForm();
         } else {
           data.oldData.courseSelect = courseSelect
           setValidations(data.errors);
