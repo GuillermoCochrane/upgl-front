@@ -13,9 +13,33 @@ const NewSecondaryTitle = ({ courseID, classID, topicID, reset  }) => {
   let [oldData, setOldData] = useState({ text: "", content: "" });
   const form = useRef(null);
 
+  const textError = "El título principal";
+  const contentError = "El estilo del texto";
+
   const updateForm = (field, value) => {
     setOldData(formValidations.updateInput(field, value, oldData));
   };
+
+  const validateText = () => {
+    let newValidations = formValidations.required('text', textError, form, validations);
+    if (form.current.elements['text'].value) {
+        newValidations = formValidations.min('text', textError, form, newValidations, 3); 
+        if (!newValidations.text) {
+            newValidations = formValidations.max('text', textError, form, newValidations, 35);
+        }
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('text', newValidations, form);
+  };
+
+  const validateContent = (value) => {
+    const newValidations = formValidations.required('content', contentError, form, validations);
+    if (value) {
+      delete newValidations.content; 
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('content', newValidations, form);
+  }
 
   const createH4 = async (e) => {
     e.preventDefault();
@@ -72,6 +96,8 @@ const NewSecondaryTitle = ({ courseID, classID, topicID, reset  }) => {
         value = {oldData.text}
         label = "Título secundario"
         onChange = {updateForm}
+        onBlur={validateText}
+        onInput={validateText}
         styles = {"section-flex"}
         validations = {validations}
       />
@@ -83,6 +109,7 @@ const NewSecondaryTitle = ({ courseID, classID, topicID, reset  }) => {
         value = {oldData.content}
         label = "Estilo del texto"
         onChange = {updateForm}
+        onBlur={validateContent}
         options = {stylesSelectors}
         validations = {validations}
         optionReferences ={{value: "id", name: "title"}}
