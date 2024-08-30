@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../utilities/formValidations";
@@ -8,7 +7,7 @@ import TextArea from "../shared/TextAreaSection/TextAreaSection";
 
 function NewCourse() {
     let [validations, setValidations] = useState({});
-    let [oldData, setOldData] = useState( { name: ""});
+    let [oldData, setOldData] = useState({ name: "", intro: "", paragraph: ""});
     const form = useRef(null);
 
     const nameError = "Nombre del Curso";
@@ -63,6 +62,10 @@ function NewCourse() {
       setOldData(utilities.updateInput(field, value, oldData));
     };
 
+    const resetForm = () => {
+      utilities.resetForm(form, ["name", "intro", "paragraph"]);
+    };
+
     const createCourse = async (e) => {
       e.preventDefault();
 
@@ -75,14 +78,7 @@ function NewCourse() {
       let paragraph = form.current.elements.paragraph.value;
       let endpoint = `${apiUrl}api/course/newCourse`;
       let data = { name, intro, paragraph };
-
-      let formData = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
+      let formData = utilities.fetchData(data);
 
       try {
         const response = await fetch(endpoint, formData);
@@ -90,6 +86,7 @@ function NewCourse() {
         if (data.meta.created) {
           setValidations({success: `Se creo el curso ${name}`});
           setOldData({name: "", intro: "", paragraph: ""});
+          resetForm();
         } else {
           setValidations(data.errors);
           setOldData(data.oldData);
