@@ -41,13 +41,26 @@ const NewSecondaryTitle = ({ courseID, classID, topicID, reset  }) => {
     formValidations.validationsAlerts('content', newValidations, form);
   }
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('text', textError, form, newValidations);
+    newValidations = formValidations.required('content', contentError, form, newValidations);
+
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
+
   const createH4 = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return; 
+    }
 
     let text = form.current.elements.text.value;
     let content = form.current.elements.content.value;
     let type = "h4"
-    let endpoint = `${apiUrl}api/course/newH3/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let endpoint = `${apiUrl}api/course/newH4/${courseID.toLowerCase()}/${classID}/${topicID}`;
     let data = { text, type, content };
     let formData = utilities.fetchData(data);
 
