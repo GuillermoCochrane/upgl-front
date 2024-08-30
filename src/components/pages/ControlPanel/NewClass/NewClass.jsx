@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import  { useState, useRef, useEffect } from "react";
-const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../utilities/formValidations";
 import utilities from "../../../../utilities/utilities";
 import Input from "../shared/InputSection/InputSection";
 import Select from "../shared/SelectSection/SelectSection";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function NewClass() {
   
@@ -59,6 +58,11 @@ function NewClass() {
     return Object.keys(newValidations).length === 0; 
   }
 
+
+  const resetStyles = () => {
+    utilities.resetForm(form, ["title", "summary", "courseSelect"]);
+  };
+
   const createClass = async (e) => {  
     e.preventDefault();
 
@@ -75,14 +79,7 @@ function NewClass() {
       title: title,
       summary: summary,
     };
-
-    let formData = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
+    let formData = utilities.fetchData(data);
 
     try {
       const response = await fetch(endpoint, formData);
@@ -90,6 +87,7 @@ function NewClass() {
       if (data.meta.created) {
         setValidations({success: `Se creo una nueva clase en el curso de ${courseSelect}`});
         setOldData({title: "", summary: "", courseSelect: ""});
+        resetStyles();
       } else {
         data.oldData.courseSelect = courseSelect
         setValidations(data.errors);
