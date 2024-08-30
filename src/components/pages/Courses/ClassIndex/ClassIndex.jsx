@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import NotFound from '../../../partials/Courses/NotFound/NotFound';
-import HomeData from '../../../partials/Courses/HomeData/HomeData';
+import NotFound from "../../shared/NotFound/NotFound";
+import HomeData from "./HomeData/HomeData";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 function ClassIndex(params) {
@@ -36,16 +36,16 @@ function ClassIndex(params) {
             }
             {
                 id  ?
-                <h2 className='index-title'>Temas de la clase {id}</h2> : 
-                <h2 className='index-title'>Índice de clases</h2>
+                <h2 className="index-title">Temas de la clase {id}</h2> : 
+                <h2 className="index-title">Índice de clases</h2>
             }
             
             {
                 data && data.length == 0 ? <NotFound  /> :
                 data.map((item, index) => (
                     <section key={index}>
-                        <h2 className='index-subtitle'>{item.summary}</h2>
-                        <ol className='topics-index'>
+                        <h2 className="index-subtitle">{item.summary}</h2>
+                        <ol className="topics-index">
                             {
                                 item.links.map((item, index) => (
                                     <li key={index}>

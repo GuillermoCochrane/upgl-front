@@ -1,5 +1,4 @@
 import {Link} from "react-router-dom";
-// import coursesIndex from '../../../assets/data/CoursesIndex'
 import Logo from "../../../assets/images/logoUPGL.png";
 import { useEffect, useState } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
