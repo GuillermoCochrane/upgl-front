@@ -108,6 +108,9 @@ function NewCourse() {
 
   return (
     <article>
+
+      <h2>Nuevo Curso</h2>
+
       <form ref={form} onSubmit={createCourse} className="panel-form">
 
         <Input
