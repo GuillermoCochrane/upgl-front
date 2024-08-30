@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
 const apiUrl = import.meta.env.VITE_API_URL;

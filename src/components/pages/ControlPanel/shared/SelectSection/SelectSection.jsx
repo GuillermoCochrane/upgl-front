@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const SelectSection = ({ 
   name,
@@ -50,7 +50,7 @@ const SelectSection = ({
     </select>
     
     {
-      <span className='error'>
+      <span className="error">
         {validations && validations[name] ? validations[name].msg : "\u00A0"}
       </span> 
     }

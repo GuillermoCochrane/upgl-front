@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import  { useState, useRef, useEffect } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 import formValidations from "../../../../utilities/formValidations";

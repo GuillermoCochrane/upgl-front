@@ -1,15 +1,15 @@
-import  { useRef, useState, useEffect } from 'react';
+import  { useRef, useState, useEffect } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Logo from "../../../assets/images/logoUPGL.png";
-import Sections from './Sections/Sections.jsx';
-import NewCourse from './NewCourse/NewCourse.jsx';
-import NewClass from './NewClass/NewClass.jsx';
-import NewTopic from './NewTopic/NewTopic.jsx';
-import NewSection from './NewSection/NewSection.jsx';
+import Sections from "./Sections/Sections.jsx";
+import NewCourse from "./NewCourse/NewCourse.jsx";
+import NewClass from "./NewClass/NewClass.jsx";
+import NewTopic from "./NewTopic/NewTopic.jsx";
+import NewSection from "./NewSection/NewSection.jsx";
 import Error404 from "../Error404/Error404.jsx";
-import ControlPanelIndex from "../../partials/NavBarIndex/ControlPanelIndex.jsx";
+import ControlPanelIndex from "../shared/NavBarIndex/ControlPanelIndex.jsx";
 
 function ControlPanel({ match }) {
     const [links, setLinks] = useState([]);
@@ -41,7 +41,7 @@ function ControlPanel({ match }) {
 
             </header>
             <main>
-            <nav className='sumario panel-index' ref={navBar}>
+            <nav className="sumario panel-index" ref={navBar}>
                 <ol>
                 {
                     links.map((item, idx) => 

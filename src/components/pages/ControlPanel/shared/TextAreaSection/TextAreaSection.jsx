@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const TextAreaSection = ({ 
   name,
@@ -32,7 +32,7 @@ const TextAreaSection = ({
         cols={columns}
       />
       {
-        <span className='error'>
+        <span className="error">
           {validations[name] ? validations[name].msg : "\u00A0"}
         </span> 
       }
