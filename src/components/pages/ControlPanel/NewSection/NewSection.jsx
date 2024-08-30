@@ -35,7 +35,7 @@ function NewSection() {
       setOldData(utilities.updateInput(field, value, oldData));
     };
 
-    const resetForm = (e) => {
+    const resetForm = () => {
       setOldData({ classSelect: "", courseSelect: "", topicSelect: "", sectionType: "" });
       switchSection(false);
       setValidations({success: "Sección creada con éxito"});
@@ -220,7 +220,7 @@ function NewSection() {
                           optionMsg={"Seleccione un tema para ver los Tipos de Sección disponibles"}
                           optionReferences={{value: "id", name: "title"}}
                   />
-                  <button onClick={resetForm}> Limpiar Formulario</button>
+
                   <span className="success">
                     {validations.success ? validations.success : "\u00A0 "}
                   </span>

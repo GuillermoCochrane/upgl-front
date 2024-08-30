@@ -37,10 +37,8 @@ function Courses({ match }) {
     <>
       <header>
           <button onClick={handleClick} id="index">Índice</button>
-
           {courseId.toUpperCase() == "IA" && <h1>Curso de ChatGPT e Inteligencia Artificial</h1>}
           {courseId.toUpperCase() == "PYTHON" && <h1>Curso de Python</h1>}
-
           <Link to="/" className="logo-link">
             <img src={Logo} alt="Logo de UPGL" className="logo-icon" />
           </Link>

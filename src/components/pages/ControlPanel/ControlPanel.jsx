@@ -33,12 +33,10 @@ function ControlPanel({ match }) {
         <>
             <header>
                 <button onClick={handleClick} id="index">Menú</button>
-                <h1>  {`Panel de Control `}</h1>
-                
-            <Link to="/" className="logo-link">
-                <img src={Logo} alt="Logo de UPGL" className="logo-icon" />
-            </Link>
-
+                <h1>  {`Panel de Control `}</h1>    
+                <Link to="/" className="logo-link">
+                    <img src={Logo} alt="Logo de UPGL" className="logo-icon" />
+                </Link>
             </header>
             <main>
             <nav className="sumario panel-index" ref={navBar}>
