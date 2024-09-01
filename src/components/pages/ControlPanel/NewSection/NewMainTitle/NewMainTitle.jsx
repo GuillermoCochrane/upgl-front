@@ -17,7 +17,7 @@ const NewMainTitle = ({ courseID, classID, topicID, reset  }) => {
   const contentError = "El estilo del texto";
 
   const updateForm = (field, value) => {
-    setOldData(formValidations.updateInput(field, value, oldData));
+    setOldData(utilities.updateInput(field, value, oldData));
   };
 
   const validateText = () => {
@@ -84,19 +84,11 @@ const NewMainTitle = ({ courseID, classID, topicID, reset  }) => {
   };
 
   useEffect(() => {
-    const endpoint = `${apiUrl}api/controlpanel/styles`;
-      const fetchCourses = async () => {
-        try {
-          const response = await fetch(endpoint);
-          const data = await response.json();
-          setStylesSelectors(data.data);
-        }
-        catch (error) {
-          console.log(error);
-          setStylesSelectors([]);
-        }
-      }
-      fetchCourses();
+    let fetchStyles = async () => {
+      let stylesData = await utilities.fetchStylesData();
+      setStylesSelectors(stylesData);
+    }
+      fetchStyles();
   }, []);
   
   return (
