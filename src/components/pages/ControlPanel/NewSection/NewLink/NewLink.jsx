@@ -17,6 +17,35 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
     setOldData(formValidations.updateInput(field, value, oldData));
   };
 
+  const createLink = async (e) => {
+    e.preventDefault();
+
+    let text = form.current.elements.text.value;
+    let content = form.current.elements.content.value;
+    let link = form.current.elements.link.value;
+    let type = "link"
+    let endpoint = `${apiUrl}api/course/newLink/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let data = { text, type, content, link };
+    let formData = utilities.fetchData(data);
+
+    try {
+      const response = await fetch(endpoint, formData);
+      const data = await response.json();
+      
+      if (data.meta.created) {
+        setValidations({success: `Se creo el enlace`});
+        setOldData({text:"", content:"", link:""});
+      } else {
+        setValidations(data.errors);
+        setOldData(data.oldData);
+      }
+    }
+    catch (error) {
+      setValidations(error.message);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const endpoint = `${apiUrl}api/controlpanel/styles`;
       const fetchCourses = async () => {
@@ -34,7 +63,7 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
   }, []);
 
   return (
-    <form className="panel-form" ref={form}>
+    <form className="panel-form" ref={form} onSubmit={createLink}>
 
       <Input
         type = "text"
