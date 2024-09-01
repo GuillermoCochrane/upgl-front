@@ -61,7 +61,7 @@ const formValidations = {
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
-        let msg = `${error} no es un enlace valido`;
+        let msg = `${error} no es un enlace válido`;
         if(!validator.isURL(inputField)){
             newValidations[input] = {msg: msg};
         } else {

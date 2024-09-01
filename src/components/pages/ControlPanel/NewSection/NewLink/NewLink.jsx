@@ -15,10 +15,10 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
 
   const textError = "El texto del enlace";
   const contentError = "El estilo del texto";
-  const linkError = "La URL del enlace";
+  const linkError = "La URL";
 
   const updateForm = (field, value) => {
-    setOldData(formValidations.updateInput(field, value, oldData));
+    setOldData(utilities.updateInput(field, value, oldData));
   };
 
   const validateText = () => {
@@ -51,8 +51,21 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
     formValidations.validationsAlerts('link', newValidations, form);
   };
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('text', textError, form, newValidations);
+    newValidations = formValidations.required('content', contentError, form, newValidations);
+    newValidations = formValidations.required('link', linkError, form, newValidations);
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
+
   const createLink = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return;
+    }
 
     let text = form.current.elements.text.value;
     let content = form.current.elements.content.value;
@@ -69,6 +82,7 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
       if (data.meta.created) {
         setValidations({success: `Se creo el enlace`});
         setOldData({text:"", content:"", link:""});
+        reset();
       } else {
         setValidations(data.errors);
         setOldData(data.oldData);
