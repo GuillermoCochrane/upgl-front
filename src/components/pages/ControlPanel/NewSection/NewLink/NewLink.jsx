@@ -13,8 +13,42 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
   let [oldData, setOldData] = useState({ text: "", content: "", link: "" });
   const form = useRef(null);
 
+  const textError = "El texto del enlace";
+  const contentError = "El estilo del texto";
+  const linkError = "La URL del enlace";
+
   const updateForm = (field, value) => {
     setOldData(formValidations.updateInput(field, value, oldData));
+  };
+
+  const validateText = () => {
+    let newValidations = formValidations.required('text', textError, form, validations);
+    if (form.current.elements['text'].value) {
+        newValidations = formValidations.min('text', textError, form, newValidations, 3); 
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('text', newValidations, form);
+  };
+
+  const validateContent = (value) => {
+    const newValidations = formValidations.required('content', contentError, form, validations);
+    if (value) {
+      delete newValidations.content; 
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('content', newValidations, form);
+  }
+
+  const validateUrl = () => {
+    let newValidations = formValidations.required('link', linkError, form, validations);
+    if (form.current.elements['link'].value) {
+        newValidations = formValidations.min('link', linkError, form, newValidations, 3);
+        if (!newValidations.link) {
+            newValidations = formValidations.url('link', linkError, form, newValidations);
+        }
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('link', newValidations, form);
   };
 
   const createLink = async (e) => {
@@ -72,6 +106,8 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
         value = {oldData.text}
         label = "Texto del enlace"
         onChange = {updateForm}
+        onBlur = {validateText}
+        onInput={validateText}
         styles = {"section-flex"}
         validations = {validations}
       />
@@ -83,6 +119,7 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
         value = {oldData.content}
         label = "Estilo del texto"
         onChange = {updateForm}
+        onBlur = {validateContent}
         options = {stylesSelectors}
         validations = {validations}
         optionReferences ={{value: "id", name: "title"}}
@@ -95,6 +132,8 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
         value = {oldData.link}
         label = "URL del enlace"
         onChange = {updateForm}
+        onBlur = {validateUrl}
+        onInput={validateUrl}
         styles = {"section-flex"}
         validations = {validations}
         />
