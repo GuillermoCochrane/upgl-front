@@ -95,19 +95,11 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
   };
 
   useEffect(() => {
-    const endpoint = `${apiUrl}api/controlpanel/styles`;
-      const fetchCourses = async () => {
-        try {
-          const response = await fetch(endpoint);
-          const data = await response.json();
-          setStylesSelectors(data.data);
-        }
-        catch (error) {
-          console.log(error);
-          setStylesSelectors([]);
-        }
-      }
-      fetchCourses();
+    let fetchStyles = async () => {
+      let stylesData = await utilities.fetchStylesData();
+      setStylesSelectors(stylesData);
+    }
+      fetchStyles();
   }, []);
 
   return (
