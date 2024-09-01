@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 const utilities = {
   updateInput: (input, value, oldData) => {
     let newData = {...oldData};
@@ -57,7 +58,20 @@ const utilities = {
       body: JSON.stringify(info),
     };
     return data;
-  }
+  },
+
+  fetchStylesData: async () => {
+    const endpoint = `${apiUrl}api/controlpanel/styles`;
+    try {
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      return data.data;
+    }
+    catch (error) {
+      console.log(error);
+      return [];
+    }
+  },
 }
 
 export default utilities
