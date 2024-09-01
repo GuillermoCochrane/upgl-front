@@ -73,6 +73,19 @@ const formValidations = {
         return newValidations;
     },
 
+    url: (input, error, form, oldValidations ) => {
+        let inputField = form.current.elements[input].value;
+        let newValidations = { ...oldValidations };
+        delete newValidations.success;
+        let msg = `${error} no es un enlace valido`;
+        if(!validator.isURL(inputField)){
+            newValidations[input] = {msg: msg};
+        } else {
+            delete newValidations[input];
+        }
+        return newValidations;
+    },
+
     checkDBName: async (input, form, oldValidations  ) => {
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
