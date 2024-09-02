@@ -17,6 +17,36 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
     setOldData(utilities.updateInput(field, value, oldData));
   };
 
+  const createDownload = async (e) => {
+    e.preventDefault();
+
+    let text = form.current.elements.text.value;
+    let content = form.current.elements.content.value;
+    let link = form.current.elements.link.value;
+    let type = "link"
+    let endpoint = `${apiUrl}api/course/newDownload/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let data = { text, type, content, link };
+    let formData = utilities.fetchData(data);
+
+    try {
+      const response = await fetch(endpoint, formData);
+      const data = await response.json();
+      
+      if (data.meta.created) {
+        setValidations({success: `Se creo el enlace`});
+        setOldData({text:"", content:"", link:""});
+        reset();
+      } else {
+        setValidations(data.errors);
+        setOldData(data.oldData);
+      }
+    }
+    catch (error) {
+      setValidations(error.message);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     let fetchStyles = async () => {
       let stylesData = await utilities.fetchStylesData();
@@ -26,7 +56,7 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
   }, []);
 
   return (
-    <form className="panel-form" ref={form} >
+    <form className="panel-form" ref={form} onSubmit={createDownload}>
 
       <Input
         type = "text"
