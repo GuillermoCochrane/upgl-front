@@ -27,7 +27,7 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
         newValidations = formValidations.min('text', textError, form, newValidations, 3); 
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('text', newValidations, form);
+    utilities.validationsAlerts('text', newValidations, form);
   };
 
   const validateContent = (value) => {
@@ -36,7 +36,7 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
       delete newValidations.content; 
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('content', newValidations, form);
+    utilities.validationsAlerts('content', newValidations, form);
   }
 
   const validateUrl = () => {
@@ -48,7 +48,7 @@ const NewLink = ({ courseID, classID, topicID, reset  }) => {
         }
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('link', newValidations, form);
+    utilities.validationsAlerts('link', newValidations, form);
   };
 
   const validateAllFields = () => {
