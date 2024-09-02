@@ -13,6 +13,41 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
   let [oldData, setOldData] = useState({ text: "", content: "", link: "" });
   const form = useRef(null);
 
+  const textError = "El texto del enlace de descarga";
+  const contentError = "El estilo del texto";
+  const linkError = "El enlace de descarga";
+
+  const validateText = () => {
+    let newValidations = formValidations.required('text', textError, form, validations);
+    if (form.current.elements['text'].value) {
+        newValidations = formValidations.min('text', textError, form, newValidations, 3); 
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('text', newValidations, form);
+  };
+
+  const validateContent = (value) => {
+    const newValidations = formValidations.required('content', contentError, form, validations);
+    if (value) {
+      delete newValidations.content; 
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('content', newValidations, form);
+  }
+
+  const validateUrl = () => {
+    let newValidations = formValidations.required('link', linkError, form, validations);
+    if (form.current.elements['link'].value) {
+        newValidations = formValidations.min('link', linkError, form, newValidations, 3);
+        if (!newValidations.link) {
+            newValidations = formValidations.url('link', linkError, form, newValidations);
+        }
+    }
+    setValidations(newValidations);
+    formValidations.validationsAlerts('link', newValidations, form);
+  };
+
+
   const updateForm = (field, value) => {
     setOldData(utilities.updateInput(field, value, oldData));
   };
@@ -23,7 +58,7 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
     let text = form.current.elements.text.value;
     let content = form.current.elements.content.value;
     let link = form.current.elements.link.value;
-    let type = "link"
+    let type = "download"
     let endpoint = `${apiUrl}api/course/newDownload/${courseID.toLowerCase()}/${classID}/${topicID}`;
     let data = { text, type, content, link };
     let formData = utilities.fetchData(data);
@@ -33,7 +68,7 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
       const data = await response.json();
       
       if (data.meta.created) {
-        setValidations({success: `Se creo el enlace`});
+        setValidations({success: `Se creo el enlace de descarga`});
         setOldData({text:"", content:"", link:""});
         reset();
       } else {
@@ -63,8 +98,10 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
         name = "text"
         id = "text"
         value = {oldData.text}
-        label = "Texto de la descarga"
+        label = "Texto del enlace de descarga"
         onChange = {updateForm}
+        onBlur = {validateText}
+        onInput={validateText}
         styles = {"section-flex"}
         validations = {validations}
       />
@@ -76,6 +113,7 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
         value = {oldData.content}
         label = "Estilo del texto"
         onChange = {updateForm}
+        onBlur = {validateContent}
         options = {stylesSelectors}
         validations = {validations}
         optionReferences ={{value: "id", name: "title"}}
@@ -86,8 +124,10 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
         name = "link"
         id = "link"
         value = {oldData.link}
-        label = "URL de la descarga"
+        label = "URL del enlace de descarga"
         onChange = {updateForm}
+        onBlur = {validateUrl}
+        onInput={validateUrl}
         styles = {"section-flex"}
         validations = {validations}
         />
