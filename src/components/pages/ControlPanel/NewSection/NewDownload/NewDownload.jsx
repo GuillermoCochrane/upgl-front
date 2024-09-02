@@ -23,7 +23,7 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
         newValidations = formValidations.min('text', textError, form, newValidations, 3); 
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('text', newValidations, form);
+    utilities.validationsAlerts('text', newValidations, form);
   };
 
   const validateContent = (value) => {
@@ -32,7 +32,7 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
       delete newValidations.content; 
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('content', newValidations, form);
+    utilities.validationsAlerts('content', newValidations, form);
   }
 
   const validateUrl = () => {
@@ -44,9 +44,17 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
         }
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('link', newValidations, form);
+    utilities.validationsAlerts('link', newValidations, form);
   };
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('text', textError, form, newValidations);
+    newValidations = formValidations.required('content', contentError, form, newValidations);
+    newValidations = formValidations.required('link', linkError, form, newValidations);
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
 
   const updateForm = (field, value) => {
     setOldData(utilities.updateInput(field, value, oldData));
@@ -54,6 +62,10 @@ const NewDownload = ({ courseID, classID, topicID, reset  }) => {
 
   const createDownload = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return;
+    }
 
     let text = form.current.elements.text.value;
     let content = form.current.elements.content.value;
