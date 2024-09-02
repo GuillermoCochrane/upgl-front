@@ -29,7 +29,7 @@ const NewParagarph = ({ courseID, classID, topicID, reset  }) => {
         }
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('text', newValidations, form);
+    utilities.validationsAlerts('text', newValidations, form);
   };
 
   const validateContent = (value) => {
@@ -38,7 +38,7 @@ const NewParagarph = ({ courseID, classID, topicID, reset  }) => {
       delete newValidations.content; 
     }
     setValidations(newValidations);
-    formValidations.validationsAlerts('content', newValidations, form);
+    utilities.validationsAlerts('content', newValidations, form);
   }
 
   const validateAllFields = () => {
