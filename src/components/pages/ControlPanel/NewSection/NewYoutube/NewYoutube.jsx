@@ -10,15 +10,45 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const NewYoutube = ({ courseID, classID, topicID, reset  }) => {
   let [validations, setValidations] = useState({});
   let [stylesSelectors, setStylesSelectors] = useState([]);
-  let [oldData, setOldData] = useState({ text: "", content: "", link: "" });
+  let [oldData, setOldData] = useState({ title: "",  link: "", width: "", height: "" });
   const form = useRef(null);
 
   const updateForm = (field, value) => {
     setOldData(utilities.updateInput(field, value, oldData));
   };
 
+  const createYouTube = async (e) => {
+    e.preventDefault();
+
+    let type = "youtube"
+    let title = form.current.elements.title.value;
+    let link = form.current.elements.link.value;
+    let width = form.current.elements.width.value;
+    let height = form.current.elements.height.value;
+    let endpoint = `${apiUrl}api/course/newYoutube/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let data = { title, type, link, width, height };
+    let formData = utilities.fetchData(data);
+
+    try {
+      const response = await fetch(endpoint, formData);
+      const data = await response.json();
+      
+      if (data.meta.created) {
+        setValidations({success: `Se creo el enlace de YouTube`});
+        setOldData({title:"", link:"", width:"", height:""});
+      } else {
+        setValidations(data.errors);
+        setOldData(data.oldData);
+      }
+    }
+    catch (error) {
+      setValidations(error.message);
+      console.log(error);
+    }
+  };
+
   return (
-    <form className="panel-form" ref={form} >
+    <form className="panel-form" ref={form} onSubmit={createYouTube}>
       <Input
         type = "text"
         name = "title"
