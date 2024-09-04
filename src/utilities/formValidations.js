@@ -70,6 +70,19 @@ const formValidations = {
         return newValidations;
     },
 
+    numeric: (input, error, form, oldValidations ) => {
+        let inputField = form.current.elements[input].value;
+        let newValidations = { ...oldValidations };
+        delete newValidations.success;
+        let msg = `${error} no es un número`;
+        if(!validator.isNumeric(inputField)){
+            newValidations[input] = {msg: msg};
+        } else {
+            delete newValidations[input];
+        }
+        return newValidations;
+    },
+
     checkDBName: async (input, form, oldValidations  ) => {
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
