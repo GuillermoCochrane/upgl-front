@@ -79,6 +79,7 @@ function Topics(params) {
           item.type === "p" ? <PTag key={index} Data={item.info} /> :
           item.type === "ul" ? <UL key={index} Data={item.info} /> : 
           item.type === "link" ? <Links key={index} Data={item.info} /> :
+          item.type === "download" ? <Links key={index} Data={item.info} /> :
           item.type === "answer" ? <Answer key={index} Data={item.info} /> :
           item.type === "youtube" ? <Youtube key={index} Data={item.info} /> :
           item.type === "trivia" ? <Trivia key={index} Data={item.info} Answer={item.answer} /> :
