@@ -240,7 +240,7 @@ function NewSection() {
               oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
-              oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :  
+              oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm}/> :  
               <h3 className="error"> Debe seleccionar el tipo de sección a crear </h3>
             }
             </section>

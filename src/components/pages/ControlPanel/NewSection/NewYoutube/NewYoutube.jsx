@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
 import Input from "../../shared/InputSection/InputSection";
-import Select from "../../shared/SelectSection/SelectSection";
 import formValidations from "../../../../../utilities/formValidations";
 import utilities from "../../../../../utilities/utilities";
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -69,8 +68,22 @@ const NewYoutube = ({ courseID, classID, topicID, reset  }) => {
     utilities.validationsAlerts('width', newValidations, form);
   };
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('title', titleError, form, newValidations);
+    newValidations = formValidations.required('link', linkError, form, newValidations);
+    newValidations = formValidations.required('width', widthError, form, newValidations);
+    newValidations = formValidations.required('height', heightError, form, newValidations);
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
+
   const createYouTube = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return;
+    }
 
     let type = "youtube"
     let title = form.current.elements.title.value;
@@ -88,6 +101,7 @@ const NewYoutube = ({ courseID, classID, topicID, reset  }) => {
       if (data.meta.created) {
         setValidations({success: `Se creo el enlace de YouTube`});
         setOldData({title:"", link:"", width:"", height:""});
+        reset();
       } else {
         setValidations(data.errors);
         setOldData(data.oldData);
