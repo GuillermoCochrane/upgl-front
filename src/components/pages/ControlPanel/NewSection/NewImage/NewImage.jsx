@@ -8,7 +8,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const NewImage = ({ courseID, classID, topicID  }) => {
   const [validations, setValidations] = useState({});
   const [oldData, setOldData] = useState({ title: "",  alt: "", image: null });
-  const [fileName, setFileName] = useState("");
   const form = useRef(null);
 
   const updateForm = (field, value) => {
@@ -18,7 +17,6 @@ const NewImage = ({ courseID, classID, topicID  }) => {
   const updateFileForm = (file) => {
     if (file) {
       setOldData((prevData) => ({ ...prevData, image: file }));
-      setFileName(file.name);
     }
   };
 
@@ -47,7 +45,6 @@ const NewImage = ({ courseID, classID, topicID  }) => {
       if (result.meta.created) {
         setValidations({ success: "Se creó la imagen" });
         setOldData({ title: "", alt: "", image: null });
-        setFileName("");
       } else {
         setValidations(result.errors);
         setOldData(result.oldData);
@@ -56,6 +53,8 @@ const NewImage = ({ courseID, classID, topicID  }) => {
       setValidations({ error: error.message });
       console.log(error);
     }
+    console.log(oldData);
+    
   };
 
   return (
@@ -90,7 +89,6 @@ const NewImage = ({ courseID, classID, topicID  }) => {
         onChange={updateFileForm}
         styles="section-flex"
         validations={validations}
-        fileName={fileName} 
       />
 
       <span className="success">

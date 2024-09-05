@@ -33,7 +33,6 @@ const InputFileSection = ({
       disabled={disabled}
       accept={accept}
     />
-    {fileName && <p className="success">{fileName}</p>}
     {
       <span className="error">
         {validations && validations[name] ? validations[name].msg : "\u00A0"}
