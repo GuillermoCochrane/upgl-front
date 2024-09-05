@@ -49,13 +49,11 @@ const utilities = {
     inputs.forEach(input => this.resetValidations(input, form));
   },
   
-  fetchData: (info) => {
+  fetchData: (info, isFormData = false) => {
     let data = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(info),
+      body: isFormData ? info : JSON.stringify(info),
+      headers: isFormData ? {} : { 'Content-Type': 'application/json' }
     };
     return data;
   },
