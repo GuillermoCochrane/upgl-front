@@ -34,13 +34,9 @@ const NewImage = ({ courseID, classID, topicID  }) => {
     data.append('title', title);
     data.append('type', type);
     data.append('alt', alt);
-    console.log(oldData.image);
     if (oldData.image) {
       data.append('image', oldData.image);
     }
-
-    console.log(data);
-    
 
     let formData = utilities.fetchData(data, true);
 
@@ -88,8 +84,8 @@ const NewImage = ({ courseID, classID, topicID  }) => {
       />
 
       <FileInput
-        name="figure"
-        id="figure"
+        name="image"
+        id="image"
         label="Imagen a subir"
         onChange={updateFileForm}
         styles="section-flex"
@@ -98,11 +94,7 @@ const NewImage = ({ courseID, classID, topicID  }) => {
       />
 
       <span className="success">
-        {validations.success || "\u00A0"}
-      </span>
-
-      <span className="error">
-        {validations.error || "\u00A0"}
+        {validations.success ? validations.success : "\u00A0 "}
       </span>
 
       <button type="submit">Crear</button>
