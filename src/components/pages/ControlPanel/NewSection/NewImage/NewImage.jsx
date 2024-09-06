@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import Input from "../../shared/InputSection/InputSection";
 import FileInput from "../../shared/InputFileSection/InputFileSection";
 import utilities from "../../../../../utilities/utilities";
+import formValidations from "../../../../../utilities/formValidations";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const NewImage = ({ courseID, classID, topicID  }) => {
   const [validations, setValidations] = useState({});
   const [oldData, setOldData] = useState({ title: "",  alt: "", image: null });
   const form = useRef(null);
+  const titleError = "El título de la imagen";
+  const altError = "El texto alternativo";
+  const imageError = "La imagen";
 
   const updateForm = (field, value) => {
     setOldData(utilities.updateInput(field, value, oldData));
@@ -18,6 +22,40 @@ const NewImage = ({ courseID, classID, topicID  }) => {
     if (file) {
       setOldData((prevData) => ({ ...prevData, image: file }));
     }
+  };
+
+  const validateTitle = () => {
+    let newValidations = formValidations.required('title', titleError, form, validations);
+    if (form.current.elements['title'].value) {
+        newValidations = formValidations.min('title', titleError, form, newValidations, 2);
+        if (!newValidations.title) {
+            newValidations = formValidations.max('title', titleError, form, newValidations, 30);
+        }
+    }
+    setValidations(newValidations);
+    utilities.validationsAlerts('title', newValidations, form);
+  };
+
+  const validateAlt = () => {
+    let newValidations = formValidations.required('alt', altError, form, validations);
+    if (form.current.elements['alt'].value) {
+        newValidations = formValidations.min('alt', altError, form, newValidations, 2);
+        if (!newValidations.alt) {
+            newValidations = formValidations.max('alt', altError, form, newValidations, 50);
+        }
+    }
+    setValidations(newValidations);
+    utilities.validationsAlerts('alt', newValidations, form);
+  };
+
+  const validateFile = () => {
+    let allowedExtensions = ['.bmp', '.png', '.jpg', '.gif', '.webp', '.svg'];
+    let newValidations = formValidations.requiredFile('image', imageError, form, validations);
+    if (form.current.elements['image'].files.length) {
+        newValidations = formValidations.fileExtension('image', form, newValidations, allowedExtensions);
+    }
+    setValidations(newValidations);
+    utilities.validationsAlerts('image', newValidations, form);
   };
 
   const createFigure = async (e) => {
@@ -67,6 +105,8 @@ const NewImage = ({ courseID, classID, topicID  }) => {
         value={oldData.title}
         label="Título de la imagen"
         onChange={updateForm}
+        onBlur={validateTitle}
+        onInput={validateTitle}
         styles="section-flex"
         validations={validations}
       />
@@ -78,6 +118,8 @@ const NewImage = ({ courseID, classID, topicID  }) => {
         value={oldData.alt}
         label="Texto alternativo"
         onChange={updateForm}
+        onBlur={validateAlt}
+        onInput={validateAlt}
         styles="section-flex"
         validations={validations}
       />
@@ -87,6 +129,7 @@ const NewImage = ({ courseID, classID, topicID  }) => {
         id="image"
         label="Imagen a subir"
         onChange={updateFileForm}
+        onBlur={validateFile}
         styles="section-flex"
         validations={validations}
       />
