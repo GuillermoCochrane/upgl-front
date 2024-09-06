@@ -70,6 +70,21 @@ const utilities = {
       return [];
     }
   },
+
+  requiredFile: (input, error, form, oldValidations) => {
+    let inputElement = form.current.elements[input];
+    let newValidations = { ...oldValidations };
+    delete newValidations.success;
+
+    if (inputElement.files.length === 0) {
+        newValidations[input] = { msg: `${error} es obligatorio` };
+    } else {
+        delete newValidations[input];
+    }
+
+    return newValidations;
+  },
+
 }
 
 export default utilities
