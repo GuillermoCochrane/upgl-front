@@ -101,17 +101,12 @@ const formValidations = {
         let inputElement = form.current.elements[input];
         let newValidations = { ...oldValidations };
         delete newValidations.success;
-    
         let fileExtension = `.${inputElement.value.split('.').pop().toLowerCase()}`;
-
-        console.log(fileExtension);
-    
         if (!allowedExtensions.includes(fileExtension)) {
             newValidations[input] = { msg: `El archivo debe ser ${allowedExtensions.join(', ')}` };
         } else {
             delete newValidations[input];
         }
-    
         return newValidations;
     },
     

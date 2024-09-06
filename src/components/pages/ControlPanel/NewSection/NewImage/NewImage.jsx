@@ -6,7 +6,7 @@ import utilities from "../../../../../utilities/utilities";
 import formValidations from "../../../../../utilities/formValidations";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const NewImage = ({ courseID, classID, topicID  }) => {
+const NewImage = ({ courseID, classID, topicID, reset  }) => {
   const [validations, setValidations] = useState({});
   const [oldData, setOldData] = useState({ title: "",  alt: "", image: null });
   const form = useRef(null);
@@ -58,8 +58,21 @@ const NewImage = ({ courseID, classID, topicID  }) => {
     utilities.validationsAlerts('image', newValidations, form);
   };
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('title', titleError, form, newValidations);
+    newValidations = formValidations.required('alt', altError, form, newValidations);
+    newValidations = formValidations.requiredFile('image', imageError, form, newValidations);
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
+
   const createFigure = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return;
+    }
 
     let type = "figure";
     let title = form.current.elements.title.value;
@@ -83,6 +96,7 @@ const NewImage = ({ courseID, classID, topicID  }) => {
       if (result.meta.created) {
         setValidations({ success: "Se creó la imagen" });
         setOldData({ title: "", alt: "", image: null });
+        reset();
       } else {
         setValidations(result.errors);
         setOldData(result.oldData);
@@ -90,9 +104,7 @@ const NewImage = ({ courseID, classID, topicID  }) => {
     } catch (error) {
       setValidations({ error: error.message });
       console.log(error);
-    }
-    console.log(oldData);
-    
+    }    
   };
 
   return (
@@ -147,6 +159,7 @@ NewImage.propTypes = {
   courseID: PropTypes.string.isRequired,
   classID: PropTypes.string.isRequired,
   topicID: PropTypes.string.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 export default NewImage;
