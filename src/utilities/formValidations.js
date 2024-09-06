@@ -89,7 +89,7 @@ const formValidations = {
         delete newValidations.success;
     
         if (inputElement.files.length === 0) {
-            newValidations[input] = { msg: `${error} es obligatorio` };
+            newValidations[input] = { msg: `Olvido seleccionar ${error} ` };
         } else {
             delete newValidations[input];
         }
@@ -97,15 +97,17 @@ const formValidations = {
         return newValidations;
     },
     
-    fileExtension: (input, error, form, oldValidations, allowedExtensions) => {
+    fileExtension: (input,  form, oldValidations, allowedExtensions) => {
         let inputElement = form.current.elements[input];
         let newValidations = { ...oldValidations };
         delete newValidations.success;
     
-        let fileExtension = inputElement.value.split('.').pop().toLowerCase();
+        let fileExtension = `.${inputElement.value.split('.').pop().toLowerCase()}`;
+
+        console.log(fileExtension);
     
         if (!allowedExtensions.includes(fileExtension)) {
-            newValidations[input] = { msg: `${error} tiene un formato incompatible. Las extensiones permitidas son: ${allowedExtensions.join(', ')}` };
+            newValidations[input] = { msg: `El archivo debe ser ${allowedExtensions.join(', ')}` };
         } else {
             delete newValidations[input];
         }
