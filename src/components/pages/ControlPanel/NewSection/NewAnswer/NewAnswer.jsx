@@ -21,8 +21,44 @@ const NewAnswer = ({ courseID, classID, topicID  }) => {
     }
   };
 
+  const createFigure = async (e) => {
+    e.preventDefault();
+
+    let type = "answer";
+    let title = form.current.elements.title.value;
+    let alt = form.current.elements.alt.value;
+    let endpoint = `${apiUrl}api/course/newAnswer/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let data = new FormData(); 
+
+    data.append('title', title);
+    data.append('type', type);
+    data.append('alt', alt);
+    if (oldData.image) {
+      data.append('image', oldData.image);
+    }
+
+    let formData = utilities.fetchData(data, true);
+
+    try {
+      const response = await fetch(endpoint, formData);
+      const result = await response.json();
+      
+      if (result.meta.created) {
+        setValidations({ success: "Se creó la imagen" });
+        setOldData({ title: "", alt: "", image: null });
+      } else {
+        setValidations(result.errors);
+        setOldData(result.oldData);
+      }
+    } catch (error) {
+      setValidations({ error: error.message });
+      console.log(error);
+    }    
+  };
+
+
   return (
-    <form className="panel-form" ref={form}>
+    <form className="panel-form" ref={form} onSubmit={createFigure}>
 
       <Input
         type="text"
