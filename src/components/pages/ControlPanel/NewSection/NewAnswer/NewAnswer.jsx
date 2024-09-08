@@ -6,7 +6,7 @@ import utilities from "../../../../../utilities/utilities";
 import formValidations from "../../../../../utilities/formValidations";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const NewAnswer = ({ courseID, classID, topicID  }) => {
+const NewAnswer = ({ courseID, classID, topicID, reset  }) => {
   const [validations, setValidations] = useState({});
   const [oldData, setOldData] = useState({ title: "",  alt: "", image: null });
   const form = useRef(null);
@@ -97,6 +97,7 @@ const NewAnswer = ({ courseID, classID, topicID  }) => {
       if (result.meta.created) {
         setValidations({ success: "Se creó la Respuesta" });
         setOldData({ title: "", alt: "", image: null });
+        reset();
       } else {
         setValidations(result.errors);
         setOldData(result.oldData);
@@ -160,6 +161,7 @@ NewAnswer.propTypes = {
   courseID: PropTypes.string.isRequired,
   classID: PropTypes.string.isRequired,
   topicID: PropTypes.string.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 export default NewAnswer;
