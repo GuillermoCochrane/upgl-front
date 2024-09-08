@@ -23,10 +23,7 @@ const NewParagarph = ({ courseID, classID, topicID, reset  }) => {
   const validateText = () => {
     let newValidations = formValidations.required('text', textError, form, validations);
     if (form.current.elements['text'].value) {
-        newValidations = formValidations.min('text', textError, form, newValidations, 3); 
-        if (!newValidations.text) {
-            newValidations = formValidations.max('text', textError, form, newValidations, 35);
-        }
+        newValidations = formValidations.min('text', textError, form, newValidations, 3);
     }
     setValidations(newValidations);
     utilities.validationsAlerts('text', newValidations, form);
@@ -60,7 +57,7 @@ const NewParagarph = ({ courseID, classID, topicID, reset  }) => {
     let text = form.current.elements.text.value;
     let content = form.current.elements.content.value;
     let type = "p"
-    let endpoint = `${apiUrl}api/course/newH3/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let endpoint = `${apiUrl}api/course/newP/${courseID.toLowerCase()}/${classID}/${topicID}`;
     let data = { text, type, content };
     let formData = utilities.fetchData(data);
 
