@@ -450,6 +450,7 @@ section.section-flex{
 
 .panel-form section{
 	width: 100%;
+	max-width: 100%;
 	flex-grow: 1;
 }
 
@@ -529,6 +530,30 @@ article header{
 	box-shadow: none;
 }
 
+article.list-item{
+	all: unset;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: #225 solid 2px;
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+}
+
+article.list-item aside{
+	width: 100%;
+}
+
+article.list-item button{
+	margin: auto;
+	color: #225;
+	background-color: transparent;
+	border: 2px solid red;
+}
+
+
 @media (min-width: 870px){
 	body{
 		overflow: hidden;
@@ -590,4 +615,5 @@ article header{
 		max-width: 45%;
 		flex-grow: 0.5;
 	}
+
 }
