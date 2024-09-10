@@ -46,20 +46,25 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
             
             if (data.meta.created) {
                 setListValidations({success: `Se creo la lista`});
+                const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${data.meta.section}`;
+                let newItems = [...items];
+                let newValidations = [...validations];
 
-                let liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${data.meta.section}`;
                 for (const item of items) {
                     const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
                     const res = await fetch(liEndpoint, liFormData);
                     const liData = await res.json();
                     if (liData.meta.created) {
-                        //reseteo el item de la lista
-                        /* let newitem = {text: "", content: "", id: item.id};
-                        setItems(items.map(item => item.id === newitem.id ? newitem : item)); */
+                        newItems = newItems.map(li => 
+                            li.id === item.id ? { ...li, text: "", content: "" } : li
+                        );
                     } else {
-                        //muestro los errores del item de la lista
+                        console.log(liData.errors); 
+                        console.log(liData.oldData);                       
                     }
-                } 
+                }
+                setItems(newItems);
+                setValidations(newValidations);
             } else {
                 setListValidations({error: data.errors.type.msg});
             }
