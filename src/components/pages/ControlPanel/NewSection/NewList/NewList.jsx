@@ -10,7 +10,8 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const [items, setItems] = useState([{ id: startingID, text: "", content: "" }]);
     const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
     const [listValidations, setListValidations] = useState({});
-    const [stylesSelectors, setStylesSelectors] = useState([]); 
+    const [stylesSelectors, setStylesSelectors] = useState([]);
+    const [listID , setListID] = useState(0);
     const form = useRef(null);
 
     const addItem = () => {
@@ -32,48 +33,61 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
     const createList = async (e) => {
         e.preventDefault();
-
-        let type = "ul";
-        if (isOrdered) {
-            type = "ol";
-        }
+    
+        let type = isOrdered ? "ol" : "ul";
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
         const formData = utilities.fetchData({type});
+    
+        if (listID === 0) {
+            try {
+                const response = await fetch(listEndpoint, formData);
+                const data = await response.json();
 
-        try {
-            const response = await fetch(listEndpoint, formData);
-            const data = await response.json();
-            
-            if (data.meta.created) {
-                setListValidations({success: `Se creo la lista`});
-                const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${data.meta.section}`;
+                if (data.meta.created) {
+                    setListValidations({ success: `Se creó la lista` });
+                    setListID(data.meta.section);
+                } else {
+                    setListValidations({ error: data.errors.type.msg });
+                    return;  // Detenemos la ejecución si no se creó la lista.
+                }
+            } catch (error) {
+                setListValidations({ error: error.message });
+                console.log(error);
+                return;  // Detenemos la ejecución si hubo un error.
+            }
+        }
+    
+        if (listID !== 0) {
+            try {
+                const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${listID}`;
                 let newItems = [...items];
                 let newValidations = [...validations];
-
+    
                 for (const item of items) {
-                    const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
+                    const liFormData = utilities.fetchData({ type: "li", content: item.content, text: item.text });
                     const res = await fetch(liEndpoint, liFormData);
                     const liData = await res.json();
+    
                     if (liData.meta.created) {
-                        newItems = newItems.map(li => 
+                        newItems = newItems.map(li =>
                             li.id === item.id ? { ...li, text: "", content: "" } : li
                         );
                     } else {
-                        console.log(liData.errors); 
-                        console.log(liData.oldData);                       
+                        console.log(liData.errors);
+                        console.log(liData.oldData);
                     }
                 }
+
                 setItems(newItems);
                 setValidations(newValidations);
-            } else {
-                setListValidations({error: data.errors.type.msg});
+                setListID(0);
+            } catch (error) {
+                setListValidations({ error: error.message });
+                console.log(error);
             }
         }
-        catch (error) {
-            setListValidations(error.message);
-            console.log(error);
-        }
     };
+
 
     useEffect(() => {
         const fetchStyles = async () => {
