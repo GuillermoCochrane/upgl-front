@@ -9,6 +9,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const startingID = Date.now();
     const [items, setItems] = useState([{ id: startingID, value: "", content: "" }]);
     const [validations, setValidations] = useState([{id: startingID, value: { msg: "" }, content: { msg: "" }}]);
+    const [listValidations, setListValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]); 
     const form = useRef(null);
 
@@ -32,7 +33,27 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const createList = async (e) => {
         e.preventDefault();
 
-        console.log(items);
+        let type = "ul";
+        if (isOrdered) {
+            type = "ol";
+        }
+        let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
+        const formData = utilities.fetchData({type});
+
+        try {
+            const response = await fetch(listEndpoint, formData);
+            const data = await response.json();
+            
+            if (data.meta.created) {
+                setListValidations({success: `Se creo la lista`});
+            } else {
+                setListValidations({error: data.errors.type.msg});
+            }
+        }
+        catch (error) {
+            setListValidations(error.message);
+            console.log(error);
+        }
     };
 
     useEffect(() => {
@@ -81,11 +102,19 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
                 </article>
             ))}
+
+            <span className={listValidations.success ? "success" : "error"}>
+                {
+                    listValidations.success ? listValidations.success : 
+                    listValidations.error ? listValidations.error :
+                    "\u00A0"
+                }
+            </span>
+
             <button type="button" onClick={addItem}>Agregar ítem</button>
             <button type="submit">Crear Lista</button>
-            <span className="success">
-                {validations.success ? validations.success : "\u00A0"}
-            </span>
+
+            
         </form>
     );
 };
