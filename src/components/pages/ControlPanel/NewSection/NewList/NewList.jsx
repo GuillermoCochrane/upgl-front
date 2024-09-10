@@ -7,16 +7,16 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const startingID = Date.now();
-    const [items, setItems] = useState([{ id: startingID, value: "", content: "" }]);
-    const [validations, setValidations] = useState([{id: startingID, value: { msg: "" }, content: { msg: "" }}]);
+    const [items, setItems] = useState([{ id: startingID, text: "", content: "" }]);
+    const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
     const [listValidations, setListValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]); 
     const form = useRef(null);
 
     const addItem = () => {
         const newid = Date.now();
-        setItems([...items, { id: newid, value: "" }]);
-        setValidations([...validations, { id: newid, value: { msg: "" }, content: { msg: "" } }]);
+        setItems([...items, { id: newid, text: "", content: "" }]);
+        setValidations([...validations, { id: newid, text: { msg: "" }, content: { msg: "" } }]);
     };
 
     const removeItem = (id) => {
@@ -46,6 +46,20 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
             
             if (data.meta.created) {
                 setListValidations({success: `Se creo la lista`});
+
+                let liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${data.meta.section}`;
+                for (const item of items) {
+                    const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
+                    const res = await fetch(liEndpoint, liFormData);
+                    const liData = await res.json();
+                    if (liData.meta.created) {
+                        //reseteo el item de la lista
+                        /* let newitem = {text: "", content: "", id: item.id};
+                        setItems(items.map(item => item.id === newitem.id ? newitem : item)); */
+                    } else {
+                        //muestro los errores del item de la lista
+                    }
+                } 
             } else {
                 setListValidations({error: data.errors.type.msg});
             }
@@ -72,21 +86,21 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                     <aside>
 
                         <section className="section-flex">
-                            <label htmlFor={`${item.id}-value`}>Item {index + 1}</label>
+                            <label htmlFor={`${item.id}-text`}>Item {index + 1}</label>
                             <input
                                 type="text"
-                                id={`${item.id}-value`}
-                                name={`item-${index}-value`}
-                                value={item.value}
-                                onChange={(e) => updateItem(item.id, e.target.value, 'value')}
+                                id={`${item.id}-text`}
+                                name={`item-${index}-text`}
+                                value={item.text}
+                                onChange={(e) => updateItem(item.id, e.target.value, 'text')}
                             />
                         </section>
 
                         <section className="section-flex">
-                            <label htmlFor={`${item.id}-option`}>Estilo</label>
+                            <label htmlFor={`${item.id}-content`}>Estilo</label>
                             <select
-                                id={`${item.id}-option`}
-                                name={`item-${index}-option`}
+                                id={`${item.id}-content`}
+                                name={`item-${index}-content`}
                                 value={item.content}
                                 onChange={(e) => updateItem(item.id, e.target.value, 'content')}
                             >
