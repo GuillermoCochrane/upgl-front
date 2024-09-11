@@ -7,19 +7,22 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const startingID = Date.now();
-    const [order, setOrder] = useState(1);
-    const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
+    const [items, setItems] = useState([{ id: startingID, text: "", content: "" }]);
     const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
     const [listValidations, setListValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]);
-    const [listID , setListID] = useState(0);
+    const [listSection, setListSection] = useState(0);
     const form = useRef(null);
+
+    const updateItem = (id, value, field) => {
+        setItems(items.map(item => 
+            item.id === id ? { ...item, [field]: value } : item
+        ));
+    };
 
     const addItem = () => {
         const newid = Date.now();
-        const newOrder = order + 1;
-        setOrder(newOrder);
-        setItems([...items, { id: newid, text: "", content: "", order: newOrder }]);
+        setItems([...items, { id: newid, text: "", content: "" }]);
         setValidations([...validations, { id: newid, text: { msg: "" }, content: { msg: "" } }]);
     };
 
@@ -28,73 +31,49 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         setValidations(validations.filter(item => item.id !== id));
     };
 
-    const updateItem = (id, value, field) => {
-        setItems(items.map(item => 
-            item.id === id ? { ...item, [field]: value } : item
-        ));
-    };
-
     const createList = async (e) => {
         e.preventDefault();
-    
-        let type = isOrdered ? "ol" : "ul";
+
+        let type = "ul";
+        if (isOrdered) {
+            type = "ol";
+        }
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
         const formData = utilities.fetchData({type});
-    
-        if (listID === 0) {
-            try {
-                const response = await fetch(listEndpoint, formData);
-                const data = await response.json();
 
-                if (data.meta.created) {
-                    setListValidations({ success: `Se creó la lista` });
-                    setListID(data.meta.section);
-                } else {
-                    setListValidations({ error: data.errors.type.msg });
-                    return;  // Detenemos la ejecución si no se creó la lista.
-                }
-            } catch (error) {
-                setListValidations({ error: error.message });
-                console.log(error);
-                return;  // Detenemos la ejecución si hubo un error.
-            }
-        }
-    
-        if (listID !== 0) {
-            try {
-                const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${listID}`;
-                let newItems = [...items];
-                let newValidations = [...validations];
-    
+        try {
+            const response = await fetch(listEndpoint, formData);
+            const data = await response.json();
+            
+            if (data.meta.created) {
+                setListValidations({success: `Se creo la lista`});
+                const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${data.meta.section}`;
+                const successfulItemIds = [];
+
                 for (const item of items) {
-                    const liFormData = utilities.fetchData({ type: "li", content: item.content, text: item.text });
+                    const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
                     const res = await fetch(liEndpoint, liFormData);
                     const liData = await res.json();
-    
                     if (liData.meta.created) {
-                        //en lugar de resetear eliminar con removeitem(id)
-                        newItems = newItems.map(li =>
-                            li.id === item.id ? { ...li, text: "", content: "" } : li
-                        );
+                        successfulItemIds.push(item.id);
                     } else {
-                        console.log(liData.errors);
-                        console.log(liData.oldData);
+                        console.log(liData.errors); 
+                        console.log(liData.oldData);                       
                     }
                 }
 
+                const newItems = items.filter(item => !successfulItemIds.includes(item.id));
                 setItems(newItems);
-                setValidations(newValidations);
-                setListID(0); //resetear listID cuando ya no haya errores // secciones de li
-            } catch (error) {
-                setListValidations({ error: error.message });
-                console.log(error);
+
+            } else {
+                setListValidations({error: data.errors.type.msg});
             }
         }
+        catch (error) {
+            setListValidations(error.message);
+            console.log(error);
+        }
     };
-
-    console.log(order);
-    console.log(items);
-    
 
     useEffect(() => {
         const fetchStyles = async () => {
