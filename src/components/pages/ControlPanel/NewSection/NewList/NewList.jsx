@@ -7,7 +7,8 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const startingID = Date.now();
-    const [items, setItems] = useState([{ id: startingID, text: "", content: "" }]);
+    const [order, setOrder] = useState(1);
+    const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
     const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
     const [listValidations, setListValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]);
@@ -16,7 +17,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
     const addItem = () => {
         const newid = Date.now();
-        setItems([...items, { id: newid, text: "", content: "" }]);
+        const newOrder = order + 1;
+        setOrder(newOrder);
+        setItems([...items, { id: newid, text: "", content: "", order: newOrder }]);
         setValidations([...validations, { id: newid, text: { msg: "" }, content: { msg: "" } }]);
     };
 
@@ -69,6 +72,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                     const liData = await res.json();
     
                     if (liData.meta.created) {
+                        //en lugar de resetear eliminar con removeitem(id)
                         newItems = newItems.map(li =>
                             li.id === item.id ? { ...li, text: "", content: "" } : li
                         );
@@ -80,7 +84,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
                 setItems(newItems);
                 setValidations(newValidations);
-                setListID(0);
+                setListID(0); //resetear listID cuando ya no haya errores // secciones de li
             } catch (error) {
                 setListValidations({ error: error.message });
                 console.log(error);
@@ -88,6 +92,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         }
     };
 
+    console.log(order);
+    console.log(items);
+    
 
     useEffect(() => {
         const fetchStyles = async () => {
