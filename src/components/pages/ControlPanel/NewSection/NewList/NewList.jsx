@@ -34,10 +34,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const createList = async (e) => {
         e.preventDefault();
 
-        let type = "ul";
-        if (isOrdered) {
-            type = "ol";
-        }
+        let type = isOrdered ? "ol" : "ul";
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
         const formData = utilities.fetchData({type});
 
@@ -46,34 +43,60 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
             const data = await response.json();
             
             if (data.meta.created) {
-                setListValidations({success: `Se creo la lista`});
-                const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${data.meta.section}`;
-                const successfulItemIds = [];
-
-                for (const item of items) {
-                    const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
-                    const res = await fetch(liEndpoint, liFormData);
-                    const liData = await res.json();
-                    if (liData.meta.created) {
-                        successfulItemIds.push(item.id);
-                    } else {
-                        console.log(liData.errors); 
-                        console.log(liData.oldData);                       
-                    }
-                }
-
-                const newItems = items.filter(item => !successfulItemIds.includes(item.id));
-                setItems(newItems);
-
+                setListValidations({success: `Se creó la lista`});
+                setListSection(data.meta.section);
             } else {
                 setListValidations({error: data.errors.type.msg});
             }
         }
         catch (error) {
-            setListValidations(error.message);
+            setListValidations({error: error.message});
             console.log(error);
         }
     };
+
+    const createListItems = async () => {
+        if (listSection === 0) return;
+
+        const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${listSection}`;
+        const successfulItemIds = [];
+
+        for (const item of items) {
+            const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
+            try {
+                const res = await fetch(liEndpoint, liFormData);
+                const liData = await res.json();
+                if (liData.meta.created) {
+                    successfulItemIds.push(item.id);
+                } else {
+                    console.log(liData.errors);
+                    console.log(liData.oldData);
+                }
+            } catch (error) {
+                console.log(`Error creating item: ${error}`);
+            }
+        }
+
+        const auxItems = items.filter(item => !successfulItemIds.includes(item.id));
+        const auxValidations = validations.filter(item => !successfulItemIds.includes(item.id));
+
+        setItems(auxItems);
+        setValidations(auxValidations);
+
+        if (auxItems.length === 0) {
+            setListSection(0);
+            setListValidations({success: "Todos los elementos de la lista fueron creados exitosamente."});
+            addItem();
+        }
+    };
+
+    useEffect(() => {
+        if (listSection !== 0) {
+            createListItems();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listSection]);
+
 
     useEffect(() => {
         const fetchStyles = async () => {
