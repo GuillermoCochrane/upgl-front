@@ -82,12 +82,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
         setItems(auxItems);
         setValidations(auxValidations);
-
-        if (auxItems.length === 0) {
-            setListSection(0);
-            setListValidations({success: "Todos los elementos de la lista fueron creados exitosamente."});
-            addItem();
-        }
     };
 
     useEffect(() => {
@@ -97,6 +91,15 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listSection]);
 
+    useEffect(() => {
+        if (items.length === 0) {
+            setListSection(0);
+            setListValidations({success: "Todos los elementos de la lista fueron creados exitosamente."});
+            addItem();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [items]);
+    
 
     useEffect(() => {
         const fetchStyles = async () => {
