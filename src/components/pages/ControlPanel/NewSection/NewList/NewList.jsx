@@ -60,6 +60,8 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
         const liEndpoint = `${apiUrl}api/course/newLi/${courseID.toLowerCase()}/${classID}/${topicID}/${listSection}`;
         const successfulItemIds = [];
+        let newItems = [...items];
+        let newValidations = [...validations];
 
         for (const item of items) {
             const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
@@ -69,16 +71,20 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                 if (liData.meta.created) {
                     successfulItemIds.push(item.id);
                 } else {
-                    console.log(liData.errors);
-                    console.log(liData.oldData);
+                    newItems = newItems.map(li =>
+                        li.id === item.id ? { ...li, text: liData.oldData.text, content: liData.oldData.content } : li
+                    );
+                    newValidations = newValidations.map(li =>
+                        li.id === item.id ? { ...li, text: liData.errors.text.msg, content: liData.errors.content.msg } : li
+                    );
                 }
             } catch (error) {
                 console.log(`Error creating item: ${error}`);
             }
         }
 
-        const auxItems = items.filter(item => !successfulItemIds.includes(item.id));
-        const auxValidations = validations.filter(item => !successfulItemIds.includes(item.id));
+        const auxItems = newItems.filter(item => !successfulItemIds.includes(item.id));
+        const auxValidations = newValidations.filter(item => !successfulItemIds.includes(item.id));
 
         setItems(auxItems);
         setValidations(auxValidations);
@@ -98,8 +104,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
             addItem();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [items]);
-    
+    }, [items]);    
 
     useEffect(() => {
         const fetchStyles = async () => {
@@ -108,6 +113,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         };
         fetchStyles();
     }, []);
+
+    console.log(validations);
+    
 
     return (
         <form ref={form} onSubmit={createList} className="panel-form">
