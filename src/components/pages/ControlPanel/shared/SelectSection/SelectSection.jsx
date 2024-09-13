@@ -12,7 +12,9 @@ const SelectSection = ({
   styles,
   selectStyles,
   optionMsg,
-  optionReferences
+  optionReferences,
+  itemID,
+  stateField
 }) => {
 
   return (
@@ -25,7 +27,7 @@ const SelectSection = ({
       value={value}
       onChange={(e) => {
         const selectValue = e.target.value;
-        onChange(name,selectValue);
+        onChange(name,selectValue,itemID,stateField);
         onBlur ? onBlur(selectValue) : null;
       }}
       onBlur={() => onBlur ? onBlur(value) : null}
@@ -51,7 +53,11 @@ const SelectSection = ({
     
     {
       <span className="error">
-        {validations && validations[name] ? validations[name].msg : "\u00A0"}
+        {
+          validations && validations[name] ? validations[name].msg :
+          validations && validations[stateField] ? validations[stateField].msg : 
+          "\u00A0"
+        }
       </span> 
     }
 
@@ -71,5 +77,7 @@ SelectSection.propTypes = {
   selectStyles: PropTypes.string,
   optionMsg: PropTypes.string,
   optionReferences: PropTypes.object,
+  itemID: PropTypes.number,
+  stateField: PropTypes.string,
 };
 export default SelectSection;
