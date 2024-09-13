@@ -146,17 +146,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                 <article key={item.id} className="list-item">
                     <aside>
 
-                        <section className="section-flex">
-                            <label htmlFor={`${item.id}-text`}>Item {index + 1}</label>
-                            <input
-                                type="text"
-                                id={`${item.id}-text`}
-                                name={`item-${index}-text`}
-                                value={item.text}
-                                onChange={(e) => updateItem( "text" , e.target.value, item.id, "text")}
-                            />
-                        </section>
-
                         <Input
                             type="text"
                             name={`item-${index}-text`}
@@ -170,20 +159,20 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                             validations={validationsManager(item.id, 'text', validations)}
                         />
 
-                        <section className="section-flex">
-                            <label htmlFor={`${item.id}-content`}>Estilo</label>
-                            <select
-                                id={`${item.id}-content`}
-                                name={`item-${index}-content`}
-                                value={item.content}
-                                onChange={(e) => updateItem('content' , e.target.value, item.id)}
-                            >
-                                <option value="">Seleccione un estilo</option>
-                                {stylesSelectors.map((style) => (
-                                    <option key={style.id} value={style.id}>{style.title}</option>
-                                ))}
-                            </select>
-                        </section>
+                        <Select
+                            styles={"section-flex"}
+                            name={`item-${index}-content`}
+                            id={`${item.id}-content`}
+                            value={item.content}
+                            label="Estilo del texto"
+                            onChange={updateItem}
+                            options={stylesSelectors}
+                            optionMsg={"Seleccione un estilo"}
+                            validations={validationsManager(item.id, 'content', validations)}
+                            optionReferences={{value: "id", name: "title"}}
+                            itemID={item.id}
+                            stateField={"content"}
+                        />
                     </aside>
 
                     <button type="button" onClick={() => removeItem(item.id)}>Eliminar</button>
