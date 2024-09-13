@@ -34,6 +34,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const validationsManager = (id, field, validations) => {
         const validation = validations.find(v => v.id === id);
         const errorMsg = validation ? validation[field].msg : "\u00A0";
+        //console.log(`Validation for ${id} - ${field}:`, errorMsg);
         return errorMsg;
     };
     
@@ -45,7 +46,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
         const formData = utilities.fetchData({type});
 
-        
+        if (listSection === 0){
             try {
                 const response = await fetch(listEndpoint, formData);
                 const data = await response.json();
@@ -61,7 +62,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                 setListValidations({error: error.message});
                 console.log(error);
             }
-        
+        } else {
+            createListItems();
+        }
     };
 
     const createListItems = async () => {
