@@ -7,7 +7,8 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const startingID = Date.now();
-    const [items, setItems] = useState([{ id: startingID, text: "", content: "" }]);
+    const [order, setOrder] = useState(1);
+    const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
     const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
     const [listValidations, setListValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]);
@@ -22,7 +23,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
     const addItem = () => {
         const newid = Date.now();
-        setItems([...items, { id: newid, text: "", content: "" }]);
+        const newOrder = order + 1;
+        setOrder(newOrder);
+        setItems([...items, { id: newid, text: "", content: "", order: newOrder }]);
         setValidations([...validations, { id: newid, text: { msg: "" }, content: { msg: "" } }]);
     };
 
@@ -34,7 +37,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const validationsManager = (id, field, validations) => {
         const validation = validations.find(v => v.id === id);
         const errorMsg = validation ? validation[field].msg : "\u00A0";
-        //console.log(`Validation for ${id} - ${field}:`, errorMsg);
         return errorMsg;
     };
     
@@ -76,7 +78,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         let newValidations = [...validations];
 
         for (const item of items) {
-            const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text});
+            const liFormData = utilities.fetchData({type: "li", content: item.content, text: item.text, order: item.order});
             try {
                 const res = await fetch(liEndpoint, liFormData);
                 const liData = await res.json();
