@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
-import InputSection from "../../shared/InputSection/InputSection"
-import SelectSection from "../../shared/SelectSection/SelectSection";
+import Input from "../../shared/InputSection/InputSection"
+import Select from "../../shared/SelectSection/SelectSection";
 import utilities from "../../../../../utilities/utilities";
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -14,12 +14,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const [stylesSelectors, setStylesSelectors] = useState([]);
     const [listSection, setListSection] = useState(0);
     const form = useRef(null);
-
-    const updateItem = (id, value, field) => {
-        setItems(items.map(item => 
-            item.id === id ? { ...item, [field]: value } : item
-        ));
-    };
 
     const addItem = () => {
         const newid = Date.now();
@@ -34,12 +28,17 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         setValidations(validations.filter(item => item.id !== id));
     };
 
+    const updateItem = (id, value, field) => {
+        setItems(items.map(item => 
+            item.id === id ? utilities.updateInput(field, value, item) : item
+        ));
+    };
+
     const validationsManager = (id, field, validations) => {
         const validation = validations.find(v => v.id === id);
         const errorMsg = validation ? validation[field].msg : "\u00A0";
         return errorMsg;
     };
-    
 
     const createList = async (e) => {
         e.preventDefault();
