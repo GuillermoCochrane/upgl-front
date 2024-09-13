@@ -28,15 +28,15 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         setValidations(validations.filter(item => item.id !== id));
     };
 
-    const updateItem = (id, value, field) => {
+    const updateItem = (unused , value, id, name ) => {
         setItems(items.map(item => 
-            item.id === id ? utilities.updateInput(field, value, item) : item
+            item.id === id ? utilities.updateInput(name, value, item) : item
         ));
     };
 
-    const validationsManager = (id, field, validations) => {
+    const validationsManager = (id, name, validations) => {
         const validation = validations.find(v => v.id === id);
-        const errorMsg = validation ? validation[field].msg : "\u00A0";
+        const errorMsg = validation ? validation[name].msg : "\u00A0";
         return errorMsg;
     };
 
@@ -154,12 +154,24 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                                 id={`${item.id}-text`}
                                 name={`item-${index}-text`}
                                 value={item.text}
-                                onChange={(e) => updateItem(item.id, e.target.value, 'text')}
+                                onChange={(e) => updateItem( "text" , e.target.value, item.id, "text")}
                             />
                             <span className="error">
                                 {validationsManager(item.id, 'text', validations)}
                             </span>
                         </section>
+
+                        <Input
+                            type="text"
+                            name={`item-${index}-text`}
+                            id={`${item.id}-text`}
+                            value={item.text}
+                            onChange={updateItem}
+                            label={`Item ${index + 1}`}
+                            styles={"section-flex"}
+                            itemID={item.id}
+                            stateField={"text"}
+                        />
 
                         <section className="section-flex">
                             <label htmlFor={`${item.id}-content`}>Estilo</label>
@@ -167,7 +179,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                                 id={`${item.id}-content`}
                                 name={`item-${index}-content`}
                                 value={item.content}
-                                onChange={(e) => updateItem(item.id, e.target.value, 'content')}
+                                onChange={(e) => updateItem('content' , e.target.value, item.id)}
                             >
                                 <option value="">Seleccione un estilo</option>
                                 {stylesSelectors.map((style) => (
