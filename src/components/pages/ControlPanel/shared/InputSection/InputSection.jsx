@@ -26,7 +26,6 @@ const InputSection = ({
       id={id}
       value={value}
       onChange={(e) => onChange(name, e.target.value, itemID, stateField)}
-      /* onChange={(e) => onChange(name,e.target.value, itemID)} */
       onBlur={onBlur}
       onInput={onInput}
       placeholder={placeholder}

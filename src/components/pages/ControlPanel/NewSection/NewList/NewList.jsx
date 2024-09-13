@@ -36,8 +36,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
     const validationsManager = (id, name, validations) => {
         const validation = validations.find(v => v.id === id);
-        const errorMsg = validation ? validation[name].msg : "\u00A0";
-        return errorMsg;
+        return validation;
     };
 
     const createList = async (e) => {
@@ -156,9 +155,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                                 value={item.text}
                                 onChange={(e) => updateItem( "text" , e.target.value, item.id, "text")}
                             />
-                            <span className="error">
-                                {validationsManager(item.id, 'text', validations)}
-                            </span>
                         </section>
 
                         <Input
@@ -171,6 +167,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                             styles={"section-flex"}
                             itemID={item.id}
                             stateField={"text"}
+                            validations={validationsManager(item.id, 'text', validations)}
                         />
 
                         <section className="section-flex">
@@ -186,9 +183,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                                     <option key={style.id} value={style.id}>{style.title}</option>
                                 ))}
                             </select>
-                            <span className="error">
-                                {validationsManager(item.id, 'content', validations)}
-                            </span>
                         </section>
                     </aside>
 
