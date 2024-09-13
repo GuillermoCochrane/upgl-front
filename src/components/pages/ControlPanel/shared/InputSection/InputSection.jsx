@@ -12,7 +12,9 @@ const InputSection = ({
   validations,
   placeholder, 
   disabled,
-  styles
+  styles,
+  itemID,
+  stateField
 }) => {
 
   return (
@@ -23,7 +25,8 @@ const InputSection = ({
       name={name}
       id={id}
       value={value}
-      onChange={(e) => onChange(name,e.target.value)}
+      onChange={(e) => onChange(name, e.target.value, itemID, stateField)}
+      /* onChange={(e) => onChange(name,e.target.value, itemID)} */
       onBlur={onBlur}
       onInput={onInput}
       placeholder={placeholder}
@@ -50,5 +53,7 @@ InputSection.propTypes = {
   onInput: PropTypes.func,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
+  itemID: PropTypes.number,
+  stateField: PropTypes.string,
 };
 export default InputSection;
