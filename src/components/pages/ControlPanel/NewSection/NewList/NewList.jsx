@@ -31,6 +31,13 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         setValidations(validations.filter(item => item.id !== id));
     };
 
+    const validationsManager = (id, field, validations) => {
+        const validation = validations.find(v => v.id === id);
+        const errorMsg = validation ? validation[field].msg : "\u00A0";
+        return errorMsg;
+    };
+    
+
     const createList = async (e) => {
         e.preventDefault();
 
@@ -38,21 +45,23 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
         const formData = utilities.fetchData({type});
 
-        try {
-            const response = await fetch(listEndpoint, formData);
-            const data = await response.json();
-            
-            if (data.meta.created) {
-                setListValidations({success: `Se creó la lista`});
-                setListSection(data.meta.section);
-            } else {
-                setListValidations({error: data.errors.type.msg});
+        
+            try {
+                const response = await fetch(listEndpoint, formData);
+                const data = await response.json();
+                
+                if (data.meta.created) {
+                    setListValidations({success: `Se creó la lista`});
+                    setListSection(data.meta.section);
+                } else {
+                    setListValidations({error: data.errors.type.msg});
+                }
             }
-        }
-        catch (error) {
-            setListValidations({error: error.message});
-            console.log(error);
-        }
+            catch (error) {
+                setListValidations({error: error.message});
+                console.log(error);
+            }
+        
     };
 
     const createListItems = async () => {
@@ -72,10 +81,23 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                     successfulItemIds.push(item.id);
                 } else {
                     newItems = newItems.map(li =>
-                        li.id === item.id ? { ...li, text: liData.oldData.text, content: liData.oldData.content } : li
+                        li.id === item.id   ? 
+                                                { 
+                                                    ...li, 
+                                                    text:      liData.oldData.text,
+                                                    content:   liData.oldData.content 
+                                                } 
+                                            : li
                     );
+
                     newValidations = newValidations.map(li =>
-                        li.id === item.id ? { ...li, text: liData.errors.text.msg, content: liData.errors.content.msg } : li
+                        li.id === item.id   ?
+                                                { 
+                                                    ...li, 
+                                                    text:       { msg: liData.errors.text ? liData.errors.text.msg : ""   }, 
+                                                    content:    { msg: liData.errors.content ? liData.errors.content.msg : "" }
+                                                } 
+                                            : li
                     );
                 }
             } catch (error) {
@@ -114,9 +136,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         fetchStyles();
     }, []);
 
-    console.log(validations);
-    
-
     return (
         <form ref={form} onSubmit={createList} className="panel-form">
             {items.map((item, index) => (
@@ -133,6 +152,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                                 value={item.text}
                                 onChange={(e) => updateItem(item.id, e.target.value, 'text')}
                             />
+                            <span className="error">
+                                {validationsManager(item.id, 'text', validations)}
+                            </span>
                         </section>
 
                         <section className="section-flex">
@@ -148,6 +170,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                                     <option key={style.id} value={style.id}>{style.title}</option>
                                 ))}
                             </select>
+                            <span className="error">
+                                {validationsManager(item.id, 'content', validations)}
+                            </span>
                         </section>
                     </aside>
 
