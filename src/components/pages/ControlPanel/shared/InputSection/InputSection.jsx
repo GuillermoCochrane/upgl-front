@@ -34,7 +34,11 @@ const InputSection = ({
     />
     {
       <span className="error">
-        {validations && validations[name] ? validations[name].msg : "\u00A0"}
+        {
+          validations && validations[name] ? validations[name].msg :
+          validations && validations[stateField] ? validations[stateField].msg :
+          "\u00A0"
+        }
       </span> 
     }
   </section>);
