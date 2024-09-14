@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import PropTypes from 'prop-types';
+import PropTypes, { resetWarningCache } from 'prop-types';
 import Input from "../../shared/InputSection/InputSection"
 import Select from "../../shared/SelectSection/SelectSection";
 import formValidations from "../../../../../utilities/formValidations";
 import utilities from "../../../../../utilities/utilities";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const NewList = ({ courseID, classID, topicID, isOrdered }) => {
+const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
     const startingID = Date.now();
     const [order, setOrder] = useState(1);
     const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
@@ -194,6 +194,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
             setListSection(0);
             setListValidations({success: "Todos los elementos de la lista fueron creados exitosamente."});
             addItem();
+            reset();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items]);    
@@ -270,6 +271,7 @@ NewList.propTypes = {
     classID: PropTypes.string.isRequired,
     topicID: PropTypes.string.isRequired,
     isOrdered: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
 };
 
 export default NewList;
