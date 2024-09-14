@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
 import Input from "../../shared/InputSection/InputSection"
 import Select from "../../shared/SelectSection/SelectSection";
+import formValidations from "../../../../../utilities/formValidations";
 import utilities from "../../../../../utilities/utilities";
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -34,9 +35,27 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         ));
     };
 
-    const validationsManager = (id, name, validations) => {
+    const validationsManager = (id, validations) => {
         const validation = validations.find(v => v.id === id);
         return validation;
+    };
+
+    const validateText = (itemID) => {
+        const name = `item-${itemID}-text`;
+        const textError = `El texto del item `;
+        let newValidations = formValidations.required(name, textError, form, validations);
+    
+        if (form.current.elements[name].value.trim() !== "") {
+            newValidations = formValidations.min(name, textError, form, newValidations, 3);
+        }
+
+        setValidations(prevValidations => {
+            return prevValidations.map(v => 
+                v.id === itemID ? { ...v, text: newValidations[name] || { msg: "" } } : v
+            );
+        });
+
+        utilities.validationsAlerts(name, newValidations, form);
     };
 
     const createList = async (e) => {
@@ -148,27 +167,28 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
                         <Input
                             type="text"
-                            name={`item-${index}-text`}
+                            name={`item-${item.id}-text`}
                             id={`${item.id}-text`}
                             value={item.text}
                             onChange={updateItem}
+                            onBlur={() => validateText(item.id)}
+                            onInput={() => validateText(item.id)}
                             label={`Item ${index + 1}`}
                             styles={"section-flex"}
                             itemID={item.id}
                             stateField={"text"}
-                            validations={validationsManager(item.id, 'text', validations)}
+                            validations={validationsManager(item.id, validations)}
                         />
 
                         <Select
                             styles={"section-flex"}
-                            name={`item-${index}-content`}
+                            name={`item-${item.id}-content`}
                             id={`${item.id}-content`}
                             value={item.content}
                             label="Estilo del texto"
                             onChange={updateItem}
                             options={stylesSelectors}
-                            optionMsg={"Seleccione un estilo"}
-                            validations={validationsManager(item.id, 'content', validations)}
+                            validations={validationsManager(item.id, validations)}
                             optionReferences={{value: "id", name: "title"}}
                             itemID={item.id}
                             stateField={"content"}
