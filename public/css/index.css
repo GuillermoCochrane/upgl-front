@@ -480,6 +480,7 @@ section.section-flex{
 .panel-form span{
 	font-size: .9em;
 	display: inline-block;
+	min-width: 100;
 }
 
 textarea,
