@@ -16,6 +16,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
     const [listSection, setListSection] = useState(0);
     const form = useRef(null);
 
+    const contentError = `El estilo del item `;
+    const textError = `El texto del item `;
+
     const addItem = () => {
         const newid = Date.now();
         const newOrder = order + 1;
@@ -42,7 +45,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
     const validateText = (itemID) => {
         const name = `item-${itemID}-text`;
-        const textError = `El texto del item `;
         let newValidations = formValidations.required(name, textError, form, validations);
     
         if (form.current.elements[name].value.trim() !== "") {
@@ -60,7 +62,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
 
     const validateContent = (value, itemID) => {
       const name = `item-${itemID}-content`;
-      const contentError = `El estilo del item `;
         const newValidations = formValidations.required(name, contentError, form, validations);
         if (value) {
           delete newValidations.content; 
@@ -73,8 +74,40 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         utilities.validationsAlerts(name, newValidations, form);
       }
 
+      const validateAllFields = () => {
+        let isValid = true;
+        const newValidations = validations.map(validation => {
+            const item = items.find(i => i.id === validation.id);
+            if (!item) return validation; // Si no existe el item, mantener la validación actual
+    
+            const textName = `item-${item.id}-text`;
+            const contentName = `item-${item.id}-content`;
+    
+            const textResult = formValidations.required(textName, textError, form, {});
+            const contentResult = formValidations.required(contentName, contentError, form, {});
+    
+            if (textResult[textName] || contentResult[contentName]) {
+                isValid = false;
+            }
+    
+            return {
+                ...validation,
+                text: textResult[textName] || { msg: "" },
+                content: contentResult[contentName] || { msg: "" }
+            };
+        });
+    
+        setValidations(newValidations);
+        return isValid;
+    };
+
     const createList = async (e) => {
         e.preventDefault();
+
+        if (!validateAllFields()) {
+          setListValidations({error: "Por favor, complete todos los campos requeridos."});
+          return;
+      }
 
         let type = isOrdered ? "ol" : "ul";
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
