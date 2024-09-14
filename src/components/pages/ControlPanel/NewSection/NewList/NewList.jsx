@@ -50,13 +50,28 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
         }
 
         setValidations(prevValidations => {
-            return prevValidations.map(v => 
-                v.id === itemID ? { ...v, text: newValidations[name] || { msg: "" } } : v
+            return prevValidations.map(validation => 
+                validation.id === itemID ? { ...validation, text: newValidations[name] || { msg: "" } } : validation
             );
         });
 
         utilities.validationsAlerts(name, newValidations, form);
     };
+
+    const validateContent = (value, itemID) => {
+      const name = `item-${itemID}-content`;
+      const contentError = `El estilo del item `;
+        const newValidations = formValidations.required(name, contentError, form, validations);
+        if (value) {
+          delete newValidations.content; 
+        }
+        setValidations(prevValidations => {
+            return prevValidations.map(validation => 
+                validation.id === itemID ? { ...validation, content: newValidations[name] || { msg: "" } } : validation
+            );
+        });
+        utilities.validationsAlerts(name, newValidations, form);
+      }
 
     const createList = async (e) => {
         e.preventDefault();
@@ -187,6 +202,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered }) => {
                             value={item.content}
                             label="Estilo del texto"
                             onChange={updateItem}
+                            onBlur={() => validateContent(item.content, item.id)}
                             options={stylesSelectors}
                             validations={validationsManager(item.id, validations)}
                             optionReferences={{value: "id", name: "title"}}
