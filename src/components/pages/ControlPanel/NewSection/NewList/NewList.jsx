@@ -209,6 +209,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
 
     return (
         <form ref={form} onSubmit={createList} className="panel-form">
+          <h3 style={{textAlign: "center", margin: "auto",marginBottom: "0.5em"}}>
+            {isOrdered ? "Lista ordenada" : "Lista no ordenada"}
+          </h3>
             {items.map((item, index) => (
                 
                 <article key={item.id} className="list-item">
@@ -222,7 +225,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
                             onChange={updateItem}
                             onBlur={() => validateText(item.id)}
                             onInput={() => validateText(item.id)}
-                            label={`Item ${index + 1}`}
+                            label={`Item de lista: ${index + 1}`}
                             styles={"section-flex"}
                             itemID={item.id}
                             stateField={"text"}
