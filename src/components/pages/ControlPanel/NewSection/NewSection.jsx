@@ -9,7 +9,6 @@ import Paragraph from "./NewParagarph/NewParagarph";
 import NewLink from "./NewLink/NewLink";
 import Download from "./NewDownload/NewDownload";
 import List from "./NewList/NewList";
-import OrderedList from "./NewOrderedList/NewOrderedList";
 import Table from "./NewTable/NewTable";
 import Image from "./NewImage/NewImage";
 import Answer from "./NewAnswer/NewAnswer";

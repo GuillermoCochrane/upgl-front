@@ -209,7 +209,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
 
     return (
         <form ref={form} onSubmit={createList} className="panel-form">
-          <h3 style={{textAlign: "center", margin: "auto",marginBottom: "0.5em"}}>
+          <h3 style={{textAlign: "center", margin: "auto",paddingBottom: "1em", borderBottom: "2px solid #225", width: "100%"}}>
             {isOrdered ? "Lista ordenada" : "Lista no ordenada"}
           </h3>
             {items.map((item, index) => (
