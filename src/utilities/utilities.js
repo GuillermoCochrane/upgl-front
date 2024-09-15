@@ -71,6 +71,10 @@ const utilities = {
     }
   },
 
+  arrayOrderer: function(array, key, ascending) {
+    return  ascending ? array.sort((a, b) => a[key] - b[key]) : array.sort((a, b) => b[key] - a[key]);
+  },
+
 }
 
 export default utilities
