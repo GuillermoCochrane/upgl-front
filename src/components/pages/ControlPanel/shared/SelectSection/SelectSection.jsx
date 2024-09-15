@@ -55,7 +55,8 @@ const SelectSection = ({
       <span className="error">
         {
           validations && validations[name] ? validations[name].msg :
-          validations && validations[stateField] ? validations[stateField].msg : 
+          validations && validations[stateField] ? 
+                          validations[stateField].msg === "" ? "\u00A0" : validations[stateField].msg : 
           "\u00A0"
         }
       </span> 

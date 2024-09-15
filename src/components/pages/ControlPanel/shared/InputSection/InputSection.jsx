@@ -16,7 +16,8 @@ const InputSection = ({
   itemID,
   stateField
 }) => {
-
+  console.log(itemID);
+  console.log(validations);
   return (
   <section className={styles}>
     <label htmlFor={id}> {label} </label>
@@ -31,15 +32,15 @@ const InputSection = ({
       placeholder={placeholder}
       disabled={disabled}
     />
-    {
-      <span className="error">
-        {
-          validations && validations[name] ? validations[name].msg :
-          validations && validations[stateField] ? validations[stateField].msg :
-          "\u00A0"
-        }
-      </span> 
-    }
+    <span className="error">
+      {
+        validations && validations[name] ? validations[name].msg :
+        validations && validations[stateField] ? 
+                        validations[stateField].msg === "" ? "\u00A0" : validations[stateField].msg : 
+        "\u00A0"
+      }
+    </span>
+
   </section>);
 };
 
