@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import {Fragment} from "react";
 import Bold from "../Styles/Bold/Bold"
+import Mark from "../Styles/Mark/Mark"
+import Italic from "../Styles/Italic/Italic"
+import Underline from "../Styles/Underline/Underline"
 import OL from "../../OL/OLTag";
 import UL from "../../UL/ULTag";
 import H4 from "../../H4/H4Tag";
@@ -17,7 +20,19 @@ function LITag({Data}) {
                             item.content == "plain" && item.text
                         }
                         {
+                            item.content == "link" && item.text
+                        }
+                        {
                             item.content == "bold" && <Bold key = {index} Data = {item.text} />
+                        }
+                        {
+                            item.content == "italic" && <Italic key = {index} Data = {item.text} />
+                        }
+                        {
+                            item.content == "underline" && <Underline key = {index} Data = {item.text} />
+                        }
+                        { 
+                            item.content == "mark" && <Mark key = {index} Data = {item.text} />
                         }
                         {
                             item.type == "ul" && <UL Data = {item.info}  key = {index} />
