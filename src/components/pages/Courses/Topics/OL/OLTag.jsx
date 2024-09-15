@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
+import utilities from "../../../../../utilities/utilities";
 import LI from "../shared/LI/LITag";
 
 function OLTag({Data}) {
+  Data = utilities.arrayOrderer(Data, "order", true);
   return (
     <ol>
         {
