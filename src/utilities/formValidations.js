@@ -3,7 +3,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const formValidations = {
 
-    required: (input, error, form, oldValidations ) => {
+    required: function(input, error, form, oldValidations ){
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -15,7 +15,7 @@ const formValidations = {
         return newValidations;
     },
 
-    length: (input, error, form, oldValidations, min , max ) => {
+    length: function(input, error, form, oldValidations, min , max ){
         // min and max should be undefined (not null) if not required
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
@@ -31,7 +31,7 @@ const formValidations = {
         return newValidations;
     },
 
-    min: (input, error, form, oldValidations, min ) => {
+    min: function(input, error, form, oldValidations, min ){
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -44,7 +44,7 @@ const formValidations = {
         return newValidations;
     },
 
-    max: (input, error, form, oldValidations, max ) => {
+    max: function(input, error, form, oldValidations, max ){
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -57,7 +57,7 @@ const formValidations = {
         return newValidations;
     },
 
-    url: (input, error, form, oldValidations ) => {
+    url: function(input, error, form, oldValidations ){
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -70,7 +70,7 @@ const formValidations = {
         return newValidations;
     },
 
-    numeric: (input, error, form, oldValidations ) => {
+    numeric: function(input, error, form, oldValidations ){
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -83,7 +83,7 @@ const formValidations = {
         return newValidations;
     },
 
-    requiredFile: (input, error, form, oldValidations) => {
+    requiredFile: function(input, error, form, oldValidations){
         let inputElement = form.current.elements[input];
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -97,7 +97,7 @@ const formValidations = {
         return newValidations;
     },
     
-    fileExtension: (input,  form, oldValidations, allowedExtensions) => {
+    fileExtension: function(input,  form, oldValidations, allowedExtensions){
         let inputElement = form.current.elements[input];
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -109,9 +109,8 @@ const formValidations = {
         }
         return newValidations;
     },
-    
 
-    checkDBName: async (input, form, oldValidations  ) => {
+    checkDBName: async function(input, form, oldValidations  ){
         let inputField = form.current.elements[input].value;
         let newValidations = { ...oldValidations };
         delete newValidations.success;
@@ -130,6 +129,31 @@ const formValidations = {
         }
         return newValidations;
     },
+
+    notEmptyFields: function(validations, items, textError, contentError, form){
+        let isValid = true;
+        const newValidations = validations.map(validation => {
+            const item = items.find(i => i.id === validation.id);
+            if (!item) return validation; // Si no existe el item, mantener la validación actual
+
+            const textName = `item-${item.id}-text`;
+            const contentName = `item-${item.id}-content`;
+
+            const textResult = this.required(textName,textError,form,{}) //this.required(textName, textError, form, {});
+            const contentResult = this.required(contentName, contentError, form, {});
+
+            if (textResult[textName] || contentResult[contentName]) {
+                isValid = false;
+            }
+
+            return {
+                ...validation,
+                text: textResult[textName] || { msg: "" },
+                content: contentResult[contentName] || { msg: "" }
+            };
+        });
+        return {isValid, newValidations}
+    }
 }
 
 export default formValidations;
