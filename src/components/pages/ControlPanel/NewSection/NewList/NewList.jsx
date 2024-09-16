@@ -27,8 +27,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
     };
 
     const removeItem = (id) => {
-        setItems(items.filter(item => item.id !== id));
-        setValidations(validations.filter(item => item.id !== id));
+        const removedStubs = utilities.removeStub(items,validations,id)
+        setItems(removedStubs.items);
+        setValidations(removedStubs.validations);
     };
 
     const updateItem = (unused , value, id, name ) => {
