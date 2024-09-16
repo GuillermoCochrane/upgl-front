@@ -20,11 +20,10 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
     const textError = `El texto del item `;
 
     const addItem = () => {
-        const newid = Date.now();
-        const newOrder = order + 1;
-        setOrder(newOrder);
-        setItems([...items, { id: newid, text: "", content: "", order: newOrder }]);
-        setValidations([...validations, { id: newid, text: { msg: "" }, content: { msg: "" } }]);
+        const newStub = utilities.addStub(items,validations,order)
+        setOrder(newStub.order)
+        setItems(newStub.items)
+        setValidations(newStub.validations)
     };
 
     const removeItem = (id) => {
