@@ -93,6 +93,13 @@ const utilities = {
   updateStubs: function(items, value, id, name){
     let newItems = items.map(item => item.id === id ? this.updateInput(name, value, item) : item );
     return newItems
+  },
+
+  validationsManager: function(validations, itemID, key, field, newValidations){
+    return validations.map(validation => 
+        validation.id === itemID ? 
+            { ...validation, [field]: newValidations[key] || { msg: "" } } : 
+            validation);
   }
 
 }
