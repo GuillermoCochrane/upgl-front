@@ -44,17 +44,11 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
     const validateText = (itemID) => {
         const name = `item-${itemID}-text`;
         let newValidations = formValidations.required(name, textError, form, validations);
-    
         if (form.current.elements[name].value.trim() !== "") {
             newValidations = formValidations.min(name, textError, form, newValidations, 3);
         }
-
-        setValidations(prevValidations => {
-            return prevValidations.map(validation => 
-                validation.id === itemID ? { ...validation, text: newValidations[name] || { msg: "" } } : validation
-            );
-        });
-
+        let updatedValidations = utilities.validationsManager(validations, itemID, name,"text", newValidations);
+        setValidations(updatedValidations);
         utilities.validationsAlerts(name, newValidations, form);
     };
 
@@ -64,11 +58,8 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
         if (value) {
           delete newValidations.content; 
         }
-        setValidations(prevValidations => {
-            return prevValidations.map(validation => 
-                validation.id === itemID ? { ...validation, content: newValidations[name] || { msg: "" } } : validation
-            );
-        });
+        let updatedValidations = utilities.validationsManager(validations, itemID, name, "content", newValidations);
+        setValidations(updatedValidations);
         utilities.validationsAlerts(name, newValidations, form);
       }
 
