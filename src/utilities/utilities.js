@@ -88,6 +88,11 @@ const utilities = {
     let newItems = items.filter(item => item.id !== id);
     let newValidations = validations.filter(item => item.id !== id);
     return { items: newItems, validations: newValidations}
+  },
+
+  updateStubs: function(items, value, id, name){
+    let newItems = items.map(item => item.id === id ? this.updateInput(name, value, item) : item );
+    return newItems
   }
 
 }
