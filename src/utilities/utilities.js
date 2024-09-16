@@ -75,6 +75,14 @@ const utilities = {
     return  ascending ? array.sort((a, b) => a[key] - b[key]) : array.sort((a, b) => b[key] - a[key]);
   },
 
+  addStub: function(items, validations, order){
+    let newID = Date.now();
+    let newOrder = order +1;
+    let newItems = [...items, { id: newID, text: "", content: "", order: newOrder}];
+    let newValidations = [...validations,{ id: newID, text: { msg: "" }, content: { msg: "" } }]
+    return { items: newItems, validations: newValidations, order: newOrder}
+  }
+
 }
 
 export default utilities
