@@ -33,9 +33,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
     };
 
     const updateItem = (unused , value, id, name ) => {
-        setItems(items.map(item => 
-            item.id === id ? utilities.updateInput(name, value, item) : item
-        ));
+        setItems(utilities.updateStubs(items, value, id, name));
     };
 
     const validationsManager = (id, validations) => {
