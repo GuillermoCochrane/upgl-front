@@ -1,4 +1,5 @@
 const apiUrl = import.meta.env.VITE_API_URL;
+
 const utilities = {
   updateInput: (input, value, oldData) => {
     let newData = {...oldData};
@@ -81,6 +82,12 @@ const utilities = {
     let newItems = [...items, { id: newID, text: "", content: "", order: newOrder}];
     let newValidations = [...validations,{ id: newID, text: { msg: "" }, content: { msg: "" } }]
     return { items: newItems, validations: newValidations, order: newOrder}
+  },
+
+  removeStub: function(items, validations, id){
+    let newItems = items.filter(item => item.id !== id);
+    let newValidations = validations.filter(item => item.id !== id);
+    return { items: newItems, validations: newValidations}
   }
 
 }
