@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import PropTypes, { resetWarningCache } from 'prop-types';
+import PropTypes from 'prop-types';
 import Input from "../../shared/InputSection/InputSection"
 import Select from "../../shared/SelectSection/SelectSection";
 import formValidations from "../../../../../utilities/formValidations";
@@ -61,33 +61,12 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
         let updatedValidations = utilities.validationsManager(validations, itemID, name, "content", newValidations);
         setValidations(updatedValidations);
         utilities.validationsAlerts(name, newValidations, form);
-      }
+    }
 
-      const validateAllFields = () => {
-        let isValid = true;
-        const newValidations = validations.map(validation => {
-            const item = items.find(i => i.id === validation.id);
-            if (!item) return validation; // Si no existe el item, mantener la validación actual
-    
-            const textName = `item-${item.id}-text`;
-            const contentName = `item-${item.id}-content`;
-    
-            const textResult = formValidations.required(textName, textError, form, {});
-            const contentResult = formValidations.required(contentName, contentError, form, {});
-    
-            if (textResult[textName] || contentResult[contentName]) {
-                isValid = false;
-            }
-    
-            return {
-                ...validation,
-                text: textResult[textName] || { msg: "" },
-                content: contentResult[contentName] || { msg: "" }
-            };
-        });
-    
-        setValidations(newValidations);
-        return isValid;
+    const validateAllFields = () => {
+      const allValidations = formValidations.notEmptyFields(validations, items, textError, contentError, form);
+      setValidations(allValidations.newValidations);
+      return allValidations.isValid;
     };
 
     const createList = async (e) => {

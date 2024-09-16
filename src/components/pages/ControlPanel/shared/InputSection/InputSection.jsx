@@ -16,8 +16,7 @@ const InputSection = ({
   itemID,
   stateField
 }) => {
-  console.log(itemID);
-  console.log(validations);
+
   return (
   <section className={styles}>
     <label htmlFor={id}> {label} </label>
