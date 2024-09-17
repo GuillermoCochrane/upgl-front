@@ -540,7 +540,7 @@ article.list-item{
 	align-items: center;
 	justify-content: space-between;
 	border-bottom: #225 solid 2px;
-	padding-bottom: 1em;
+	padding-block: 1em;
 	margin-bottom: 1em;
 }
 
