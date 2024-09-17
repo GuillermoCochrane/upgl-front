@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import Input from "../../../shared/InputSection/InputSection";
-import Select from "../../../shared/SelectSection/SelectSection";
+import Input from "../InputSection/InputSection";
+import Select from "../SelectSection/SelectSection";
 
-function ListItem( {item, index, validations, stylesSelectors, updateItem,  validateText, validateContent, validationsManager, removeItem}) {
+function ListItemForm( {item, index, validations, stylesSelectors, updateItem,  validateText, validateContent, validationsManager, removeItem}) {
     return (
         <article className="list-item">
             <aside>
@@ -44,7 +44,7 @@ function ListItem( {item, index, validations, stylesSelectors, updateItem,  vali
     )   
 }
 
-ListItem.propTypes = {
+ListItemForm.propTypes = {
     item: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     validations: PropTypes.array.isRequired,
@@ -56,4 +56,4 @@ ListItem.propTypes = {
     removeItem: PropTypes.func.isRequired,
 };
 
-export default ListItem;
+export default ListItemForm;
