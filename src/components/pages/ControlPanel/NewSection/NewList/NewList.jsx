@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import PropTypes from 'prop-types';
-import Input from "../../shared/InputSection/InputSection"
-import Select from "../../shared/SelectSection/SelectSection";
+import Item from "./ListItem/ListItem";
 import formValidations from "../../../../../utilities/formValidations";
 import utilities from "../../../../../utilities/utilities";
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -181,44 +180,20 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
             {isOrdered ? "Lista ordenada" : "Lista no ordenada"}
           </h3>
             {items.map((item, index) => (
-                
-                <article key={item.id} className="list-item">
-                    <aside>
 
-                        <Input
-                            type="text"
-                            name={`item-${item.id}-text`}
-                            id={`${item.id}-text`}
-                            value={item.text}
-                            onChange={updateItem}
-                            onBlur={() => validateText(item.id)}
-                            onInput={() => validateText(item.id)}
-                            label={`Item de lista: ${index + 1}`}
-                            styles={"section-flex"}
-                            itemID={item.id}
-                            stateField={"text"}
-                            validations={validationsManager(item.id, validations)}
-                        />
+                <Item
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    validations={validations}
+                    stylesSelectors={stylesSelectors}
+                    updateItem={updateItem}
+                    validateText={validateText}
+                    validateContent={validateContent}
+                    validationsManager={validationsManager}
+                    removeItem={removeItem}
+                />
 
-                        <Select
-                            styles={"section-flex"}
-                            name={`item-${item.id}-content`}
-                            id={`${item.id}-content`}
-                            value={item.content}
-                            label="Estilo del texto"
-                            onChange={updateItem}
-                            onBlur={() => validateContent(item.content, item.id)}
-                            options={stylesSelectors}
-                            validations={validationsManager(item.id, validations)}
-                            optionReferences={{value: "id", name: "title"}}
-                            itemID={item.id}
-                            stateField={"content"}
-                        />
-                    </aside>
-
-                    <button type="button" onClick={() => removeItem(item.id)}>Eliminar</button>
-
-                </article>
             ))}
 
             <span className={listValidations.success ? "success" : "error"}>
@@ -232,7 +207,6 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
             <button type="button" onClick={addItem}>Agregar ítem</button>
             <button type="submit">Crear Lista</button>
 
-            
         </form>
     );
 };
