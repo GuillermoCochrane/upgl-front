@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+const apiUrl = import.meta.env.VITE_API_URL;
 function Answer({Data}) {
   return (
           <details >
@@ -6,7 +7,7 @@ function Answer({Data}) {
             {
               Data.map ((item, index) => (
                 <figure key={index}>
-                  <img src={item.img} alt={item.alt} />
+                  <img src={`${apiUrl}${item.img}`} alt={item.alt} />
                 </figure>
               ))
             }
