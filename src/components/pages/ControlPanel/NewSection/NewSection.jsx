@@ -8,6 +8,7 @@ import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
 import Paragraph from "./NewParagarph/NewParagarph";
 import NewLink from "./NewLink/NewLink";
 import Download from "./NewDownload/NewDownload";
+import LocalDownload from "./NewLocalDownload/NewLocalDownload";
 import List from "./NewList/NewList";
 import Table from "./NewTable/NewTable";
 import Image from "./NewImage/NewImage";
@@ -233,6 +234,7 @@ function NewSection() {
               oldData.sectionType == "p" ? <Paragraph courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "link" ? <NewLink courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "download" ? <Download courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
+              oldData.sectionType == "localDownload" ? <LocalDownload courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm}/> :  
               oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
