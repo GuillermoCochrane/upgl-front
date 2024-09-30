@@ -10,6 +10,7 @@ import Figure from "./Figure/Figure.jsx";
 import Answer from "./Answer/Answer.jsx";
 import NavButtons from "./Navbuttons/NavButtons.jsx";
 import Links from "./Links/Links.jsx";
+import LocalDownload from "./LocalDownload/LocalDownload.jsx";
 import Youtube from "./Youtube/Youtube.jsx";
 import Table from "./Table/Table.jsx";
 import Trivia from "./Trivia/Trivia.jsx";
@@ -80,6 +81,7 @@ function Topics(params) {
           item.type === "ul" ? <UL key={index} Data={item.info} /> : 
           item.type === "link" ? <Links key={index} Data={item.info} /> :
           item.type === "download" ? <Links key={index} Data={item.info} /> :
+          item.type === "localDownload" ? <LocalDownload key={index} Data={item.info} /> :
           item.type === "answer" ? <Answer key={index} Data={item.info} /> :
           item.type === "youtube" ? <Youtube key={index} Data={item.info} /> :
           item.type === "trivia" ? <Trivia key={index} Data={item.info} Answer={item.answer} /> :
