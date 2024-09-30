@@ -7,7 +7,7 @@ import formValidations from "../../../../../utilities/formValidations";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const textError = "El texto del enlace";
-const fileError = "El Archivo";
+const fileError = "un archivo";
 
 
 const NewLocalDownload = ({ courseID, classID, topicID, reset  }) => {
@@ -47,8 +47,21 @@ const NewLocalDownload = ({ courseID, classID, topicID, reset  }) => {
     utilities.validationsAlerts('file', newValidations, form);
   };
 
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('text', textError, form, newValidations);
+    newValidations = formValidations.requiredFile('file', fileError, form, newValidations);
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
+  };
+
+
   const createDownload = async (e) => {
     e.preventDefault();
+
+    if (!validateAllFields()) {
+      return;
+    }
 
     let type = "localDownload";
     let text = form.current.elements.text.value;
