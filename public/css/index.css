@@ -163,7 +163,7 @@ figure{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	overflow-x: scroll;
+	flex-direction: column;
 	border-radius: 14px;
 }
 
