@@ -1,14 +1,33 @@
 import PropTypes from "prop-types";
 const apiUrl = import.meta.env.VITE_API_URL;
-import { useRef } from "react";
+import { useRef, useState, useEffect  } from "react";
 
 function Figure({Data}) {
+  const [openModal, setOpenModal] = useState(false);
   const $img = useRef(null);
+  const $modal = useRef(null);
+  const mobile = window.innerWidth < 768;
 
 	const zoom = () => {
-		if (window.innerWidth < 768) {
+		if (mobile) {
 			$img.current.classList.toggle("enlarged");
 	}}
+
+  const modalManager = () => {
+    if (openModal) {
+      setOpenModal(false);
+    } else {
+      setOpenModal(true);
+    }
+  }
+
+  useEffect(() => {
+    if (openModal) {
+      $modal.current.showModal();
+    } else {
+      $modal.current.close();
+    }
+  }, [openModal]);
 
   return (
     <figure>
@@ -16,12 +35,27 @@ function Figure({Data}) {
           src={`${apiUrl}${Data.img}`}
           alt={Data.alt}
           title={Data.alt}
-          onClick={zoom}
-          ref={$img}
           className={ 
             Data.style == "icon" ? "icon" : 
             Data.style == "info" ? "info" : 
-            ""} />
+            ""} 
+        />
+        {
+          (Data.style != "info" && Data.style != "icon" && mobile) &&
+            <footer>
+              <button onClick={modalManager}>Detalles</button>
+              <dialog ref={$modal}>
+                <img 
+                  src={`${apiUrl}${Data.img}`}
+                  alt={Data.alt}
+                  title={Data.alt}
+                  onClick={zoom}
+                  ref={$img}
+                />
+                <button onClick={modalManager}>Cerrar</button>
+              </dialog>
+            </footer>
+        }
     </figure>
   );
 }
