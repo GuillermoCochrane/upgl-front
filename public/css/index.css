@@ -227,13 +227,13 @@ dialog img{
 .enlarged {
 	width: 200%;
 	position: absolute;
-	top: 0;
+	top: 10px;
 	left: 0;
 	overflow-x:scroll;
 	overflow-y: scroll;
 	margin-inline: 0;
 	cursor: zoom-out;
-	scale: 2.5;
+	scale: 3.5;
 	transform-origin: top left;
 	z-index: 10;
 }
