@@ -35,6 +35,7 @@ function Figure({Data}) {
           src={`${apiUrl}${Data.img}`}
           alt={Data.alt}
           title={Data.alt}
+          onClick={modalManager}
           className={ 
             Data.style == "icon" ? "icon" : 
             Data.style == "info" ? "info" : 
@@ -42,19 +43,16 @@ function Figure({Data}) {
         />
         {
           (Data.style != "info" && Data.style != "icon" && mobile) &&
-            <footer>
-              <button onClick={modalManager}>Detalles</button>
-              <dialog ref={$modal}>
-                <img 
-                  src={`${apiUrl}${Data.img}`}
-                  alt={Data.alt}
-                  title={Data.alt}
-                  onClick={zoom}
-                  ref={$img}
-                />
-                <button onClick={modalManager}>Cerrar</button>
-              </dialog>
-            </footer>
+            <dialog ref={$modal}>
+              <img 
+                src={`${apiUrl}${Data.img}`}
+                alt={Data.alt}
+                title={Data.alt}
+                onClick={zoom}
+                ref={$img}
+              />
+              <button onClick={modalManager}>Cerrar</button>
+            </dialog>
         }
     </figure>
   );
