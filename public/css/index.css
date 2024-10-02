@@ -195,17 +195,54 @@ figure img.info{
 	max-width: 90%;
 }
 
+dialog{
+	width: 90%;
+	height: auto;
+	max-height: 65%;
+	margin: auto;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	border-radius: 14px;
+	background-color: #888;
+}
+
+dialog[open]{
+	display: flex;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7); 
+  transition: background-color 0.5s ease-in-out; 
+}
+
+dialog img{
+	box-shadow: none;
+	max-width: 100%;
+	border-radius: 0;
+	margin: 0 auto;
+}
+
 .enlarged {
 	width: 200%;
-	position: relative;
+	position: absolute;
 	top: 0;
 	left: 0;
 	overflow-x:scroll;
 	overflow-y: scroll;
 	margin-inline: 0;
 	cursor: zoom-out;
-	scale: 5;
+	scale: 2.5;
 	transform-origin: top left;
+	z-index: 10;
+}
+
+dialog button{
+	position: fixed;
+	top: 100px;
+	right: 20px;
+	z-index: 20;
 }
 
 a[role="button"],
