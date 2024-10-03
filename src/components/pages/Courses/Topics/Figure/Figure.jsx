@@ -23,9 +23,9 @@ function Figure({Data}) {
 
   useEffect(() => {
     if (openModal) {
-      if ($modal) $modal.current.showModal();
+      if ($modal && $modal.current) $modal.current.showModal();
     } else {
-      if ($modal) $modal.current.close();
+      if ($modal && $modal.current) $modal.current.close();
     }
   }, [openModal]);
 
