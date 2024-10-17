@@ -192,6 +192,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
                     validateContent={validateContent}
                     validationsManager={validationsManager}
                     removeItem={removeItem}
+                    inputLabel="Item de lista"
                 />
 
             ))}
