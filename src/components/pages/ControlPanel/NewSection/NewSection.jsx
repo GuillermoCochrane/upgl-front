@@ -5,7 +5,7 @@ import utilities from "../../../../utilities/utilities";
 import Select from "../shared/SelectSection/SelectSection";
 import NewMainTitle from "./NewMainTitle/NewMainTitle";
 import NewSecondaryTitle from "./NewSecondaryTitle/NewSecondaryTitle";
-import Paragraph from "./NewParagarph/NewParagarph";
+import Paragraph from "./NewParagarph/NewParagraph";
 import NewLink from "./NewLink/NewLink";
 import Download from "./NewDownload/NewDownload";
 import LocalDownload from "./NewLocalDownload/NewLocalDownload";
