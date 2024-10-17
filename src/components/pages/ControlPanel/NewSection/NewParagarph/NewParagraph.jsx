@@ -10,7 +10,7 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
     const [order, setOrder] = useState(1);
     const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
     const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
-    const [listValidations, setListValidations] = useState({});
+    const [paragraphValidations, setParagraphValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]);
     const [paragraphSection, setParagraphSection] = useState(0);
     const form = useRef(null);
@@ -51,20 +51,80 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
                 const data = await response.json();
                 
                 if (data.meta.created) {
-                    setListValidations({success: `Se creó el párrafo`});
+                    setParagraphValidations({success: `Se creó el párrafo`});
                     setParagraphSection(data.meta.section);
                 } else {
-                    setListValidations({error: data.errors.type.msg});
+                    setParagraphValidations({error: data.errors.type.msg});
                 }
             }
             catch (error) {
-                setListValidations({error: error.message});
+                setParagraphValidations({error: error.message});
                 console.log(error);
             }
         } else {
-            console.log("no es el primero");
+            createParagraphSection();
         }
     };
+
+    const createParagraphSection = async () => {
+      if (paragraphSection === 0) return;
+
+      const stubEndpoint = `${apiUrl}api/course/newStub/${courseID.toLowerCase()}/${classID}/${topicID}/${paragraphSection}`;
+      console.log(stubEndpoint);
+      const successfulItemIds = [];
+      let newItems = [...items];
+      let newValidations = [...validations];
+
+      for (const item of items) {
+          const stubData = { content: item.content, text: `${item.text} `, order: item.order };
+          const stubFormData = utilities.fetchData(stubData);
+          try {
+              const res = await fetch(stubEndpoint, stubFormData);
+              const stubData = await res.json();
+              if (stubData.meta.created) {
+                  successfulItemIds.push(item.id);
+              } else {
+                  newItems = newItems.map( stub =>
+                      stub.id === item.id   ? { ...stub, text: stubData.oldData.text, content: stubData.oldData.content } : stub
+                  );
+                  newValidations = newValidations.map( stub =>
+                      stub.id === item.id   ? 
+                          { 
+                            ...stub, 
+                            text: { msg: stubData.errors.text ? stubData.errors.text.msg : ""   }, 
+                            content:    { msg: stubData.errors.content ? stubData.errors.content.msg : "" } 
+                          } 
+                          : stub 
+                  );
+              }
+          } catch (error) {
+              console.log(`Error creating item: ${error}`);
+          }
+      }
+
+      const auxItems = newItems.filter(item => !successfulItemIds.includes(item.id));
+      const auxValidations = newValidations.filter(item => !successfulItemIds.includes(item.id));
+
+      setItems(auxItems);
+      setValidations(auxValidations);
+    };
+
+    useEffect(() => {
+      if (paragraphSection !== 0) {
+          createParagraphSection();
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [paragraphSection]);
+
+    useEffect(() => {
+      if (items.length === 0) {
+          setParagraphSection(0);
+          setParagraphValidations({success: "Todas las secciones del párrafo fueron creadas exitosamente."});
+          addItem();
+          reset();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [items]);
 
     useEffect(() => {
         const fetchStyles = async () => {
@@ -95,10 +155,10 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
 
             ))}
 
-            <span className={listValidations.success ? "success" : "error"}>
+            <span className={paragraphValidations.success ? "success" : "error"}>
                 {
-                    listValidations.success ? listValidations.success : 
-                    listValidations.error ? listValidations.error :
+                    paragraphValidations.success ? paragraphValidations.success : 
+                    paragraphValidations.error ? paragraphValidations.error :
                     "\u00A0"
                 }
             </span>
