@@ -5,13 +5,14 @@ import formValidations from "../../../../../utilities/formValidations";
 import utilities from "../../../../../utilities/utilities";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const NewParagraph = ({ courseID, classID, topicID, isOrdered, reset }) => {
+const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
     const startingID = Date.now();
     const [order, setOrder] = useState(1);
     const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
     const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
     const [listValidations, setListValidations] = useState({});
     const [stylesSelectors, setStylesSelectors] = useState([]);
+    const [paragraphSection, setParagraphSection] = useState(0);
     const form = useRef(null);
 
     const addItem = () => {
@@ -36,6 +37,35 @@ const NewParagraph = ({ courseID, classID, topicID, isOrdered, reset }) => {
         return validation;
     };
 
+    
+    const createParagraph = async (e) => {
+        e.preventDefault();
+
+        let type = "p"
+        let listEndpoint = `${apiUrl}api/course/newP/${courseID.toLowerCase()}/${classID}/${topicID}`;
+        const formData = utilities.fetchData({type});
+
+        if (paragraphSection === 0){
+            try {
+                const response = await fetch(listEndpoint, formData);
+                const data = await response.json();
+                
+                if (data.meta.created) {
+                    setListValidations({success: `Se creó el párrafo`});
+                    setParagraphSection(data.meta.section);
+                } else {
+                    setListValidations({error: data.errors.type.msg});
+                }
+            }
+            catch (error) {
+                setListValidations({error: error.message});
+                console.log(error);
+            }
+        } else {
+            console.log("no es el primero");
+        }
+    };
+
     useEffect(() => {
         const fetchStyles = async () => {
             const stylesData = await utilities.fetchStylesData();
@@ -45,9 +75,9 @@ const NewParagraph = ({ courseID, classID, topicID, isOrdered, reset }) => {
     }, []);
 
     return (
-        <form ref={form}  className="panel-form">
+        <form ref={form}  className="panel-form" onSubmit={createParagraph}>
           <h3 style={{textAlign: "center", margin: "auto",paddingBottom: "1em", borderBottom: "2px solid #225", width: "100%"}}>
-            Nuevo párrafo
+            Párrafo
           </h3>
             {items.map((item, index) => (
 
@@ -73,8 +103,8 @@ const NewParagraph = ({ courseID, classID, topicID, isOrdered, reset }) => {
                 }
             </span>
 
-            <button type="button" onClick={addItem}>Agregar ítem</button>
-            <button type="submit">Crear Lista</button>
+            <button type="button" onClick={addItem}>Agregar Sección</button>
+            <button type="submit">Crear Párrafo</button>
 
         </form>
     );
@@ -84,7 +114,6 @@ NewParagraph.propTypes = {
     courseID: PropTypes.string.isRequired,
     classID: PropTypes.string.isRequired,
     topicID: PropTypes.string.isRequired,
-    isOrdered: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
 };
 
