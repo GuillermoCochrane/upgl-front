@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import Input from "../InputSection/InputSection";
 import Select from "../SelectSection/SelectSection";
 
-function ListItemForm( {item, index, validations, stylesSelectors, updateItem,  validateText, validateContent, validationsManager, removeItem}) {
+function ListItemForm( {item, index, validations, stylesSelectors, updateItem,  validateText, validateContent, validationsManager, removeItem, inputLabel}) {
     return (
         <article className="list-item">
             <aside>
@@ -15,7 +15,7 @@ function ListItemForm( {item, index, validations, stylesSelectors, updateItem,  
                     onChange={updateItem}
                     onBlur={() => validateText(item.id)}
                     onInput={() => validateText(item.id)}
-                    label={`Item de lista: ${index + 1}`}
+                    label={`${inputLabel}: ${index + 1}`}
                     styles={"section-flex"}
                     itemID={item.id}
                     stateField={"text"}
@@ -54,6 +54,7 @@ ListItemForm.propTypes = {
     validateContent: PropTypes.func.isRequired,
     validationsManager: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired,
+    inputLabel: PropTypes.string.isRequired,
 };
 
 export default ListItemForm;
