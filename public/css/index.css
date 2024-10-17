@@ -593,6 +593,11 @@ article.list-item button{
 	margin-top: 1em;
 }
 
+article.list-item button:hover{
+	background-color: red;
+	color: #ccc;
+	transition: all .3s ease-in-out;
+}
 
 @media (min-width: 870px){
 	body{
