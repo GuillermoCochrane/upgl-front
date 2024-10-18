@@ -3,7 +3,7 @@ import LI from "../shared/LI/LITag";
 import utilities from "../../../../../utilities/utilities";
 
 function ULTag({Data}) {
-  Data = utilities.arrayOrderer(Data, "order", false);
+  Data = utilities.arrayOrderer(Data, "order", true);
   return (
     <ul>
         {
