@@ -15,6 +15,10 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
     const [paragraphSection, setParagraphSection] = useState(0);
     const form = useRef(null);
 
+    const contentError = `El estilo de la sección `;
+    const textError = `El texto de la sección `;
+
+
     const addItem = () => {
         const newStub = utilities.addStub(items,validations,order)
         setOrder(newStub.order)
@@ -37,9 +41,41 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
         return validation;
     };
 
-    
+    const validateText = (itemID) => {
+      const name = `item-${itemID}-text`;
+      let newValidations = formValidations.required(name, textError, form, validations);
+      if (form.current.elements[name].value.trim() !== "") {
+          newValidations = formValidations.min(name, textError, form, newValidations, 3);
+      }
+      let updatedValidations = utilities.validationsManager(validations, itemID, name,"text", newValidations);
+      setValidations(updatedValidations);
+      utilities.validationsAlerts(name, newValidations, form);
+  };
+
+  const validateContent = (value, itemID) => {
+      const name = `item-${itemID}-content`;
+      const newValidations = formValidations.required(name, contentError, form, validations);
+      if (value) {
+        delete newValidations.content; 
+      }
+      let updatedValidations = utilities.validationsManager(validations, itemID, name, "content", newValidations);
+      setValidations(updatedValidations);
+      utilities.validationsAlerts(name, newValidations, form);
+  }
+
+  const validateAllFields = () => {
+    const allValidations = formValidations.notEmptyFields(validations, items, textError, contentError, form);
+    setValidations(allValidations.newValidations);
+    return allValidations.isValid;
+  };
+
     const createParagraph = async (e) => {
         e.preventDefault();
+
+        if (!validateAllFields()) {
+          setParagraphValidations({error: "Por favor, complete todos los campos"});
+          return;
+        }
 
         let type = "p"
         let listEndpoint = `${apiUrl}api/course/newP/${courseID.toLowerCase()}/${classID}/${topicID}`;
@@ -147,6 +183,8 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
                     validations={validations}
                     stylesSelectors={stylesSelectors}
                     updateItem={updateItem}
+                    validateText={validateText}
+                    validateContent={validateContent}
                     validationsManager={validationsManager}
                     removeItem={removeItem}
                     inputLabel="Sección del párrafo"

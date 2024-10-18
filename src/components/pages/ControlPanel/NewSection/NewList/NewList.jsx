@@ -52,7 +52,7 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
     };
 
     const validateContent = (value, itemID) => {
-      const name = `item-${itemID}-content`;
+        const name = `item-${itemID}-content`;
         const newValidations = formValidations.required(name, contentError, form, validations);
         if (value) {
           delete newValidations.content; 
@@ -72,9 +72,9 @@ const NewList = ({ courseID, classID, topicID, isOrdered, reset }) => {
         e.preventDefault();
 
         if (!validateAllFields()) {
-          setListValidations({error: "Por favor, complete todos los campos requeridos."});
+          setListValidations({error: "Por favor, complete todos los campos"});
           return;
-      }
+        }
 
         let type = isOrdered ? "ol" : "ul";
         let listEndpoint = `${apiUrl}api/course/newList/${courseID.toLowerCase()}/${classID}/${topicID}`;
