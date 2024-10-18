@@ -70,13 +70,12 @@ const NewParagraph = ({ courseID, classID, topicID,  reset }) => {
       if (paragraphSection === 0) return;
 
       const stubEndpoint = `${apiUrl}api/course/newStub/${courseID.toLowerCase()}/${classID}/${topicID}/${paragraphSection}`;
-      console.log(stubEndpoint);
       const successfulItemIds = [];
       let newItems = [...items];
       let newValidations = [...validations];
 
       for (const item of items) {
-          const stubData = { content: item.content, text: `${item.text} `, order: item.order };
+          const stubData = { type: "p", content: item.content, text: `${item.text} `, order: item.order };
           const stubFormData = utilities.fetchData(stubData);
           try {
               const res = await fetch(stubEndpoint, stubFormData);
