@@ -12,6 +12,7 @@ import NavButtons from "./Navbuttons/NavButtons.jsx";
 import Links from "./Links/Links.jsx";
 import LocalDownload from "./LocalDownload/LocalDownload.jsx";
 import Youtube from "./Youtube/Youtube.jsx";
+import VideoPlayer from "./VideoPlayer/VideoPlayer.jsx";
 import Table from "./Table/Table.jsx";
 import Trivia from "./Trivia/Trivia.jsx";
 import NotFound from "../../shared/NotFound/NotFound.jsx";
@@ -84,6 +85,7 @@ function Topics(params) {
           item.type === "localDownload" ? <LocalDownload key={index} Data={item.info} /> :
           item.type === "answer" ? <Answer key={index} Data={item.info} /> :
           item.type === "youtube" ? <Youtube key={index} Data={item.info} /> :
+          item.type === "video" ? <VideoPlayer key={index} videoSrc={item.info.videoSrc} posterImage={item.info.posterImage} isAutoPlay={item.info.isAutoPlay} isLoop={item.info.isLoop} isMuted={item.info.isMuted} controlsList={item.info.controlsList} /> :
           item.type === "trivia" ? <Trivia key={index} Data={item.info} Answer={item.answer} /> :
           item.type === "table" ? <Table key={index} Data={item.info} Columns={item.columns} Title={item.title} /> :
           item.type === "ol" ? <OL key={index} Data={item.info}  /> : null
