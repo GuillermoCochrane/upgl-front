@@ -34,7 +34,7 @@ function Figure({Data}) {
         <img 
           src={`${apiUrl}${Data.img}`}
           alt={Data.alt}
-          title={Data.alt}
+          title={Data.title}
           onClick={modalManager}
           className={ 
             Data.style == "icon" ? "icon" : 
