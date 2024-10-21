@@ -2,18 +2,23 @@ import { useState, useRef } from "react";
 import PropTypes from 'prop-types';
 import Input from "../../shared/InputSection/InputSection";
 import FileInput from "../../shared/InputFileSection/InputFileSection";
+import Checkbox from "../../shared/CheckboxSection/CheckboxSection";
 import utilities from "../../../../../utilities/utilities";
 import formValidations from "../../../../../utilities/formValidations";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const NewVideo = ({ courseID, classID, topicID, reset  }) => {
   const [validations, setValidations] = useState({});
-  const [oldData, setOldData] = useState({ title: "",  video: null });
+  const [oldData, setOldData] = useState({ title: "",  video: null, autoPlay: false, loop: false, muted: false });
   const form = useRef(null);
   const titleError = "El título del video";
   const videoError = "un video";
 
   const updateForm = (field, value) => {
+    setOldData(utilities.updateInput(field, value, oldData));
+  };
+
+  const updatecheckbox = (field, value) => {
     setOldData(utilities.updateInput(field, value, oldData));
   };
 
@@ -55,6 +60,10 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
 
   const createFigure = async (e) => {
     e.preventDefault();
+
+    if(!validateAllFields()){
+      return;
+    }
 
     let type = "video";
     let title = form.current.elements.title.value;
@@ -113,6 +122,33 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
         validations={validations}
       />
 
+      <section className="checkbox-section">
+        <Checkbox
+          name="autoPlay"
+          label="Autoplay"
+          checked={oldData.autoPlay}
+          onChange={updatecheckbox}
+          styles={"input-checkbox"}
+        />
+
+        <Checkbox
+          name="loop"
+          label="Loop"
+          checked={oldData.loop}
+          onChange={updatecheckbox}
+          styles={"input-checkbox"}
+        />
+
+        <Checkbox
+          name="muted"
+          label="Muted"
+          checked={oldData.muted}
+          onChange={updatecheckbox}
+          styles={"input-checkbox"}
+        />
+      </section>
+      
+
       <span className="success">
         {validations.success ? validations.success : "\u00A0 "}
       </span>
@@ -128,5 +164,5 @@ NewVideo.propTypes = {
   topicID: PropTypes.string.isRequired,
   reset: PropTypes.func.isRequired,
 };
-
+// autoPlay loop, muted, controlsList={Data.controlsList}
 export default NewVideo;
