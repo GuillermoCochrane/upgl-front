@@ -21,8 +21,42 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
     }
   };
 
+  const createFigure = async (e) => {
+    e.preventDefault();
+
+    let type = "video";
+    let title = form.current.elements.title.value;
+    let endpoint = `${apiUrl}api/course/newVideo/${courseID.toLowerCase()}/${classID}/${topicID}`;
+    let data = new FormData(); 
+
+    data.append('title', title);
+    data.append('type', type);
+    if (oldData.video) {
+      data.append('video', oldData.video);
+    }
+
+    let formData = utilities.fetchData(data, true);
+
+    try {
+      const response = await fetch(endpoint, formData);
+      const result = await response.json();
+      
+      if (result.meta.created) {
+        setValidations({ success: "Se creó el video" });
+        setOldData({ title: "", video: null });
+        reset();
+      } else {
+        setValidations(result.errors);
+        setOldData(result.oldData);
+      }
+    } catch (error) {
+      setValidations({ error: error.message });
+      console.log(error);
+    }    
+  };
+
   return (
-    <form className="panel-form" ref={form} >
+    <form className="panel-form" ref={form} onSubmit={createFigure}>
 
       <Input
         type="text"
