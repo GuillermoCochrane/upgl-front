@@ -12,6 +12,7 @@ import LocalDownload from "./NewLocalDownload/NewLocalDownload";
 import List from "./NewList/NewList";
 import Table from "./NewTable/NewTable";
 import Image from "./NewImage/NewImage";
+import Video from "./NewVideo/NewVideo";
 import Answer from "./NewAnswer/NewAnswer";
 import Trivia from "./NewTrivia/NewTrivia";
 import Youtube from "./NewYoutube/NewYoutube";
@@ -237,6 +238,7 @@ function NewSection() {
               oldData.sectionType == "localDownload" ? <LocalDownload courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "youtube" ? <Youtube courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm}/> :  
               oldData.sectionType == "figure" ? <Image courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
+              oldData.sectionType == "video" ? <Video courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "answer" ? <Answer courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} reset={resetForm} /> :
               oldData.sectionType == "trivia" ? <Trivia courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} /> :
               oldData.sectionType == "ul" ? <List courseID={oldData.courseSelect} classID={oldData.classSelect} topicID={oldData.topicSelect} sectionID={oldData.sectionSelect} isOrdered={false}  reset={resetForm} /> :
