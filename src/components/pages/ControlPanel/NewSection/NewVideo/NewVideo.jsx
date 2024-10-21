@@ -10,6 +10,8 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
   const [validations, setValidations] = useState({});
   const [oldData, setOldData] = useState({ title: "",  video: null });
   const form = useRef(null);
+  const titleError = "El título del video";
+  const videoError = "un video";
 
   const updateForm = (field, value) => {
     setOldData(utilities.updateInput(field, value, oldData));
@@ -19,6 +21,36 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
     if (file) {
       setOldData((prevData) => ({ ...prevData, video: file }));
     }
+  };
+
+  const validateTitle = () => {
+    let newValidations = formValidations.required('title', titleError, form, validations);
+    if (form.current.elements['title'].value) {
+        newValidations = formValidations.min('title', titleError, form, newValidations, 3);
+        if (!newValidations.title) {
+            newValidations = formValidations.max('title', titleError, form, newValidations, 40);
+        }
+    }
+    setValidations(newValidations);
+    utilities.validationsAlerts('title', newValidations, form);
+  };
+
+  const validateFile = () => {
+    let allowedExtensions = ['.avi', '.mp4', '.webm', '.mpg', '.mov'];
+    let newValidations = formValidations.requiredFile('video', videoError, form, validations);
+    if (form.current.elements['video'].files.length) {
+        newValidations = formValidations.fileExtension('video', form, newValidations, allowedExtensions);
+    }
+    setValidations(newValidations);
+    utilities.validationsAlerts('video', newValidations, form);
+  };
+
+  const validateAllFields = () => {
+    let newValidations = {};
+    newValidations = formValidations.required('title', titleError, form, newValidations);
+    newValidations = formValidations.requiredFile('video', videoError, form, newValidations);
+    setValidations(newValidations);
+    return Object.keys(newValidations).length === 0; 
   };
 
   const createFigure = async (e) => {
@@ -65,6 +97,8 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
         value={oldData.title}
         label="Título del video"
         onChange={updateForm}
+        onBlur={validateTitle}
+        onInput={validateTitle}
         styles="section-flex"
         validations={validations}
       />
@@ -74,6 +108,7 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
         id="video"
         label="Video a subir"
         onChange={updateFileForm}
+        onBlur={validateFile}
         styles="section-flex"
         validations={validations}
       />
