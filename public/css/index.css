@@ -532,6 +532,8 @@ section.section-flex{
 
 .input-checkbox{
 	width: fit-content;
+	max-width: 300px;
+	min-width: 80px;
 }
 
 .input-checkbox input{
@@ -565,10 +567,19 @@ section.section-flex{
 }
 
 .input-checkbox input:checked {
-  background: green;
+  background: #225;
 }
 .input-checkbox input:checked::before {
   transform: translateX(1rem);
+}
+
+.input-checkbox input:focus {
+  outline: transparent;
+}
+
+input:focus-visible {
+  outline: 2px solid dodgerblue;
+  outline-offset: 2px;
 }
 
 textarea,
