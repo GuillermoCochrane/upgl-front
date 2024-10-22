@@ -527,13 +527,12 @@ section.section-flex{
 	justify-content: space-between;
 	margin: auto;
 	width: 100%;
-	gap: 10px;
 }
 
 .input-checkbox{
 	width: fit-content;
 	max-width: 300px;
-	min-width: 80px;
+	min-width: 70px;
 }
 
 .input-checkbox input{
