@@ -156,6 +156,14 @@ article ul li::before{
 	content: "";
 }
 
+video{
+	width: 100%;
+	margin-inline: auto;
+	margin-block: 10px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgb(100, 100, 100);
+}
+
 figure{
 	width: 90%;
 	margin: auto;
@@ -284,7 +292,6 @@ footer{
 	align-items: center;
 	padding: 10px;
 }
-
 
 .hidden{
 	display: flex;
