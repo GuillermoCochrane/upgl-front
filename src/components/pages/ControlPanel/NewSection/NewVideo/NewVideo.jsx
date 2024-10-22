@@ -67,11 +67,17 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
 
     let type = "video";
     let title = form.current.elements.title.value;
+    let autoPlay = form.current.elements.autoPlay.checked;
+    let loop = form.current.elements.loop.checked;
+    let muted = form.current.elements.muted.checked;
     let endpoint = `${apiUrl}api/course/newVideo/${courseID.toLowerCase()}/${classID}/${topicID}`;
     let data = new FormData(); 
 
     data.append('title', title);
     data.append('type', type);
+    data.append('autoPlay', autoPlay);
+    data.append('loop', loop);
+    data.append('muted', muted);
     if (oldData.video) {
       data.append('video', oldData.video);
     }
