@@ -1,10 +1,11 @@
 import React from 'react';
+const apiUrl = import.meta.env.VITE_API_URL;
 import PropTypes from "prop-types";
 
 const VideoPlayer = ({ Data }) => {
   return (
     <video
-      src={Data.src}
+      src={`${apiUrl}${Data.video}`}
       autoPlay={Data.autoPlay}
       loop={Data.loop}
       muted={Data.muted}
