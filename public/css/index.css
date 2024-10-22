@@ -145,6 +145,33 @@ a {
   margin-inline: auto;
 }
 
+.panel-index details {
+	margin-bottom: 5px;
+}
+
+.panel-index summary::marker {
+	color: #999;
+	transition: all .3s ease;
+}
+
+.panel-index [open] summary{
+	font-weight: 500;
+}
+
+.panel-index [open] summary::marker  {
+	color: #fff;
+}
+
+.panel-index details li{
+	margin-left: 19px;
+	margin-block: 3px;
+	list-style: none;
+}
+
+.panel-index li > details::before {
+	all: unset;
+}
+
 article ul,
 article ol{
 	margin-block: 1em;
