@@ -73,6 +73,7 @@ function Topics(params) {
       {
         data.length == 0 ? <NotFound /> :
         data.map((item, index) => {
+          console.log(item);
           return(
           item.type === "h2" ? <H2 key={index} Data={item.info} /> :
           item.type === "figure" ? <Figure key={index} Data={item.info} /> :
@@ -85,7 +86,7 @@ function Topics(params) {
           item.type === "localDownload" ? <LocalDownload key={index} Data={item.info} /> :
           item.type === "answer" ? <Answer key={index} Data={item.info} /> :
           item.type === "youtube" ? <Youtube key={index} Data={item.info} /> :
-          item.type === "video" ? <VideoPlayer key={index} videoSrc={item.info.videoSrc} posterImage={item.info.posterImage} isAutoPlay={item.info.isAutoPlay} isLoop={item.info.isLoop} isMuted={item.info.isMuted} controlsList={item.info.controlsList} /> :
+          item.type === "video" ? <VideoPlayer key={index} Data={item.info} /> :
           item.type === "trivia" ? <Trivia key={index} Data={item.info} Answer={item.answer} /> :
           item.type === "table" ? <Table key={index} Data={item.info} Columns={item.columns} Title={item.title} /> :
           item.type === "ol" ? <OL key={index} Data={item.info}  /> : null
