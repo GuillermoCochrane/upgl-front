@@ -40,22 +40,26 @@ function ControlPanel({ match }) {
             </header>
             <main>
             <nav className="sumario panel-index" ref={navBar}>
-                <ol>
+                <ul>
                 {
                     links.map((item, idx) => 
-                        <ControlPanelIndex linkData={item} key={idx} />
+                        <ControlPanelIndex data={item} key={idx} />
                     )
                 }
-                </ol>
+                </ul>
             </nav>
-                <Switch>
-                    <Route path={`${match.url}`} exact component={Sections} />
-                    <Route path={`${match.url}/newCourse`}  component={NewCourse} />
-                    <Route path={`${match.url}/newClass`}  component={NewClass} />
-                    <Route path={`${match.url}/newTopic`}  component={NewTopic} />
-                    <Route path={`${match.url}/newSection`}  component={NewSection} />
-                    <Route component={Error404} />
-                </Switch>
+            <Switch>
+                <Route path={`${match.url}`} exact component={Sections} />
+                <Route path={`${match.url}/newCourse`}  component={NewCourse} />
+                <Route path={`${match.url}/newClass`}  component={NewClass} />
+                <Route path={`${match.url}/newTopic`}  component={NewTopic} />
+                <Route path={`${match.url}/newSection`}  component={NewSection} />
+                <Route path={`${match.url}/editCourse`}  component={Sections} />
+                <Route path={`${match.url}/editClass`}  component={Sections} />
+                <Route path={`${match.url}/editTopic`}  component={Sections} />
+                <Route path={`${match.url}/editSection`}  component={Sections} />
+                <Route component={Error404} />
+            </Switch>
             </main>
         </>
     )

@@ -73,7 +73,6 @@ function Topics(params) {
       {
         data.length == 0 ? <NotFound /> :
         data.map((item, index) => {
-          console.log(item);
           return(
           item.type === "h2" ? <H2 key={index} Data={item.info} /> :
           item.type === "figure" ? <Figure key={index} Data={item.info} /> :
