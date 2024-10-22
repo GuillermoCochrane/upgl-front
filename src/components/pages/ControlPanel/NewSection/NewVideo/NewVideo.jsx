@@ -141,7 +141,7 @@ const NewVideo = ({ courseID, classID, topicID, reset  }) => {
 
         <Checkbox
           name="muted"
-          label="Muted"
+          label="Silencio"
           checked={oldData.muted}
           onChange={updatecheckbox}
           styles={"input-checkbox"}
