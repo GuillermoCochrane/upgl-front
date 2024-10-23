@@ -86,7 +86,7 @@ function Topics(params) {
           item.type === "answer" ? <Answer key={index} Data={item.info} /> :
           item.type === "youtube" ? <Youtube key={index} Data={item.info} /> :
           item.type === "video" ? <VideoPlayer key={index} Data={item.info} /> :
-          item.type === "trivia" ? <Trivia key={index} Data={item.info} Answer={item.answer} /> :
+          item.type === "trivia" ? <Trivia key={index} Data={item.info} /> :
           item.type === "table" ? <Table key={index} Data={item.info} Columns={item.columns} Title={item.title} /> :
           item.type === "ol" ? <OL key={index} Data={item.info}  /> : null
         )})
