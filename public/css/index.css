@@ -470,8 +470,9 @@ table td{
 form{
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 10px;
-	width: fit-content;
+	width: 100%;
 	min-width: 200px;
 	margin-inline: auto;
 	margin-block: 2em;
@@ -496,6 +497,8 @@ form button{
 form strong{
 	display: block;
 	margin: auto;
+	width: 100%;
+	text-align: center;
 }
 
 section.section-flex{
