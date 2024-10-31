@@ -8,16 +8,20 @@ import Select from "../../shared/SelectSection/SelectSection";
 const NewTrivia = ({ courseID, classID, topicID,  reset   }) => {
   const startingID = Date.now();
     const [order, setOrder] = useState(1);
-    const [items, setItems] = useState([{ id: startingID, text: "", content: "", order: 1 }]);
-    const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }}]);
+    const [items, setItems] = useState([{ id: startingID, text: "", content: "", correct: false, answer: "", order: 1 }]);
+    const [validations, setValidations] = useState([{id: startingID, text: { msg: "" }, content: { msg: "" }, correct: { msg: "" }, answer: { msg: "" }}]);
     const [stylesSelectors, setStylesSelectors] = useState([]);
     const form = useRef(null);
     const inputLabel = "Opción de trivia: ";
 
     const addItem = () => {
         const newStub = utilities.addStub(items,validations,order)
+        newStub.items.correct = false;
+        newStub.items.answer = "";
         setOrder(newStub.order)
         setItems(newStub.items)
+        newStub.validations.correct = { msg: "" };
+        newStub.validations.answer = { msg: "" };
         setValidations(newStub.validations)
     };
 
@@ -27,8 +31,15 @@ const NewTrivia = ({ courseID, classID, topicID,  reset   }) => {
         setValidations(removedStubs.validations);
     };
 
+    const updateInput = (input, value, oldData) => {
+      let newData = {...oldData};
+      newData[input] = value;
+      return newData;
+    }
+
     const updateItem = (unused , value, id, name ) => {
-        setItems(utilities.updateStubs(items, value, id, name));
+        let newItems = items.map(item => item.id === id ? updateInput(name, value, item) : item );
+        setItems(newItems);
     };  
 
     useEffect(() => {
@@ -45,6 +56,9 @@ const NewTrivia = ({ courseID, classID, topicID,  reset   }) => {
 
         <article className="list-item" key={index}>
             <aside>
+              <h3 style={{textAlign: "center", margin: "auto",paddingBottom: "1em",  width: "100%"}}>
+                {`${inputLabel} ${index + 1}`}
+              </h3>
 
                 <Input
                     type="text"
@@ -52,10 +66,51 @@ const NewTrivia = ({ courseID, classID, topicID,  reset   }) => {
                     id={`${item.id}-text`}
                     value={item.text}
                     onChange={updateItem}
-                    label={`${inputLabel} ${index + 1}`}
+                    label="Enunciado"
                     styles={"section-flex"}
                     itemID={item.id}
                     stateField={"text"}
+                />
+
+                <Select
+                    styles={"section-flex"}
+                    name={`item-${item.id}-content`}
+                    id={`${item.id}-content`}
+                    value={item.content}
+                    label="Estilo del Enunciado"
+                    onChange={updateItem}
+                    options={stylesSelectors}
+                    optionReferences={{value: "id", name: "title"}}
+                    itemID={item.id}
+                    stateField={"content"}
+                />
+
+                <Select 
+                    styles={"section-flex"}
+                    name={`item-${item.id}-correct`}
+                    id={`${item.id}-correct`}
+                    value={item.correct}
+                    label="¿Respuesta Correcta?"
+                    onChange={updateItem}
+                    options={[
+                        {id: true, title: "Si"},
+                        {id: false, title: "No"}
+                    ]}
+                    optionReferences={{value: "id", name: "title"}}
+                    itemID={item.id}
+                    stateField={"correct"}
+                />
+
+                <Input 
+                    type="text"
+                    name={`item-${item.id}-answer`}
+                    id={`${item.id}-answer`}
+                    value={item.answer}
+                    onChange={updateItem}
+                    label="Respuesta"
+                    styles={"section-flex"}
+                    itemID={item.id}
+                    stateField={"answer"}
                 />
 
             </aside>
