@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useLocation } from 'react-router-dom';
 import OL from "./OL/OLTag.jsx";
 import UL from "./UL/ULTag.jsx";
 import PTag from "./P/PTag.jsx";
@@ -22,10 +23,12 @@ function Topics(params) {
   const [classData, setClassData] = useState([]);
   const [data, setData] = useState([]);
   const [page, setPage] = useState({});
-  const [title, setTitle] = useState([]);
+  const [titleData, setTitleData] = useState([]);
   const course = params.match.path.split("/")[2].toLowerCase();
   const classID  = parseInt(params.match.params.classId);
   const topicID = parseInt(params.match.params.topicId);
+  const title = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     let fetchData = async () => {
@@ -48,7 +51,7 @@ function Topics(params) {
         };
 
         setPage(pageData);
-        newData.length > 0 ? setTitle(newData[0].title.info) : null;
+        newData.length > 0 ? setTitleData(newData[0].title.info) : null;
       }
       catch (error) {
         console.log(error);
@@ -67,9 +70,16 @@ function Topics(params) {
       setData(newData[0].topicData);
   }, [classData, topicID]);
 
+  useEffect(() => {
+    if (title.current) {
+      // Realiza el scroll suave hacia el elemento referenciado
+      title.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location.pathname]);
+
   return (
     <article>
-      <H2  Data={title} />
+      <H2  Data={titleData} Selector={title} />
       {
         data.length == 0 ? <NotFound /> :
         data.map((item, index) => {
