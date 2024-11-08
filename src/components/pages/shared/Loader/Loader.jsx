@@ -1,7 +1,6 @@
 import  loadingImg from "../../../../assets/images/preloader.gif"
 import PropTypes from "prop-types";
 function Loader({loaderStyles}) {
-	console.log(loaderStyles);
 	return (
 		<figure className={loaderStyles}>
 			<img 

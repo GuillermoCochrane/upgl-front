@@ -3,7 +3,6 @@ import Logo from "../../../assets/images/logoUPGL.png";
 import { useEffect, useState } from "react";
 import Loader from "../shared/Loader/Loader";
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log(Logo);
 
 function Home() {
   const [coursesLinks, setCoursesLinks] = useState([]);
@@ -27,6 +26,7 @@ function Home() {
         }
         fetchData()
   }, []);
+console.log(coursesLinks);
 
   return (
     <article className="home">
@@ -36,17 +36,25 @@ function Home() {
         {
           loading ? 
             <Loader loaderStyles={"home"}  /> :
-            <section>
+            <>
               {
-                  coursesLinks.map((item, index) => (
-                    <h3 key={index}>
-                      <Link to={item.link} key={index}>
-                        {item.name}
-                      </Link>
-                    </h3>
-                ))
+                coursesLinks.length > 0 
+                  ?
+                    <section>
+                      {
+                        coursesLinks.map((item, index) => (
+                        <h3 key={index}>
+                          <Link to={item.link} key={index}>
+                            {item.name}
+                          </Link>
+                        </h3>
+                        ))
+                      }
+                      </section>
+                  : 
+                    <h2 className="error">Hubo un error en la carga de datos</h2> 
               }
-            </section>
+            </>
         }
     </article>
   )
